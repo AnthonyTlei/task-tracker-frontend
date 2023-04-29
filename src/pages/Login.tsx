@@ -1,4 +1,4 @@
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from "@mui/material/styles";
 import {
   Box,
   Card,
@@ -82,31 +82,32 @@ const LoginPage = () => {
             </Stack>
           </form>
         </CardContent>
-        <CardActionArea>
-          <CardActions>
-            <Stack
-              width={"100%"}
-              justifyContent={"center"}
-              alignItems={"center"}
-              spacing={2}
+        <CardActions>
+          <Stack
+            width={"100%"}
+            justifyContent={"center"}
+            alignItems={"center"}
+            paddingRight={1}
+            paddingLeft={1}
+            spacing={2}
+          >
+            <Button
+              variant="contained"
+              fullWidth
+              sx={{ borderRadius: "12px", padding: "12px 0px"}}
             >
-              <Button
-                variant="contained"
-                fullWidth
-                sx={{ borderRadius: "12px", padding: "12px 0px" }}
-              >
-                Login
-              </Button>
-              <Typography
-                variant="body2"
-                gutterBottom
-                color={`${theme.palette.primary.light}`}
-              >
-                Forgot password?
-              </Typography>
-            </Stack>
-          </CardActions>
-        </CardActionArea>
+              Login
+            </Button>
+            <Typography
+              variant="body2"
+              gutterBottom
+              color={`${theme.palette.primary.light}`}
+              sx={{ cursor: "pointer" }}
+            >
+              Forgot password?
+            </Typography>
+          </Stack>
+        </CardActions>
       </Card>
     </Box>
   );
