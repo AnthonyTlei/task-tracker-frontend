@@ -1,16 +1,17 @@
 import "./App.css";
-import { colors, Grid, Stack } from "@mui/material";
+import { colors } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import LoginPage from "./pages/Login";
-import RegisterPage from "./pages/Register";
+import LoginPage from "./pages/Login.page";
+import RegisterPage from "./pages/Register.page";
+import HomePage from "./pages/Home.page";
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: colors.deepPurple[500],
+      main: "#1C2536",
     },
     secondary: {
-      main: colors.indigo[500],
+      main: "#6366F1",
     },
   },
 });
@@ -18,7 +19,9 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <RegisterPage/>
+      {/* <RegisterPage/> */}
+      {/* <LoginPage/> */}
+      <HomePage />
     </ThemeProvider>
   );
 }
