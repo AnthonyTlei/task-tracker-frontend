@@ -12,30 +12,25 @@ interface Column {
   id: "id" | "title" | "status" | "manager" | "assignee";
   label: string;
   minWidth?: number;
-  align?: "right";
-  format?: (value: number) => string;
 }
 
 const columns: readonly Column[] = [
   { id: "id", label: "ID", minWidth: 20 },
-  { id: "title", label: "TITLE", minWidth: 100 },
+  { id: "title", label: "TITLE", minWidth: 170 },
   {
     id: "status",
     label: "Status",
-    minWidth: 170,
-    align: "right",
+    minWidth: 100,
   },
   {
     id: "manager",
     label: "Manager",
-    minWidth: 170,
-    align: "right",
+    minWidth: 100,
   },
   {
     id: "assignee",
     label: "Assignee",
-    minWidth: 170,
-    align: "right",
+    minWidth: 100,
   },
 ];
 
@@ -60,6 +55,20 @@ function createData(
 const rows = [
   createData(
     "P10004450-209201",
+    "This is a task title",
+    "New",
+    "Manager",
+    "Assignee"
+  ),
+  createData(
+    "P10004450-209202",
+    "This is a task title",
+    "New",
+    "Manager",
+    "Assignee"
+  ),
+  createData(
+    "P10004450-209203",
     "This is a task title",
     "New",
     "Manager",
@@ -91,7 +100,6 @@ export default function TaskTable() {
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
-                  align={column.align}
                   style={{ minWidth: column.minWidth }}
                 >
                   {column.label}
@@ -107,13 +115,7 @@ export default function TaskTable() {
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                     {columns.map((column) => {
                       const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === "number"
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
+                      return <TableCell key={column.id}>{value}</TableCell>;
                     })}
                   </TableRow>
                 );
