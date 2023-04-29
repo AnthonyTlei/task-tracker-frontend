@@ -3,6 +3,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LoginPage from "./pages/Login.page";
 import RegisterPage from "./pages/Register.page";
 import HomePage from "./pages/Home.page";
+import ChecklistPage from "./pages/Checklist.page";
+import { Tasks } from "./features/tasks/Tasks";
 
 const theme = createTheme({
   typography: {
@@ -25,7 +27,8 @@ function App() {
     <ThemeProvider theme={theme}>
       {/* <RegisterPage/> */}
       {/* <LoginPage/> */}
-      <HomePage />
+      {/* <HomePage /> */}
+      <ChecklistPage/>
     </ThemeProvider>
   );
 }

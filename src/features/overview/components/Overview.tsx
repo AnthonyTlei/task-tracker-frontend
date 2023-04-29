@@ -1,6 +1,6 @@
-import { Add, CheckBox, Pending, Storage } from "@mui/icons-material";
+import { Add, Done, Pending, Storage } from "@mui/icons-material";
 import { Box, Typography, Button, Grid } from "@mui/material";
-import { OverviewCard } from "./TaskCard";
+import { OverviewCard } from "./OverviewCard";
 
 export const Overview = () => {
   return (
@@ -27,7 +27,7 @@ export const Overview = () => {
       </Box>
       <Grid container spacing={5}>
         <Grid item>
-          <OverviewCard title="Done" count={11} Icon={CheckBox} />
+          <OverviewCard title="Done" count={11} Icon={Done} />
         </Grid>
         <Grid item>
           <OverviewCard title="In Progress" count={3} Icon={Pending} />

@@ -55,7 +55,7 @@ export const OverviewCard: React.FC<OverviewCardProps> = ({
         >
           <Visibility
             fontSize="small"
-            sx={{ color: `${theme.palette.secondary.light}` }}
+            sx={{ color: `${theme.palette.primary.light}` }}
           />
         </Box>
       </CardActionArea>
