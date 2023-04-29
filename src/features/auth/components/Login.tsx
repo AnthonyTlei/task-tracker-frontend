@@ -2,7 +2,7 @@ import {
   Card,
   CardHeader,
   Typography,
-  Link,
+  Link as DisplayLink,
   CardContent,
   Stack,
   TextField,
@@ -10,9 +10,11 @@ import {
   Button,
   useTheme,
 } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
   return (
     <Card
       sx={{
@@ -38,12 +40,14 @@ export const Login = () => {
             sx={{ fontWeight: 400, color: "grey" }}
           >
             Don't have an account?{" "}
-            <Link
-              color={`${theme.palette.primary.main}`}
-              underline="hover"
-              sx={{ cursor: "pointer" }}
-            >
-              Register
+            <Link to={"/register"} style={{ textDecoration: "none" }}>
+              <DisplayLink
+                color={`${theme.palette.primary.main}`}
+                underline="hover"
+                sx={{ cursor: "pointer" }}
+              >
+                Register
+              </DisplayLink>
             </Link>
           </Typography>
         }
@@ -79,6 +83,7 @@ export const Login = () => {
             variant="contained"
             fullWidth
             sx={{ borderRadius: "12px", padding: "12px 0px" }}
+            onClick={() => {navigate("/")}}
           >
             Login
           </Button>

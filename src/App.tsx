@@ -5,6 +5,7 @@ import RegisterPage from "./pages/Register.page";
 import HomePage from "./pages/Home.page";
 import ChecklistPage from "./pages/Checklist.page";
 import TasksPage from "./pages/TasksPage";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 const theme = createTheme({
   typography: {
@@ -25,11 +26,15 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      {/* <RegisterPage/> */}
-      {/* <LoginPage/> */}
-      {/* <HomePage /> */}
-      <ChecklistPage/>
-      {/* <TasksPage/> */}
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/checklist" element={<ChecklistPage />} />
+          <Route path="/tasks" element={<TasksPage />} />
+        </Routes>
+      </Router>
     </ThemeProvider>
   );
 }

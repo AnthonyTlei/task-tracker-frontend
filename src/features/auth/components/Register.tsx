@@ -2,7 +2,7 @@ import {
   Card,
   CardHeader,
   Typography,
-  Link,
+  Link as DisplayLink,
   CardContent,
   Stack,
   TextField,
@@ -11,6 +11,7 @@ import {
   Button,
   useTheme,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 
 export const Register = () => {
   const theme = useTheme();
@@ -39,12 +40,14 @@ export const Register = () => {
             sx={{ fontWeight: 400, color: "grey" }}
           >
             Already have an account?{" "}
-            <Link
-              color={`${theme.palette.primary.main}`}
-              underline="hover"
-              sx={{ cursor: "pointer" }}
-            >
-              Log in
+            <Link to={"/login"} style={{textDecoration: "none"}}>
+              <DisplayLink
+                color={`${theme.palette.primary.main}`}
+                underline="hover"
+                sx={{ cursor: "pointer" }}
+              >
+                Log in
+              </DisplayLink>
             </Link>
           </Typography>
         }
