@@ -5,6 +5,9 @@ import RegisterPage from "./pages/Register.page";
 import HomePage from "./pages/Home.page";
 
 const theme = createTheme({
+  typography: {
+    fontFamily: "Segoe UI",
+  },
   palette: {
     primary: {
       main: "#1C2536",

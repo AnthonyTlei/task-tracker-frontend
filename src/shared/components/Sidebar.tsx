@@ -54,7 +54,7 @@ export const Sidebar = () => {
             sx={{ color: `${theme.palette.primary.contrastText}` }}
           >
             <List sx={{ padding: "0px 15px" }}>
-              {["Inbox", "Starred", "Send email", "Drafts"].map(
+              {["Overview", "My Tasks", "Checklist", "Settings"].map(
                 (text, index) => (
                   <ListItem key={text} disablePadding sx={{}}>
                     <ListItemButton
@@ -90,7 +90,7 @@ export const Sidebar = () => {
   );
 
   return (
-    <Box>
+    <Box height={"100%"}>
       {isLargeScreen ? null : (
         <IconButton onClick={handleDrawerToggle}>
           <Menu />
