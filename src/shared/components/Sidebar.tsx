@@ -1,5 +1,6 @@
-import { Inbox, Mail, Menu } from "@mui/icons-material";
+import { Inbox, Logout, Menu } from "@mui/icons-material";
 import {
+  Avatar,
   Box,
   Divider,
   Drawer,
@@ -10,8 +11,7 @@ import {
   ListItemIcon,
   ListItemText,
   Stack,
-  Toolbar,
-  colors,
+  Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
@@ -27,38 +27,65 @@ export const Sidebar = () => {
   };
 
   const drawerContent = (
-    <Box>
-      <Box height={"100px"} />
-      <Divider />
-      <Stack
-        direction={"column"}
-        sx={{ color: `${theme.palette.primary.contrastText}` }}
-      >
-        <List sx={{ padding: "0px 15px" }}>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{}}>
-              <ListItemButton
-                sx={{
-                  margin: "0px 0px 5px 0px",
-                  "&:hover": {
-                    backgroundColor: `${theme.palette.secondary.contrastText}`,
-                    backgroundBlendMode: "lighten",
-                    borderRadius: "10px",
-                  },
-                }}
-              >
-                <ListItemIcon sx={{ minWidth: "35px" }}>
-                  <Inbox color="secondary" fontSize="small" />
-                </ListItemIcon>
-                <ListItemText
-                  primaryTypographyProps={{ fontSize: "14px" }}
-                  primary={text}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-      </Stack>
+    <Box height={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"space-between"}>
+      <Box>
+        <Box height={"100px"} alignItems={"center"} display={"flex"} px={3} marginBottom={"15px"}>
+          <Avatar
+            alt="user-profile-pic"
+            sx={{
+              width: "56px",
+              height: "56px",
+              margin: "0 20px 0 0",
+              backgroundColor: `${theme.palette.secondary.main}`,
+            }}
+          >
+            U
+          </Avatar>
+          <Box width={"56px"}>
+            <Typography color={"white"} fontSize={"18px"} fontWeight={"bold"}>
+              User
+            </Typography>
+          </Box>
+        </Box>
+        <Divider />
+        <Box>
+          <Stack
+            direction={"column"}
+            sx={{ color: `${theme.palette.primary.contrastText}` }}
+          >
+            <List sx={{ padding: "0px 15px" }}>
+              {["Inbox", "Starred", "Send email", "Drafts"].map(
+                (text, index) => (
+                  <ListItem key={text} disablePadding sx={{}}>
+                    <ListItemButton
+                      sx={{
+                        margin: "0px 0px 5px 0px",
+                        "&:hover": {
+                          backgroundColor: `${theme.palette.secondary.contrastText}`,
+                          backgroundBlendMode: "lighten",
+                          borderRadius: "10px",
+                        },
+                      }}
+                    >
+                      <ListItemIcon sx={{ minWidth: "35px" }}>
+                        <Inbox color="secondary" fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText
+                        primaryTypographyProps={{ fontSize: "14px" }}
+                        primary={text}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                )
+              )}
+            </List>
+          </Stack>
+        </Box>
+        <Divider />
+      </Box>
+      <Box p={"10px"}>
+        <IconButton color="secondary" sx={{cursor: "pointer"}}><Logout/></IconButton>
+      </Box>
     </Box>
   );
 

@@ -1,5 +1,4 @@
 import "./App.css";
-import { colors } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LoginPage from "./pages/Login.page";
 import RegisterPage from "./pages/Register.page";
