@@ -9,7 +9,7 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 
 interface Column {
-  id: "id" | "title" | "status" | "manager" | "assignee";
+  id: "id" | "title" | "status" | "manager" | "assignee" | "dateAssigned" | "dateCompleted";
   label: string;
   minWidth?: number;
 }
@@ -32,6 +32,16 @@ const columns: readonly Column[] = [
     label: "Assignee",
     minWidth: 100,
   },
+  {
+    id: "dateAssigned",
+    label: "Assigned On",
+    minWidth: 100,
+  },
+  {
+    id: "dateCompleted",
+    label: "Completed On",
+    minWidth: 100,
+  },
 ];
 
 interface Data {
@@ -40,6 +50,8 @@ interface Data {
   status: string;
   manager: string;
   assignee: string;
+  dateAssigned: string;
+  dateCompleted: string;
 }
 
 function createData(
@@ -47,9 +59,11 @@ function createData(
   title: string,
   status: string,
   manager: string,
-  assignee: string
+  assignee: string,
+  dateAssigned: string,
+  dateCompleted: string,
 ): Data {
-  return { id, title, status, manager, assignee };
+  return { id, title, status, manager, assignee, dateAssigned, dateCompleted };
 }
 
 const rows = [
@@ -58,21 +72,27 @@ const rows = [
     "This is a task title",
     "New",
     "Manager",
-    "Assignee"
+    "Assignee",
+    "2021-10-10",
+    "2023-10-10"
   ),
   createData(
     "P10004450-209202",
     "This is a task title",
     "New",
     "Manager",
-    "Assignee"
+    "Assignee",
+    "2021-10-10",
+    "2023-10-10"
   ),
   createData(
     "P10004450-209203",
     "This is a task title",
     "New",
     "Manager",
-    "Assignee"
+    "Assignee",
+    "2021-10-10",
+    "2023-10-10"
   ),
 ];
 
