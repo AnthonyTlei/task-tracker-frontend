@@ -1,4 +1,11 @@
-import { Assignment, Checklist, Inbox, Logout, Menu, Summarize } from "@mui/icons-material";
+import {
+  Assignment,
+  Checklist,
+  Inbox,
+  Logout,
+  Menu,
+  Summarize,
+} from "@mui/icons-material";
 import {
   Avatar,
   Box,
@@ -27,7 +34,6 @@ export const Sidebar = () => {
     setMobileOpen(!mobileOpen);
   };
   const navigate = useNavigate();
-
   const drawerContent = (
     <Box
       height={"100%"}
@@ -77,7 +83,9 @@ export const Sidebar = () => {
                       borderRadius: "10px",
                     },
                   }}
-                  onClick={() => {navigate("/")}}
+                  onClick={() => {
+                    navigate("/");
+                  }}
                 >
                   <ListItemIcon sx={{ minWidth: "35px" }}>
                     <Summarize color="secondary" fontSize="small" />
@@ -98,7 +106,9 @@ export const Sidebar = () => {
                       borderRadius: "10px",
                     },
                   }}
-                  onClick={() => {navigate("/checklist")}}
+                  onClick={() => {
+                    navigate("/checklist");
+                  }}
                 >
                   <ListItemIcon sx={{ minWidth: "35px" }}>
                     <Checklist color="secondary" fontSize="small" />
@@ -119,7 +129,9 @@ export const Sidebar = () => {
                       borderRadius: "10px",
                     },
                   }}
-                  onClick={() => {navigate("/tasks")}}
+                  onClick={() => {
+                    navigate("/tasks");
+                  }}
                 >
                   <ListItemIcon sx={{ minWidth: "35px" }}>
                     <Assignment color="secondary" fontSize="small" />
@@ -136,7 +148,13 @@ export const Sidebar = () => {
         <Divider />
       </Box>
       <Box p={"10px"}>
-        <IconButton color="secondary" sx={{ cursor: "pointer" }}>
+        <IconButton
+          color="secondary"
+          sx={{ cursor: "pointer" }}
+          onClick={() => {
+            navigate("/login");
+          }}
+        >
           <Logout />
         </IconButton>
       </Box>
