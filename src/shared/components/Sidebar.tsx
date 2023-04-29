@@ -1,8 +1,17 @@
-import { Menu } from "@mui/icons-material";
+import { Inbox, Mail, Menu } from "@mui/icons-material";
 import {
   Box,
+  Divider,
   Drawer,
   IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Stack,
+  Toolbar,
+  colors,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
@@ -16,6 +25,42 @@ export const Sidebar = () => {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
+  const drawerContent = (
+    <Box>
+      <Box height={"100px"} />
+      <Divider />
+      <Stack
+        direction={"column"}
+        sx={{ color: `${theme.palette.primary.contrastText}` }}
+      >
+        <List sx={{ padding: "0px 15px" }}>
+          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+            <ListItem key={text} disablePadding sx={{}}>
+              <ListItemButton
+                sx={{
+                  margin: "0px 0px 5px 0px",
+                  "&:hover": {
+                    backgroundColor: `${theme.palette.secondary.contrastText}`,
+                    backgroundBlendMode: "lighten",
+                    borderRadius: "10px",
+                  },
+                }}
+              >
+                <ListItemIcon sx={{ minWidth: "35px" }}>
+                  <Inbox color="secondary" fontSize="small" />
+                </ListItemIcon>
+                <ListItemText
+                  primaryTypographyProps={{ fontSize: "14px" }}
+                  primary={text}
+                />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </Stack>
+    </Box>
+  );
 
   return (
     <Box>
@@ -37,7 +82,9 @@ export const Sidebar = () => {
           }}
           variant="permanent"
           anchor="left"
-        ></Drawer>
+        >
+          {drawerContent}
+        </Drawer>
       ) : (
         <Drawer
           open={mobileOpen}
@@ -53,7 +100,9 @@ export const Sidebar = () => {
           }}
           variant="temporary"
           anchor="left"
-        ></Drawer>
+        >
+          {drawerContent}
+        </Drawer>
       )}
     </Box>
   );
