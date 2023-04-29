@@ -1,14 +1,14 @@
 import { Sidebar } from "../shared/components/Sidebar";
 import { Box } from "@mui/material";
-import { Checklist } from "../features/checklist/components/Checklist";
+import { Tasks } from "../features/tasks/components/Tasks";
 
-const ChecklistPage = () => {
+const TasksPage = () => {
   return (
     <Box display={"flex"} flexDirection={"row"} width={"100%"} height={"100%"}>
       <Sidebar />
-      <Checklist/>
+      <Tasks/>
     </Box>
   );
 };
 
-export default ChecklistPage;
+export default TasksPage;

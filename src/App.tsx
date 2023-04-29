@@ -4,7 +4,7 @@ import LoginPage from "./pages/Login.page";
 import RegisterPage from "./pages/Register.page";
 import HomePage from "./pages/Home.page";
 import ChecklistPage from "./pages/Checklist.page";
-import { Tasks } from "./features/tasks/Tasks";
+import TasksPage from "./pages/TasksPage";
 
 const theme = createTheme({
   typography: {
@@ -29,6 +29,7 @@ function App() {
       {/* <LoginPage/> */}
       {/* <HomePage /> */}
       <ChecklistPage/>
+      {/* <TasksPage/> */}
     </ThemeProvider>
   );
 }
