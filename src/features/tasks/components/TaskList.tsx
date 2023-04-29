@@ -1,8 +1,23 @@
 import { Add } from "@mui/icons-material";
-import { Box, Button, Grid, Typography } from "@mui/material";
+import {
+  Backdrop,
+  Box,
+  Button,
+  Grid,
+  Typography,
+} from "@mui/material";
 import { TaskCard } from "./TaskCard";
+import { useState } from "react";
+import { EditTaskCard } from "./EditTaskCard";
 
 export const TaskList = () => {
+  const [open, setOpen] = useState(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleOpen = () => {
+    setOpen(true);
+  };
   return (
     <Box p={3} width={"100%"} height={"100%"}>
       <Box
@@ -28,22 +43,34 @@ export const TaskList = () => {
       <Box>
         <Grid container spacing={10}>
           <Grid item>
-            <TaskCard id="P10000-1" title="Task 1" status="Status 1" assignee="Assignee 1" manager="Manager 1"/>
-          </Grid>
-          <Grid item>
-            <TaskCard id="P10000-2" title="Task 2" status="Status 2" assignee="Assignee 2" manager="Manager 2"/>
-          </Grid>
-          <Grid item>
-            <TaskCard id="P10000-3" title="Task 3" status="Status 3" assignee="Assignee 3" manager="Manager 3"/>
-          </Grid>
-          <Grid item>
-            <TaskCard id="P10000-4" title="Task 4" status="Status 4" assignee="Assignee 4" manager="Manager 4"/>
-          </Grid>
-          <Grid item>
-            <TaskCard id="P10000-5" title="Task 5" status="Status 5" assignee="Assignee 5" manager="Manager 5"/>
+            <TaskCard
+              id="P10000-1"
+              title="Task 1"
+              status="Status 1"
+              assignee="Assignee 1"
+              manager="Manager 1"
+              dateAssigned="2021-10-10"
+              dateCompleted="2023-10-10"
+              handleEditClicked={handleOpen}
+            />
           </Grid>
         </Grid>
       </Box>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={open}
+      >
+        <EditTaskCard
+          id="P10000-5"
+          title="Task 5"
+          status="Status 5"
+          assignee="Assignee 5"
+          manager="Manager 5"
+          dateAssigned="2021-10-10"
+          dateCompleted="2023-10-10"
+          handleClose={handleClose}
+        />
+      </Backdrop>
     </Box>
   );
 };

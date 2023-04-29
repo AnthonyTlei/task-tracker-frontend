@@ -1,4 +1,4 @@
-import { Visibility } from "@mui/icons-material";
+import { Edit } from "@mui/icons-material";
 import {
   Card,
   CardContent,
@@ -16,6 +16,9 @@ export interface TaskCardProps {
   status: string;
   manager: string;
   assignee: string;
+  dateAssigned: string;
+  dateCompleted: string;
+  handleEditClicked: () => void;
 }
 
 export const TaskCard: React.FC<TaskCardProps> = ({
@@ -24,6 +27,9 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   status,
   manager,
   assignee,
+  dateAssigned,
+  dateCompleted,
+  handleEditClicked,
 }) => {
   const theme = useTheme();
   return (
@@ -49,7 +55,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
           </Box>
         </Box>
       </CardContent>
-      <CardActionArea>
+      <CardActionArea onClick={handleEditClicked}>
         <Divider />
         <Box
           display={"flex"}
@@ -58,7 +64,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
           alignItems={"center"}
           p={"3px"}
         >
-          <Visibility
+          <Edit
             fontSize="small"
             sx={{ color: `${theme.palette.primary.light}` }}
           />
