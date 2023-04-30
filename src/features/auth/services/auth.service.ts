@@ -31,7 +31,6 @@ const login = async (
 };
 
 const verifyJwt = async (jwt: string): Promise<boolean> => {
-  console.log("Verifying jwt:", jwt);
   const response = await axios.post(`http://localhost:3000/auth/verify-jwt`, { jwt });
   if (response.data) {
     const jwtExpirationMs = response.data.exp * 1000;
