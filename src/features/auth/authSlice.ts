@@ -26,6 +26,7 @@ interface AuthState extends AsyncState {
 
 const initialState: AuthState = {
   user,
+  jwt,
   isAuthenticated: false,
   isLoading: false,
   isSuccess: false,
@@ -57,6 +58,17 @@ export const login = createAsyncThunk(
 export const logout = createAsyncThunk("auth/logout", async () => {
   await authService.logout();
 });
+
+export const verifyJwt = createAsyncThunk(
+  "auth/verify-jwt",
+  async (jwt: string, thunkAPI) => {
+    try {
+      return await authService.verifyJwt(jwt);
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Unable to verify");
+    }
+  }
+);
 
 export const authSlice = createSlice({
   name: "auth",
@@ -105,6 +117,20 @@ export const authSlice = createSlice({
       .addCase(logout.fulfilled, (state, action) => {
         state.jwt = null;
         state.user = null;
+        state.isAuthenticated = false;
+      })
+      // Verify Jwt
+      .addCase(verifyJwt.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(verifyJwt.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isAuthenticated = action.payload;
+      })
+      .addCase(verifyJwt.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
         state.isAuthenticated = false;
       });
   },

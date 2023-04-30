@@ -13,8 +13,8 @@ import {
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { LoginUser } from "../models/loginUser";
-import { FormEvent, useState } from "react";
-import { login } from "../authSlice";
+import { FormEvent, useEffect, useState } from "react";
+import { login, reset } from "../authSlice";
 import {
   useAppDispatch,
   useAppSelector,
@@ -29,7 +29,22 @@ export const Login = () => {
   const [password, setPassword] = useState("");
 
   const dispatch = useAppDispatch();
-  const { isLoading, isSuccess } = useAppSelector((state) => state.auth);
+  const { isLoading, isSuccess, isAuthenticated } = useAppSelector(
+    (state) => state.auth
+  );
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(reset());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSuccess, dispatch]);
+
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    navigate("/");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated]);
 
   const onSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

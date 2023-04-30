@@ -6,6 +6,7 @@ import HomePage from "./pages/Home.page";
 import ChecklistPage from "./pages/Checklist.page";
 import TasksPage from "./pages/TasksPage";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import SecuredRoute from "./features/auth/components/SecuredRoute";
 
 const theme = createTheme({
   typography: {
@@ -28,11 +29,17 @@ function App() {
     <ThemeProvider theme={theme}>
       <Router>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<SecuredRoute page={<HomePage />} />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/checklist" element={<ChecklistPage />} />
-          <Route path="/tasks" element={<TasksPage />} />
+          <Route
+            path="/checklist"
+            element={<SecuredRoute page={<ChecklistPage />} />}
+          />
+          <Route
+            path="/tasks"
+            element={<SecuredRoute page={<TasksPage />} />}
+          />
         </Routes>
       </Router>
     </ThemeProvider>

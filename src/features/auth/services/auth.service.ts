@@ -20,10 +20,7 @@ const register = async (newUser: NewUser): Promise<DisplayUser | null> => {
 const login = async (
   user: LoginUser
 ): Promise<{ jwt: Jwt; user: DisplayUser | null }> => {
-  const response = await axios.post(
-    `http://localhost:3000/auth/login`,
-    user
-  );
+  const response = await axios.post(`http://localhost:3000/auth/login`, user);
   if (response.data) {
     localStorage.setItem("jwt", JSON.stringify(response.data));
     const decodedJwt: DecodedJwt = jwt_decode(response.data.token);
@@ -31,6 +28,16 @@ const login = async (
     return { jwt: response.data, user: decodedJwt.user };
   }
   return { jwt: response.data, user: null };
+};
+
+const verifyJwt = async (jwt: string): Promise<boolean> => {
+  console.log("Verifying jwt:", jwt);
+  const response = await axios.post(`http://localhost:3000/auth/verify-jwt`, { jwt });
+  if (response.data) {
+    const jwtExpirationMs = response.data.exp * 1000;
+    return jwtExpirationMs > Date.now();
+  }
+  return false;
 };
 
 const logout = (): void => {
@@ -41,6 +48,7 @@ const logout = (): void => {
 const authService = {
   register,
   login,
+  verifyJwt,
   logout,
 };
 
