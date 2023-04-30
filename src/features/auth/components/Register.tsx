@@ -123,22 +123,16 @@ export const Register = () => {
   return (
     <>
       {error !== "" && (
-        <>
-          <Snackbar
-            open
-            autoHideDuration={3000}
-            onClose={handleClose}
-            action={action}
-          >
-            <Alert
-              onClose={handleClose}
-              severity="error"
-              sx={{ width: "100%" }}
-            >
-              {error}
-            </Alert>
-          </Snackbar>
-        </>
+        <Snackbar
+          open
+          autoHideDuration={3000}
+          onClose={handleClose}
+          action={action}
+        >
+          <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+            {error}
+          </Alert>
+        </Snackbar>
       )}
       <Card
         sx={{
