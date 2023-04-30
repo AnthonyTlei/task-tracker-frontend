@@ -16,10 +16,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { FormEvent, useState } from "react";
 import { NewUser } from "../models/newUser";
 import { register } from "../authSlice";
-import { useAppDispatch, useAppSelector } from "../../../hooks/redux/redux-hooks";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../../hooks/redux/redux-hooks";
 
 export const Register = () => {
   const theme = useTheme();
+
+  const navigate = useNavigate();
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -29,8 +34,6 @@ export const Register = () => {
 
   const dispatch = useAppDispatch();
   const { isLoading, isSuccess } = useAppSelector((state) => state.auth);
-
-  const navigate = useNavigate();
 
   const onSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -44,7 +47,6 @@ export const Register = () => {
   };
 
   if (isLoading) {
-    console.log("Loading...");
     return <CircularProgress sx={{ marginTop: "64px" }} color="primary" />;
   }
 

@@ -3,9 +3,14 @@ import { DisplayUser } from "./models/displayUser";
 import { NewUser } from "./models/newUser";
 import { RootState } from "../../store";
 import authService from "./services/auth.service";
+import { Jwt } from "./models/Jwt";
+import { LoginUser } from "./models/loginUser";
 
 const storedUser: string | null = localStorage.getItem("user");
 const user: DisplayUser | null = !!storedUser ? JSON.parse(storedUser) : null;
+
+const storedJwt: string | null = localStorage.getItem("jwt");
+const jwt: Jwt = !!storedJwt ? JSON.parse(storedJwt) : null;
 
 interface AsyncState {
   isLoading: boolean;
@@ -15,6 +20,7 @@ interface AsyncState {
 
 interface AuthState extends AsyncState {
   user?: DisplayUser | null;
+  jwt?: Jwt;
   isAuthenticated?: boolean;
 }
 
@@ -36,6 +42,21 @@ export const register = createAsyncThunk(
     }
   }
 );
+
+export const login = createAsyncThunk(
+  "auth/login",
+  async (user: LoginUser, thunkAPI) => {
+    try {
+      return await authService.login(user);
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Unable to login");
+    }
+  }
+);
+
+export const logout = createAsyncThunk("auth/logout", async () => {
+  await authService.logout();
+});
 
 export const authSlice = createSlice({
   name: "auth",
@@ -62,6 +83,29 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.user = null;
+      })
+      // Login
+      .addCase(login.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(login.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isAuthenticated = true;
+        state.jwt = action.payload.jwt;
+        state.user = action.payload.user;
+      })
+      .addCase(login.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isAuthenticated = false;
+        state.user = null;
+      })
+      // Logout
+      .addCase(logout.fulfilled, (state, action) => {
+        state.jwt = null;
+        state.user = null;
+        state.isAuthenticated = false;
       });
   },
 });
