@@ -7,6 +7,7 @@ import {
   Divider,
   CardActionArea,
   useTheme,
+  CardHeader,
 } from "@mui/material";
 import React from "react";
 
@@ -34,6 +35,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   const theme = useTheme();
   return (
     <Card sx={{ width: "250px", height: "auto", borderRadius: "10px" }}>
+      <CardHeader title={id} subheader={manager}/>
       <CardContent>
         <Box
           display={"flex"}
@@ -42,15 +44,10 @@ export const TaskCard: React.FC<TaskCardProps> = ({
         >
           <Box p={2}>
             <Typography variant="body2" color={"secondary"}>
-              {id}
-              <Divider />
-              {title}
-              <Divider />
               {status}
-              <Divider />
-              {assignee}
-              <Divider />
-              {manager}
+            </Typography>
+            <Typography variant="body2" color={"secondary"}>
+              {title}
             </Typography>
           </Box>
         </Box>
