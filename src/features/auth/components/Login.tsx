@@ -173,6 +173,7 @@ export const Login = () => {
               <TextField
                 fullWidth
                 value={password}
+                type="password"
                 onChange={(e) => setPassword(e.target.value)}
                 label="Password"
                 variant="outlined"

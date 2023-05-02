@@ -202,6 +202,7 @@ export const Register = () => {
               <TextField
                 fullWidth
                 value={password}
+                type="password"
                 onChange={(e) => setPassword(e.target.value)}
                 label="Password"
                 variant="outlined"
@@ -210,6 +211,7 @@ export const Register = () => {
               <TextField
                 fullWidth
                 value={confirmPassword}
+                type="password"
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 label="Confirm Password"
                 variant="outlined"
