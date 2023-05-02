@@ -10,6 +10,7 @@ const register = async (newUser: NewUser): Promise<DisplayUser | null> => {
   //     `${process.env.REACT_APP_BASE_API}/auth/register`,
   //     newUser
   //   );
+  // TODO : Refactor to use .env
   const response = await axios.post(
     `http://localhost:3000/auth/register`,
     newUser

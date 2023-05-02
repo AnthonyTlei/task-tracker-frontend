@@ -1,6 +1,6 @@
 import { Sidebar } from "../shared/components/Sidebar";
 import { Box } from "@mui/material";
-import { TaskList } from "../features/tasks/components/TaskList";
+import { TaskList } from "../features/task/components/TaskList";
 
 const TasksPage = () => {
   return (
