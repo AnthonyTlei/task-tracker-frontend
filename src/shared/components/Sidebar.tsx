@@ -25,7 +25,7 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../features/auth/authSlice";
-import { useAppDispatch } from "../../hooks/redux/redux-hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux/redux-hooks";
 
 export const Sidebar = () => {
   const drawerWidth = 280;
@@ -35,6 +35,8 @@ export const Sidebar = () => {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
+  const { user } = useAppSelector((state) => state.auth);
 
   const dispatch = useAppDispatch();
 
@@ -68,11 +70,14 @@ export const Sidebar = () => {
               backgroundColor: `${theme.palette.secondary.main}`,
             }}
           >
-            U
+            {user?.first_name[0].toUpperCase()}{user?.last_name[0].toUpperCase()}
           </Avatar>
           <Box width={"56px"}>
             <Typography color={"white"} fontSize={"18px"} fontWeight={"bold"}>
-              User
+              {user?.first_name}
+            </Typography>
+            <Typography color={"secondary.light"} variant="body2">
+              {user?.role}
             </Typography>
           </Box>
         </Box>
