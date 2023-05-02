@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import taskService from "./services/task.service";
 import { Task } from "./models/task";
+import { NewTask } from "./models/newTask";
 
 interface AsyncState {
   isLoading: boolean;
@@ -24,6 +25,20 @@ export const fetchTasks = createAsyncThunk(
   async (token: string | undefined, thunkAPI) => {
     try {
       return await taskService.getUserTasks(token);
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Unable to fetch tasks.");
+    }
+  }
+);
+
+export const createTask = createAsyncThunk(
+  "tasks/createTask",
+  async (
+    { token, newTask }: { token: string | undefined; newTask: NewTask },
+    thunkAPI
+  ) => {
+    try {
+      return await taskService.createTask(token, newTask);
     } catch (error) {
       return thunkAPI.rejectWithValue("Unable to fetch tasks.");
     }
@@ -55,6 +70,20 @@ export const taskSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.tasks = [];
+      })
+      // createTask
+      .addCase(createTask.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createTask.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        // TODO: verify if this works
+        state.tasks.push(action.payload);
+      })
+      .addCase(createTask.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
       });
   },
 });

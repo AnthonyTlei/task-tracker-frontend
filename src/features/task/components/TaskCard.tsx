@@ -12,7 +12,8 @@ import {
 import React from "react";
 
 export interface TaskCardProps {
-  id: string;
+  id: number;
+  full_id: string;
   title: string;
   status: string;
   manager: string;
@@ -24,6 +25,7 @@ export interface TaskCardProps {
 
 export const TaskCard: React.FC<TaskCardProps> = ({
   id,
+  full_id,
   title,
   status,
   manager,
@@ -35,7 +37,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   const theme = useTheme();
   return (
     <Card sx={{ width: "250px", height: "auto", borderRadius: "10px" }}>
-      <CardHeader title={id} subheader={manager}/>
+      <CardHeader title={full_id} subheader={manager}/>
       <CardContent>
         <Box
           display={"flex"}

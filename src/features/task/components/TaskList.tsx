@@ -1,22 +1,26 @@
 import { Add } from "@mui/icons-material";
-import {
-  Backdrop,
-  Box,
-  Button,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Backdrop, Box, Button, Grid, Typography } from "@mui/material";
 import { TaskCard } from "./TaskCard";
 import { useState } from "react";
 import { EditTaskCard } from "./EditTaskCard";
+import { useAppSelector } from "../../../hooks/redux/redux-hooks";
+import { CreateTaskCard } from "./CreateTaskCard";
 
 export const TaskList = () => {
-  const [open, setOpen] = useState(false);
-  const handleClose = () => {
-    setOpen(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openCreate, setOpenCreate] = useState(false);
+  const { tasks } = useAppSelector((state) => state.task);
+  const handleEditClose = () => {
+    setOpenEdit(false);
   };
-  const handleOpen = () => {
-    setOpen(true);
+  const handleEditOpen = () => {
+    setOpenEdit(true);
+  };
+  const handleCreateOpen = () => {
+    setOpenCreate(true);
+  };
+  const handleCreateClose = () => {
+    setOpenCreate(false);
   };
   return (
     <Box p={3} width={"100%"} height={"100%"}>
@@ -33,6 +37,7 @@ export const TaskList = () => {
           variant="contained"
           color="secondary"
           sx={{ borderRadius: "10px" }}
+          onClick={handleCreateOpen}
         >
           <Add sx={{ color: "white" }} />
           <Typography color={"white"} paddingLeft={2}>
@@ -42,23 +47,26 @@ export const TaskList = () => {
       </Box>
       <Box>
         <Grid container spacing={10}>
-          <Grid item>
-            <TaskCard
-              id="P10000-1"
-              title="Task 1"
-              status="Status 1"
-              assignee="Assignee 1"
-              manager="Manager 1"
-              dateAssigned="2021-10-10"
-              dateCompleted="2023-10-10"
-              handleEditClicked={handleOpen}
-            />
-          </Grid>
+          {tasks?.map((task) => (
+            <Grid item key={task.id}>
+              <TaskCard
+                id={task.id}
+                full_id={task.full_id}
+                title={task.title}
+                status={task.status}
+                assignee={task.user_id.toString()}
+                manager={task.manager}
+                dateAssigned="2021-10-10"
+                dateCompleted="2023-10-10"
+                handleEditClicked={handleEditOpen}
+              />
+            </Grid>
+          ))}
         </Grid>
       </Box>
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={open}
+        open={openEdit}
       >
         <EditTaskCard
           id="P10000-5"
@@ -68,8 +76,14 @@ export const TaskList = () => {
           manager="Manager 5"
           dateAssigned="2021-10-10"
           dateCompleted="2023-10-10"
-          handleClose={handleClose}
+          handleClose={handleEditClose}
         />
+      </Backdrop>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={openCreate}
+      >
+        <CreateTaskCard handleClose={handleCreateClose} />
       </Backdrop>
     </Box>
   );
