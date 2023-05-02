@@ -161,6 +161,7 @@ export const Register = () => {
                 Already have an account?{" "}
                 <Link to={"/login"} style={{ textDecoration: "none" }}>
                   <DisplayLink
+                    component="button"
                     color={`${theme.palette.primary.main}`}
                     underline="hover"
                     sx={{ cursor: "pointer" }}

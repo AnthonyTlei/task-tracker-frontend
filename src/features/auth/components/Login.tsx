@@ -150,6 +150,7 @@ export const Login = () => {
                 Don't have an account?{" "}
                 <Link to={"/register"} style={{ textDecoration: "none" }}>
                   <DisplayLink
+                    component="button"
                     color={`${theme.palette.primary.main}`}
                     underline="hover"
                     sx={{ cursor: "pointer" }}
