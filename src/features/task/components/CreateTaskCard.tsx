@@ -42,6 +42,7 @@ export const CreateTaskCard: React.FC<CreateTaskCardProps> = ({
   const { user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
 
+  // TODO: refactor validation
   const validateFields = (newTask: NewTask): boolean => {
     if (fullId.length === 0) {
       setError("ID cannot be empty.");
