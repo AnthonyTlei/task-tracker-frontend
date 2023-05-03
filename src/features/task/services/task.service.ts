@@ -27,6 +27,17 @@ const createTask = async (
   return response.data;
 };
 
+const editTask = async (
+  token: string | undefined,
+  taskId: number,
+  updatedTask: NewTask
+): Promise<Task> => {
+  const response = await axios.put(`http://localhost:3000/task/${taskId}`, updatedTask, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+};
+
 const deleteTask = async (
   token: string | undefined,
   taskId: number
@@ -40,6 +51,7 @@ const deleteTask = async (
 const taskService = {
   getUserTasks,
   createTask,
+  editTask,
   deleteTask,
 };
 

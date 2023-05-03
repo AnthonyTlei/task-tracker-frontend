@@ -45,6 +45,24 @@ export const createTask = createAsyncThunk(
   }
 );
 
+export const editTask = createAsyncThunk(
+  "tasks/editTask",
+  async (
+    {
+      token,
+      taskId,
+      newTask,
+    }: { token: string | undefined; taskId: number; newTask: NewTask },
+    thunkAPI
+  ) => {
+    try {
+      return await taskService.editTask(token, taskId, newTask);
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Unable to create tasks.");
+    }
+  }
+);
+
 export const deleteTask = createAsyncThunk(
   "tasks/deleteTask",
   async (
@@ -95,6 +113,25 @@ export const taskSlice = createSlice({
         state.tasks.push(action.payload);
       })
       .addCase(createTask.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      })
+      // editTask
+      .addCase(editTask.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(editTask.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.tasks = state.tasks.map((task) => {
+          if (task.id === action.payload.id) {
+            return action.payload;
+          }
+          console.log(task);
+          return task;
+        });
+      })
+      .addCase(editTask.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
       })

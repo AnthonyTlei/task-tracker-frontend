@@ -27,7 +27,7 @@ export interface CreateTaskCardProps {
 export const CreateTaskCard: React.FC<CreateTaskCardProps> = ({
   handleClose,
 }) => {
-  const [id, setId] = useState("");
+  const [fullId, setFullId] = useState("");
   const [title, setTitle] = useState("");
   const [status, setStatus] = useState(TaskStatus.BACKLOG);
   const [manager, setManager] = useState("");
@@ -38,7 +38,7 @@ export const CreateTaskCard: React.FC<CreateTaskCardProps> = ({
   const handleCreate = () => {
     if (!user) return;
     const newTask: NewTask = {
-      full_id: id,
+      full_id: fullId,
       user_id: user.id,
       title,
       status,
@@ -63,8 +63,8 @@ export const CreateTaskCard: React.FC<CreateTaskCardProps> = ({
                 color="secondary"
                 variant="standard"
                 label="ID"
-                value={id}
-                onChange={(e) => setId(e.target.value)}
+                value={fullId}
+                onChange={(e) => setFullId(e.target.value)}
               />
               <TextField
                 color="secondary"
