@@ -13,7 +13,7 @@ import {
   useAppSelector,
 } from "../../../hooks/redux/redux-hooks";
 import { fetchAllTasks } from "../../task/taskSlice";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Typography } from "@mui/material";
 import { useToken } from "../../../hooks/redux/useToken";
 
 interface Column {
@@ -90,7 +90,7 @@ export default function TaskTable() {
         task.title,
         task.status,
         task.manager,
-        task.user.first_name,
+        task.user.first_name
       )
     );
     setRows(newRows);
@@ -98,7 +98,9 @@ export default function TaskTable() {
 
   useEffect(() => {
     // TODO: figure out a way to only fetch these once and store them in store then update locally.
-    dispatch(fetchAllTasks(token));
+    if (tasks.length === 0) {
+      dispatch(fetchAllTasks(token));
+    }
   }, [dispatch, token]);
 
   useEffect(() => {
@@ -135,6 +137,15 @@ export default function TaskTable() {
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                     {columns.map((column) => {
                       const value = row[column.id];
+                      if (column.id === "status") {
+                        return (
+                          <TableCell key={column.id}>
+                            <Typography color={"green"} fontSize={"14px"}>
+                              {value.toString().toUpperCase()}
+                            </Typography>
+                          </TableCell>
+                        );
+                      }
                       return <TableCell key={column.id}>{value}</TableCell>;
                     })}
                   </TableRow>
