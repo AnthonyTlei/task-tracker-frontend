@@ -26,7 +26,6 @@ import { Close } from "@mui/icons-material";
 import ErrorSnackbar from "../../../shared/components/ErrorSnackbar";
 
 export const Login = () => {
-  // TODO : refactor error handling and filds validation for login/register
   const theme = useTheme();
 
   const navigate = useNavigate();
@@ -54,6 +53,7 @@ export const Login = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated]);
 
+  // TODO : refactor into either a validation feature or some utils
   const validateEmail = (email: string): boolean => {
     const emailRegex =
       /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z]{2,})$/;

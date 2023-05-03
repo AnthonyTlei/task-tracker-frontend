@@ -24,12 +24,16 @@ export const Overview = () => {
   const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
   const dispatch = useAppDispatch();
   const token = useToken();
-  const { isLoading, isSuccess, userTasks: tasks } = useAppSelector((state) => state.task);
+  const {
+    isLoading,
+    isSuccess,
+    userTasks: tasks,
+  } = useAppSelector((state) => state.task);
   const [tasksDone, setTasksDone] = useState(0);
   const [tasksProgress, setTasksProgress] = useState(0);
   const [tasksBacklog, setTasksBacklog] = useState(0);
 
-  // TODO : refactor 
+  // TODO : refactor
   const countTasks = () => {
     setTasksDone(0);
     setTasksProgress(0);
@@ -46,7 +50,10 @@ export const Overview = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchTasks(token));
+    // TODO: temporary to reduce api load. (will fail if user has 0 tasks to begin with)
+    if (tasks.length === 0) {
+      dispatch(fetchTasks(token));
+    }
   }, [dispatch, token]);
 
   useEffect(() => {
