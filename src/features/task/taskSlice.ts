@@ -107,7 +107,6 @@ export const taskSlice = createSlice({
       // TODO: rename to getAllTasks
       .addCase(fetchAllTasks.pending, (state) => {
         state.isLoading = true;
-        state.isSuccess = false;
       })
       .addCase(fetchAllTasks.fulfilled, (state, action) => {
         state.isLoading = false;

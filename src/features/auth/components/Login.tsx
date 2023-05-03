@@ -32,7 +32,7 @@ export const Login = () => {
   const [error, setError] = useState("");
 
   const dispatch = useAppDispatch();
-  const { isLoading, isSuccess, isAuthenticated } = useAppSelector(
+  const { isLoading, isSuccess, isAuthenticated, isError } = useAppSelector(
     (state) => state.auth
   );
 
@@ -76,6 +76,13 @@ export const Login = () => {
     };
     dispatch(login(user));
   };
+
+  useEffect(() => {
+    if (isError) {
+      setError("Invalid email or password.");
+      dispatch(reset());
+    }
+  }, [isError, dispatch]);
 
   const handleErrorClose = (
     event: React.SyntheticEvent | Event,
