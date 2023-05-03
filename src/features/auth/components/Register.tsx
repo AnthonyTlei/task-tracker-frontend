@@ -21,6 +21,7 @@ import {
   useAppSelector,
 } from "../../../hooks/redux/redux-hooks";
 import ErrorSnackbar from "../../../shared/components/ErrorSnackbar";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 export const Register = () => {
   const theme = useTheme();
@@ -76,7 +77,7 @@ export const Register = () => {
     return true;
   };
 
-  const onSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validateInputs() === false) return;
     const newUser: NewUser = {
@@ -85,7 +86,12 @@ export const Register = () => {
       email,
       password,
     };
-    dispatch(register(newUser));
+    try {
+      const resultAction = await dispatch(register(newUser));
+      unwrapResult(resultAction);
+    } catch (err: any) {
+      setError(err);
+    }
   };
 
   const handleErrorClose = (

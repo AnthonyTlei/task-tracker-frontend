@@ -20,6 +20,7 @@ import {
   useAppSelector,
 } from "../../../hooks/redux/redux-hooks";
 import ErrorSnackbar from "../../../shared/components/ErrorSnackbar";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 export const Login = () => {
   const theme = useTheme();
@@ -67,22 +68,20 @@ export const Login = () => {
     return true;
   };
 
-  const onSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validateInputs() === false) return;
     const user: LoginUser = {
       email,
       password,
     };
-    dispatch(login(user));
-  };
-
-  useEffect(() => {
-    if (isError) {
-      setError("Invalid email or password.");
-      dispatch(reset());
+    try {
+      const resultAction = await dispatch(login(user));
+      unwrapResult(resultAction);
+    } catch (err: any) {
+      setError(err);
     }
-  }, [isError, dispatch]);
+  };
 
   const handleErrorClose = (
     event: React.SyntheticEvent | Event,
@@ -101,7 +100,7 @@ export const Login = () => {
 
   return (
     <>
-      <ErrorSnackbar error={error} handleClose={handleErrorClose}/>
+      <ErrorSnackbar error={error} handleClose={handleErrorClose} />
       <Card
         sx={{
           borderRadius: "20px",

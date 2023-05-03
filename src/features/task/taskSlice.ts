@@ -3,7 +3,6 @@ import taskService from "./services/task.service";
 import { Task } from "./models/task";
 import { NewTask } from "./models/newTask";
 import { TaskWithUser } from "../checklist/models/taskWithUsers";
-import { AxiosError } from "axios";
 
 interface AsyncState {
   isLoading: boolean;

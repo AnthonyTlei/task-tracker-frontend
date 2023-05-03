@@ -38,8 +38,11 @@ export const register = createAsyncThunk(
   async (user: NewUser, thunkAPI) => {
     try {
       return await authService.register(user);
-    } catch (error) {
-      return thunkAPI.rejectWithValue("Unable to register");
+    } catch (error: any) {
+      if (error.response && error.response.data.message) {
+        return thunkAPI.rejectWithValue(error.response.data.message);
+      }
+      return thunkAPI.rejectWithValue("Unable to register.");
     }
   }
 );
@@ -49,8 +52,11 @@ export const login = createAsyncThunk(
   async (user: LoginUser, thunkAPI) => {
     try {
       return await authService.login(user);
-    } catch (error) {
-      return thunkAPI.rejectWithValue("Unable to login");
+    } catch (error: any) {
+      if (error.response && error.response.data.message) {
+        return thunkAPI.rejectWithValue(error.response.data.message);
+      }
+      return thunkAPI.rejectWithValue("Unable to login tasks.");
     }
   }
 );
