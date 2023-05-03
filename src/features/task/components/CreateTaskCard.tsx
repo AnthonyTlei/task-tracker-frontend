@@ -13,7 +13,10 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { TaskStatus } from "../models/task";
-import { useAppDispatch } from "../../../hooks/redux/redux-hooks";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../../hooks/redux/redux-hooks";
 import { createTask } from "../taskSlice";
 import { useToken } from "../../../hooks/redux/useToken";
 import { NewUser } from "../../auth/models/newUser";
@@ -31,15 +34,14 @@ export const CreateTaskCard: React.FC<CreateTaskCardProps> = ({
   const [status, setStatus] = useState(TaskStatus.BACKLOG);
   const [manager, setManager] = useState("");
   const token = useToken();
-  // const [dateAssigned, setDateAssigned] = useState("");
-  // const [dateCompleted, setDateCompleted] = useState("");
+  const { user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
 
   const handleCreate = () => {
+    if (!user) return;
     const newTask: NewTask = {
-      // TODO: remove hardcoded user_id
       full_id: id,
-      user_id: 1,
+      user_id: user.id,
       title,
       status,
       manager,
