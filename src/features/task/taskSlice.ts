@@ -11,14 +11,27 @@ interface AsyncState {
 
 interface TaskState extends AsyncState {
   tasks: Task[];
+  userTasks: Task[];
 }
 
 const initialState: TaskState = {
   tasks: [],
+  userTasks: [],
   isLoading: false,
   isSuccess: false,
   isError: false,
 };
+
+export const fetchAllTasks = createAsyncThunk(
+  "tasks/fetchAllTasks",
+  async (token: string | undefined, thunkAPI) => {
+    try {
+      return await taskService.getTasks(token);
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Unable to fetch tasks.");
+    }
+  }
+);
 
 export const fetchTasks = createAsyncThunk(
   "tasks/fetchTasks",
@@ -26,7 +39,7 @@ export const fetchTasks = createAsyncThunk(
     try {
       return await taskService.getUserTasks(token);
     } catch (error) {
-      return thunkAPI.rejectWithValue("Unable to fetch tasks.");
+      return thunkAPI.rejectWithValue("Unable to fetch user tasks.");
     }
   }
 );
@@ -89,19 +102,36 @@ export const taskSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // fetchAllTasks
+      // TODO: rename to getAllTasks
+      .addCase(fetchAllTasks.pending, (state) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+      })
+      .addCase(fetchAllTasks.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.tasks = action.payload;
+      })
+      .addCase(fetchAllTasks.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.tasks = [];
+      })
       // fetchTasks
+      // TODO: rename to getUserTasks
       .addCase(fetchTasks.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(fetchTasks.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.tasks = action.payload;
+        state.userTasks = action.payload;
       })
       .addCase(fetchTasks.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
-        state.tasks = [];
+        state.userTasks = [];
       })
       // createTask
       .addCase(createTask.pending, (state) => {
@@ -110,6 +140,7 @@ export const taskSlice = createSlice({
       .addCase(createTask.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.userTasks.push(action.payload);
         state.tasks.push(action.payload);
       })
       .addCase(createTask.rejected, (state) => {
@@ -123,6 +154,12 @@ export const taskSlice = createSlice({
       .addCase(editTask.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.userTasks = state.userTasks.map((task) => {
+          if (task.id === action.payload.id) {
+            return action.payload;
+          }
+          return task;
+        });
         state.tasks = state.tasks.map((task) => {
           if (task.id === action.payload.id) {
             return action.payload;
@@ -141,7 +178,7 @@ export const taskSlice = createSlice({
       .addCase(deleteTask.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.tasks = state.tasks.filter(
+        state.userTasks = state.userTasks.filter(
           (task) => task.id !== action.payload.id
         );
       })

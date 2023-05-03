@@ -7,9 +7,17 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
+import { useEffect, useState } from "react";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../../hooks/redux/redux-hooks";
+import { fetchAllTasks } from "../../task/taskSlice";
+import { CircularProgress } from "@mui/material";
+import { useToken } from "../../../hooks/redux/useToken";
 
 interface Column {
-  id: "id" | "title" | "status" | "manager" | "assignee" | "dateAssigned" | "dateCompleted";
+  id: "id" | "title" | "status" | "manager" | "assignee";
   label: string;
   minWidth?: number;
 }
@@ -32,16 +40,6 @@ const columns: readonly Column[] = [
     label: "Assignee",
     minWidth: 100,
   },
-  {
-    id: "dateAssigned",
-    label: "Assigned On",
-    minWidth: 100,
-  },
-  {
-    id: "dateCompleted",
-    label: "Completed On",
-    minWidth: 100,
-  },
 ];
 
 interface Data {
@@ -49,9 +47,7 @@ interface Data {
   title: string;
   status: string;
   manager: string;
-  assignee: string;
-  dateAssigned: string;
-  dateCompleted: string;
+  assignee: number;
 }
 
 function createData(
@@ -59,46 +55,18 @@ function createData(
   title: string,
   status: string,
   manager: string,
-  assignee: string,
-  dateAssigned: string,
-  dateCompleted: string,
+  assignee: number
 ): Data {
-  return { id, title, status, manager, assignee, dateAssigned, dateCompleted };
+  return { id, title, status, manager, assignee };
 }
 
-const rows = [
-  createData(
-    "P10004450-209201",
-    "This is a task title",
-    "New",
-    "Manager",
-    "Assignee",
-    "2021-10-10",
-    "2023-10-10"
-  ),
-  createData(
-    "P10004450-209202",
-    "This is a task title",
-    "New",
-    "Manager",
-    "Assignee",
-    "2021-10-10",
-    "2023-10-10"
-  ),
-  createData(
-    "P10004450-209203",
-    "This is a task title",
-    "New",
-    "Manager",
-    "Assignee",
-    "2021-10-10",
-    "2023-10-10"
-  ),
-];
-
 export default function TaskTable() {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rows, setRows] = useState<Data[]>([]);
+  const dispatch = useAppDispatch();
+  const token = useToken();
+  const { isSuccess, isLoading, tasks } = useAppSelector((state) => state.task);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -110,6 +78,34 @@ export default function TaskTable() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  const populateTable = () => {
+    const newRows = tasks.map((task) =>
+      createData(
+        task.full_id,
+        task.title,
+        task.status,
+        task.manager,
+        task.user_id
+      )
+    );
+    setRows(newRows);
+  };
+
+  useEffect(() => {
+    // TODO: figure out a way to only fetch these once and store them in store then update locally.
+    dispatch(fetchAllTasks(token));
+  }, [dispatch, token]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      populateTable();
+    }
+  }, [isSuccess]);
+
+  if (isLoading) {
+    return <CircularProgress sx={{ marginTop: "64px" }} color="primary" />;
+  }
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>

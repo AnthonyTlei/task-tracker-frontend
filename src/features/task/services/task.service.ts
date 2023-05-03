@@ -4,6 +4,14 @@ import { Task } from "../models/task";
 import { NewTask } from "../models/newTask";
 import { DecodedJwt } from "../../auth/models/Jwt";
 
+const getTasks = async (token: string | undefined): Promise<Task[]> => {
+  const response = await axios.get(
+    `${process.env.REACT_APP_BASE_API}/tasks`,
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+  return response.data;
+};
+
 const getUserTasks = async (token: string | undefined): Promise<Task[]> => {
   let user_id = 0;
   if (token) {
@@ -49,6 +57,7 @@ const deleteTask = async (
 };
 
 const taskService = {
+  getTasks,
   getUserTasks,
   createTask,
   editTask,

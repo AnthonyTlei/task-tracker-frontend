@@ -11,7 +11,7 @@ export const TaskList = () => {
   const [openEdit, setOpenEdit] = useState(false);
   const [openCreate, setOpenCreate] = useState(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
-  const { tasks } = useAppSelector((state) => state.task);
+  const { userTasks: tasks } = useAppSelector((state) => state.task);
 
   const handleEditClose = () => {
     setOpenEdit(false);

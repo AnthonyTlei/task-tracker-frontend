@@ -24,7 +24,7 @@ export const Overview = () => {
   const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
   const dispatch = useAppDispatch();
   const token = useToken();
-  const { isLoading, isSuccess, tasks } = useAppSelector((state) => state.task);
+  const { isLoading, isSuccess, userTasks: tasks } = useAppSelector((state) => state.task);
   const [tasksDone, setTasksDone] = useState(0);
   const [tasksProgress, setTasksProgress] = useState(0);
   const [tasksBacklog, setTasksBacklog] = useState(0);
