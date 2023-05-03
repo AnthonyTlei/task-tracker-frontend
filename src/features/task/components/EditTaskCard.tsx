@@ -66,8 +66,8 @@ export const EditTaskCard: React.FC<EditTaskCardProps> = ({
                 labelId="task-status-select-label"
                 id="task-status-select"
                 label="Status"
-                value={status}
                 variant="standard"
+                value={status}
               >
                 {Object.values(TaskStatus).map((value) => (
                   <MenuItem key={value} value={value}>
