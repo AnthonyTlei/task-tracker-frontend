@@ -3,6 +3,7 @@ import taskService from "./services/task.service";
 import { Task } from "./models/task";
 import { NewTask } from "./models/newTask";
 import { TaskWithUser } from "../checklist/models/taskWithUsers";
+import { AxiosError } from "axios";
 
 interface AsyncState {
   isLoading: boolean;
@@ -53,11 +54,15 @@ export const createTask = createAsyncThunk(
   ) => {
     try {
       return await taskService.createTask(token, newTask);
-    } catch (error) {
+    } catch (error: any) {
+      if (error.response && error.response.data.message) {
+        return thunkAPI.rejectWithValue(error.response.data.message);
+      }
       return thunkAPI.rejectWithValue("Unable to create tasks.");
     }
   }
 );
+
 
 export const editTask = createAsyncThunk(
   "tasks/editTask",

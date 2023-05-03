@@ -20,6 +20,7 @@ import { createTask } from "../taskSlice";
 import { useToken } from "../../../hooks/redux/useToken";
 import { NewTask } from "../models/newTask";
 import ErrorSnackbar from "../../../shared/components/ErrorSnackbar";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 export interface CreateTaskCardProps {
   handleClose: () => void;
@@ -64,7 +65,7 @@ export const CreateTaskCard: React.FC<CreateTaskCardProps> = ({
     setError("");
   };
 
-  const handleCreate = () => {
+  const handleCreate = async () => {
     if (!user) return;
     const newTask: NewTask = {
       full_id: fullId,
@@ -74,9 +75,14 @@ export const CreateTaskCard: React.FC<CreateTaskCardProps> = ({
       manager,
     };
     if (validateFields(newTask)) {
-      dispatch(createTask({ token, newTask }));
-      clearFields();
-      handleClose();
+      try {
+        const resultAction = await dispatch(createTask({ token, newTask }));
+        unwrapResult(resultAction);
+        clearFields();
+        handleClose();
+      } catch (err: any) {
+        setError(err);
+      }
     }
   };
 
