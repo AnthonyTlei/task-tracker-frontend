@@ -49,7 +49,7 @@ interface Data {
   title: string;
   status: string;
   manager: string;
-  assignee: number;
+  assignee: string;
 }
 
 function createData(
@@ -58,7 +58,7 @@ function createData(
   title: string,
   status: string,
   manager: string,
-  assignee: number
+  assignee: string
 ): Data {
   return { id, full_id, title, status, manager, assignee };
 }
@@ -90,7 +90,7 @@ export default function TaskTable() {
         task.title,
         task.status,
         task.manager,
-        task.user_id
+        task.user.first_name,
       )
     );
     setRows(newRows);

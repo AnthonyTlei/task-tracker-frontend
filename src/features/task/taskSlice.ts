@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import taskService from "./services/task.service";
 import { Task } from "./models/task";
 import { NewTask } from "./models/newTask";
+import { TaskWithUser } from "../checklist/models/taskWithUsers";
 
 interface AsyncState {
   isLoading: boolean;
@@ -10,7 +11,7 @@ interface AsyncState {
 }
 
 interface TaskState extends AsyncState {
-  tasks: Task[];
+  tasks: TaskWithUser[];
   userTasks: Task[];
 }
 
@@ -141,7 +142,6 @@ export const taskSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.userTasks.push(action.payload);
-        state.tasks.push(action.payload);
       })
       .addCase(createTask.rejected, (state) => {
         state.isLoading = false;
@@ -155,12 +155,6 @@ export const taskSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.userTasks = state.userTasks.map((task) => {
-          if (task.id === action.payload.id) {
-            return action.payload;
-          }
-          return task;
-        });
-        state.tasks = state.tasks.map((task) => {
           if (task.id === action.payload.id) {
             return action.payload;
           }
