@@ -6,13 +6,8 @@ import { LoginUser } from "../models/loginUser";
 import { DecodedJwt, Jwt } from "../models/Jwt";
 
 const register = async (newUser: NewUser): Promise<DisplayUser | null> => {
-  //   const response = await axios.post(
-  //     `${process.env.REACT_APP_BASE_API}/auth/register`,
-  //     newUser
-  //   );
-  // TODO : Refactor to use .env
   const response = await axios.post(
-    `http://localhost:3000/auth/register`,
+    `${process.env.REACT_APP_BASE_API}/auth/register`,
     newUser
   );
   return response.data;
@@ -21,7 +16,10 @@ const register = async (newUser: NewUser): Promise<DisplayUser | null> => {
 const login = async (
   user: LoginUser
 ): Promise<{ jwt: Jwt; user: DisplayUser | null }> => {
-  const response = await axios.post(`http://localhost:3000/auth/login`, user);
+  const response = await axios.post(
+    `${process.env.REACT_APP_BASE_API}/auth/login`,
+    user
+  );
   if (response.data) {
     localStorage.setItem("jwt", JSON.stringify(response.data));
     const decodedJwt: DecodedJwt = jwt_decode(response.data.token);
@@ -32,7 +30,10 @@ const login = async (
 };
 
 const verifyJwt = async (jwt: string): Promise<boolean> => {
-  const response = await axios.post(`http://localhost:3000/auth/verify-jwt`, { jwt });
+  const response = await axios.post(
+    `${process.env.REACT_APP_BASE_API}/auth/verify-jwt`,
+    { jwt }
+  );
   if (response.data) {
     const jwtExpirationMs = response.data.exp * 1000;
     return jwtExpirationMs > Date.now();

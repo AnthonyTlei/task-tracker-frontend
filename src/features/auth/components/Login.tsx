@@ -25,7 +25,7 @@ import {
 import { Close } from "@mui/icons-material";
 
 export const Login = () => {
-  // TODO : refactor error handling for login/register
+  // TODO : refactor error handling and filds validation for login/register
   const theme = useTheme();
 
   const navigate = useNavigate();

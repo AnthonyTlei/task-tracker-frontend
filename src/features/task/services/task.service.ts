@@ -11,7 +11,7 @@ const getUserTasks = async (token: string | undefined): Promise<Task[]> => {
     user_id = decodedJwt.user.id;
   }
   const response = await axios.get(
-    `http://localhost:3000/users/${user_id}/tasks`,
+    `${process.env.REACT_APP_BASE_API}/users/${user_id}/tasks`,
     { headers: { Authorization: `Bearer ${token}` } }
   );
   return response.data;
@@ -21,7 +21,7 @@ const createTask = async (
   token: string | undefined,
   newTask: NewTask
 ): Promise<Task> => {
-  const response = await axios.post(`http://localhost:3000/task`, newTask, {
+  const response = await axios.post(`${process.env.REACT_APP_BASE_API}/tasks`, newTask, {
     headers: { Authorization: `Bearer ${token}` },
   });
   return response.data;
@@ -32,7 +32,7 @@ const editTask = async (
   taskId: number,
   updatedTask: NewTask
 ): Promise<Task> => {
-  const response = await axios.put(`http://localhost:3000/task/${taskId}`, updatedTask, {
+  const response = await axios.put(`${process.env.REACT_APP_BASE_API}/tasks/${taskId}`, updatedTask, {
     headers: { Authorization: `Bearer ${token}` },
   });
   return response.data;
@@ -42,7 +42,7 @@ const deleteTask = async (
   token: string | undefined,
   taskId: number
 ): Promise<Task> => {
-  const response = await axios.delete(`http://localhost:3000/task/${taskId}`, {
+  const response = await axios.delete(`${process.env.REACT_APP_BASE_API}/tasks/${taskId}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
   return response.data;
