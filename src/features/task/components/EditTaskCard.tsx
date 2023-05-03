@@ -44,6 +44,14 @@ export const EditTaskCard: React.FC<EditTaskCardProps> = ({
   const { user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const token = useToken();
+
+  const clearFields = () => {
+    setNewFullId(full_id);
+    setNewTitle(title);
+    setNewStatus(status);
+    setNewManager(manager);
+  };
+
   const handleTaskEdit = () => {
     // TODO: validate fields
     const newTask: NewTask = {
@@ -54,11 +62,19 @@ export const EditTaskCard: React.FC<EditTaskCardProps> = ({
       manager: newManager,
     };
     dispatch(editTask({ token, taskId: id, newTask }));
+    clearFields();
     handleClose();
   };
+
+  const handleCancel = () => {
+    clearFields();
+    handleClose();
+  };
+
   const handleTaskDelete = () => {
     // TODO: confirmation popup
     dispatch(deleteTask({ token, taskId: id }));
+    clearFields();
     handleClose();
   };
   return (
@@ -125,7 +141,7 @@ export const EditTaskCard: React.FC<EditTaskCardProps> = ({
             <Button color="success" onClick={handleTaskEdit}>
               Save
             </Button>
-            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleCancel}>Cancel</Button>
           </Box>
           <Button color="error" onClick={handleTaskDelete}>
             Delete

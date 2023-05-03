@@ -35,6 +35,13 @@ export const CreateTaskCard: React.FC<CreateTaskCardProps> = ({
   const { user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
 
+  const clearFields = () => {
+    setFullId("");
+    setTitle("");
+    setStatus(TaskStatus.BACKLOG);
+    setManager("");
+  };
+
   const handleCreate = () => {
     if (!user) return;
     const newTask: NewTask = {
@@ -45,6 +52,12 @@ export const CreateTaskCard: React.FC<CreateTaskCardProps> = ({
       manager,
     };
     dispatch(createTask({ token, newTask }));
+    clearFields();
+    handleClose();
+  };
+
+  const handleCancel = () => {
+    clearFields();
     handleClose();
   };
 
@@ -103,7 +116,7 @@ export const CreateTaskCard: React.FC<CreateTaskCardProps> = ({
           <Button color="success" onClick={handleCreate}>
             Create
           </Button>
-          <Button color="error" onClick={handleClose}>
+          <Button color="error" onClick={handleCancel}>
             Cancel
           </Button>
         </Box>

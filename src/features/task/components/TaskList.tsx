@@ -5,15 +5,17 @@ import { useState } from "react";
 import { EditTaskCard } from "./EditTaskCard";
 import { useAppSelector } from "../../../hooks/redux/redux-hooks";
 import { CreateTaskCard } from "./CreateTaskCard";
-import { Task, TaskStatus } from "../models/task";
+import { Task } from "../models/task";
 
 export const TaskList = () => {
   const [openEdit, setOpenEdit] = useState(false);
   const [openCreate, setOpenCreate] = useState(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const { tasks } = useAppSelector((state) => state.task);
+
   const handleEditClose = () => {
     setOpenEdit(false);
+    setSelectedTask(null);
   };
   const handleEditOpen = (task: Task) => {
     setSelectedTask(task);
@@ -68,14 +70,16 @@ export const TaskList = () => {
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={openEdit}
       >
-        <EditTaskCard
-          id={selectedTask?.id || 0}
-          full_id={selectedTask?.full_id || ""}
-          title={selectedTask?.title || ""}
-          status={selectedTask?.status || TaskStatus.BACKLOG}
-          manager={selectedTask?.manager || ""}
-          handleClose={handleEditClose}
-        />
+        {selectedTask && (
+          <EditTaskCard
+            id={selectedTask.id}
+            full_id={selectedTask.full_id}
+            title={selectedTask.title}
+            status={selectedTask.status}
+            manager={selectedTask.manager}
+            handleClose={handleEditClose}
+          />
+        )}
       </Backdrop>
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}

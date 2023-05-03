@@ -127,7 +127,6 @@ export const taskSlice = createSlice({
           if (task.id === action.payload.id) {
             return action.payload;
           }
-          console.log(task);
           return task;
         });
       })
