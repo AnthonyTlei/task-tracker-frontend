@@ -17,9 +17,6 @@ export interface TaskCardProps {
   title: string;
   status: string;
   manager: string;
-  assignee: string;
-  dateAssigned: string;
-  dateCompleted: string;
   handleEditClicked: () => void;
 }
 
@@ -29,9 +26,6 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   title,
   status,
   manager,
-  assignee,
-  dateAssigned,
-  dateCompleted,
   handleEditClicked,
 }) => {
   const theme = useTheme();

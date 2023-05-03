@@ -54,10 +54,7 @@ export const TaskList = () => {
                 full_id={task.full_id}
                 title={task.title}
                 status={task.status}
-                assignee={task.user_id.toString()}
                 manager={task.manager}
-                dateAssigned="2021-10-10"
-                dateCompleted="2023-10-10"
                 handleEditClicked={handleEditOpen}
               />
             </Grid>
@@ -72,10 +69,7 @@ export const TaskList = () => {
           id="P10000-5"
           title="Task 5"
           status="Status 5"
-          assignee="Assignee 5"
           manager="Manager 5"
-          dateAssigned="2021-10-10"
-          dateCompleted="2023-10-10"
           handleClose={handleEditClose}
         />
       </Backdrop>

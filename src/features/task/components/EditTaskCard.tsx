@@ -7,17 +7,17 @@ import {
   Button,
   Stack,
   CardHeader,
+  MenuItem,
+  Select,
 } from "@mui/material";
 import React from "react";
+import { TaskStatus } from "../models/task";
 
 export interface EditTaskCardProps {
   id: string;
   title: string;
   status: string;
   manager: string;
-  assignee: string;
-  dateAssigned: string;
-  dateCompleted: string;
   handleClose: () => void;
 }
 
@@ -26,9 +26,6 @@ export const EditTaskCard: React.FC<EditTaskCardProps> = ({
   title,
   status,
   manager,
-  assignee,
-  dateAssigned,
-  dateCompleted,
   handleClose,
 }) => {
   return (
@@ -54,44 +51,45 @@ export const EditTaskCard: React.FC<EditTaskCardProps> = ({
                 variant="standard"
                 label="Title"
               />
-              <TextField
-                color="secondary"
-                placeholder={status}
-                variant="standard"
+              <Select
+                labelId="task-status-select-label"
+                id="task-status-select"
                 label="Status"
-              />
+                value={status}
+                variant="standard"
+              >
+                {Object.values(TaskStatus).map((value) => (
+                  <MenuItem key={value} value={value}>
+                    {value.toUpperCase()}
+                  </MenuItem>
+                ))}
+              </Select>
               <TextField
                 color="secondary"
                 placeholder={manager}
                 variant="standard"
                 label="Manager"
               />
-              <TextField
-                color="secondary"
-                placeholder={assignee}
-                variant="standard"
-                label="Assignee"
-              />
-              <TextField
-                color="secondary"
-                placeholder={dateAssigned}
-                variant="standard"
-                label="Date Assigned"
-              />
-              <TextField
-                color="secondary"
-                placeholder={dateCompleted}
-                variant="standard"
-                label="Date Completed"
-              />
             </Stack>
           </Box>
         </Box>
       </CardContent>
       <CardActions>
-        <Box p={1} width={"100%"}>
-          <Button onClick={handleClose}>Save</Button>
-          <Button onClick={handleClose}>Cancel</Button>
+        <Box
+          p={1}
+          width={"100%"}
+          display={"flex"}
+          justifyContent={"space-between"}
+        >
+          <Box>
+            <Button color="success" onClick={handleClose}>
+              Save
+            </Button>
+            <Button onClick={handleClose}>Cancel</Button>
+          </Box>
+          <Button color="error" onClick={handleClose}>
+            Delete
+          </Button>
         </Box>
       </CardActions>
     </Card>

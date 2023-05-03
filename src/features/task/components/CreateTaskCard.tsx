@@ -7,7 +7,6 @@ import {
   Button,
   Stack,
   CardHeader,
-  InputLabel,
   MenuItem,
   Select,
 } from "@mui/material";
@@ -19,7 +18,6 @@ import {
 } from "../../../hooks/redux/redux-hooks";
 import { createTask } from "../taskSlice";
 import { useToken } from "../../../hooks/redux/useToken";
-import { NewUser } from "../../auth/models/newUser";
 import { NewTask } from "../models/newTask";
 
 export interface CreateTaskCardProps {
@@ -52,7 +50,7 @@ export const CreateTaskCard: React.FC<CreateTaskCardProps> = ({
 
   return (
     <Card sx={{ width: "350px", height: "auto", borderRadius: "10px" }}>
-      <CardHeader title="Edit" sx={{ margin: "0 8px" }} />
+      <CardHeader title="Create Task" sx={{ margin: "0 8px" }} />
       <CardContent>
         <Box
           display={"flex"}
@@ -75,12 +73,12 @@ export const CreateTaskCard: React.FC<CreateTaskCardProps> = ({
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
-              <InputLabel id="task-status-select-label">Task Status</InputLabel>
               <Select
                 labelId="task-status-select-label"
                 id="task-status-select"
                 value={status}
-                label="Task Status"
+                label="Status"
+                variant="standard"
                 onChange={(e) => setStatus(e.target.value as TaskStatus)}
               >
                 {Object.values(TaskStatus).map((value) => (
@@ -101,7 +99,7 @@ export const CreateTaskCard: React.FC<CreateTaskCardProps> = ({
         </Box>
       </CardContent>
       <CardActions>
-        <Box p={1} width={"100%"}>
+        <Box p={2} width={"100%"}>
           <Button color="success" onClick={handleCreate}>
             Create
           </Button>
