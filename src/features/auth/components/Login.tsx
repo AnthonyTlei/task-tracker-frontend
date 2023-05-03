@@ -23,6 +23,7 @@ import {
   useAppSelector,
 } from "../../../hooks/redux/redux-hooks";
 import { Close } from "@mui/icons-material";
+import ErrorSnackbar from "../../../shared/components/ErrorSnackbar";
 
 export const Login = () => {
   // TODO : refactor error handling and filds validation for login/register
@@ -82,7 +83,7 @@ export const Login = () => {
     dispatch(login(user));
   };
 
-  const handleClose = (
+  const handleErrorClose = (
     event: React.SyntheticEvent | Event,
     reason?: string
   ) => {
@@ -93,37 +94,13 @@ export const Login = () => {
     setError("");
   };
 
-  const action = (
-    <>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleClose}
-      >
-        <Close fontSize="small" />
-      </IconButton>
-    </>
-  );
-
   if (isLoading) {
     return <CircularProgress sx={{ marginTop: "64px" }} color="primary" />;
   }
 
   return (
     <>
-      {error !== "" && (
-        <Snackbar
-          open
-          autoHideDuration={3000}
-          onClose={handleClose}
-          action={action}
-        >
-          <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
-            {error}
-          </Alert>
-        </Snackbar>
-      )}
+      <ErrorSnackbar error={error} handleClose={handleErrorClose}/>
       <Card
         sx={{
           borderRadius: "20px",

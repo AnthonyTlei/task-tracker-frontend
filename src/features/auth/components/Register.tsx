@@ -24,6 +24,7 @@ import {
   useAppSelector,
 } from "../../../hooks/redux/redux-hooks";
 import { Close } from "@mui/icons-material";
+import ErrorSnackbar from "../../../shared/components/ErrorSnackbar";
 
 export const Register = () => {
   const theme = useTheme();
@@ -92,7 +93,7 @@ export const Register = () => {
     dispatch(register(newUser));
   };
 
-  const handleClose = (
+  const handleErrorClose = (
     event: React.SyntheticEvent | Event,
     reason?: string
   ) => {
@@ -103,37 +104,13 @@ export const Register = () => {
     setError("");
   };
 
-  const action = (
-    <>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleClose}
-      >
-        <Close fontSize="small" />
-      </IconButton>
-    </>
-  );
-
   if (isLoading) {
     return <CircularProgress sx={{ marginTop: "64px" }} color="primary" />;
   }
 
   return (
     <>
-      {error !== "" && (
-        <Snackbar
-          open
-          autoHideDuration={3000}
-          onClose={handleClose}
-          action={action}
-        >
-          <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
-            {error}
-          </Alert>
-        </Snackbar>
-      )}
+      <ErrorSnackbar error={error} handleClose={handleErrorClose} />
       <Card
         sx={{
           borderRadius: "20px",

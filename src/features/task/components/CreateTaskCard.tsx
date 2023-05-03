@@ -24,6 +24,7 @@ import { createTask } from "../taskSlice";
 import { useToken } from "../../../hooks/redux/useToken";
 import { NewTask } from "../models/newTask";
 import { Close } from "@mui/icons-material";
+import ErrorSnackbar from "../../../shared/components/ErrorSnackbar";
 
 export interface CreateTaskCardProps {
   handleClose: () => void;
@@ -100,32 +101,9 @@ export const CreateTaskCard: React.FC<CreateTaskCardProps> = ({
     setError("");
   };
 
-  const action = (
-    <>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleErrorClose}
-      >
-        <Close fontSize="small" />
-      </IconButton>
-    </>
-  );
-
   return (
     <>
-      {error !== "" && (
-        <Snackbar open autoHideDuration={3000} action={action}>
-          <Alert
-            onClose={handleErrorClose}
-            severity="error"
-            sx={{ width: "100%" }}
-          >
-            {error}
-          </Alert>
-        </Snackbar>
-      )}
+      <ErrorSnackbar error={error} handleClose={handleErrorClose} />
       <Card sx={{ width: "350px", height: "auto", borderRadius: "10px" }}>
         <CardHeader title="Create Task" sx={{ margin: "0 8px" }} />
         <CardContent>

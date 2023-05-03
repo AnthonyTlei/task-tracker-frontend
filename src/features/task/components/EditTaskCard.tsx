@@ -19,6 +19,7 @@ import {
 import { deleteTask, editTask } from "../taskSlice";
 import { useToken } from "../../../hooks/redux/useToken";
 import { NewTask } from "../models/newTask";
+import ErrorSnackbar from "../../../shared/components/ErrorSnackbar";
 
 export interface EditTaskCardProps {
   id: number;
@@ -41,9 +42,29 @@ export const EditTaskCard: React.FC<EditTaskCardProps> = ({
   const [newTitle, setNewTitle] = useState(title);
   const [newStatus, setNewStatus] = useState(status);
   const [newManager, setNewManager] = useState(manager);
+  const [error, setError] = useState("");
+
   const { user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const token = useToken();
+
+  // TODO: refactor validation
+  const validateFields = (newTask: NewTask): boolean => {
+    if (newFullId.length === 0) {
+      setError("ID cannot be empty.");
+      return false;
+    }
+    if (newTitle.length === 0) {
+      setError("Title cannot be empty");
+      return false;
+    }
+    if (newManager.length === 0) {
+      setError("Manager cannot be empty");
+      return false;
+    }
+    setError("");
+    return true;
+  };
 
   const clearFields = () => {
     setNewFullId(full_id);
@@ -53,17 +74,19 @@ export const EditTaskCard: React.FC<EditTaskCardProps> = ({
   };
 
   const handleTaskEdit = () => {
-    // TODO: validate fields
+    if (!user) return;
     const newTask: NewTask = {
       full_id: newFullId,
-      user_id: user?.id || 0,
+      user_id: user.id,
       title: newTitle,
       status: newStatus,
       manager: newManager,
     };
-    dispatch(editTask({ token, taskId: id, newTask }));
-    clearFields();
-    handleClose();
+    if (validateFields(newTask)) {
+      dispatch(editTask({ token, taskId: id, newTask }));
+      clearFields();
+      handleClose();
+    }
   };
 
   const handleCancel = () => {
@@ -77,77 +100,92 @@ export const EditTaskCard: React.FC<EditTaskCardProps> = ({
     clearFields();
     handleClose();
   };
+
+  const handleErrorClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setError("");
+  };
+
   return (
-    <Card sx={{ width: "350px", height: "auto", borderRadius: "10px" }}>
-      <CardHeader title="Edit" sx={{ margin: "0 8px" }} />
-      <CardContent>
-        <Box
-          display={"flex"}
-          justifyContent={"space-around"}
-          alignItems={"center"}
-        >
-          <Box p={1} width={"100%"}>
-            <Stack spacing={3}>
-              <TextField
-                color="secondary"
-                value={newFullId}
-                variant="standard"
-                label="ID"
-                placeholder={full_id}
-                onChange={(e) => setNewFullId(e.target.value)}
-              />
-              <TextField
-                color="secondary"
-                value={newTitle}
-                variant="standard"
-                label="Title"
-                placeholder={title}
-                onChange={(e) => setNewTitle(e.target.value)}
-              />
-              <Select
-                labelId="task-status-select-label"
-                id="task-status-select"
-                label="Status"
-                variant="standard"
-                value={newStatus}
-                onChange={(e) => setNewStatus(e.target.value as TaskStatus)}
-              >
-                {Object.values(TaskStatus).map((value) => (
-                  <MenuItem key={value} value={value}>
-                    {value.toUpperCase()}
-                  </MenuItem>
-                ))}
-              </Select>
-              <TextField
-                color="secondary"
-                placeholder={manager}
-                variant="standard"
-                label="Manager"
-                value={newManager}
-                onChange={(e) => setNewManager(e.target.value)}
-              />
-            </Stack>
+    <>
+      <ErrorSnackbar error={error} handleClose={handleErrorClose} />
+      <Card sx={{ width: "350px", height: "auto", borderRadius: "10px" }}>
+        <CardHeader title="Edit" sx={{ margin: "0 8px" }} />
+        <CardContent>
+          <Box
+            display={"flex"}
+            justifyContent={"space-around"}
+            alignItems={"center"}
+          >
+            <Box p={1} width={"100%"}>
+              <Stack spacing={3}>
+                <TextField
+                  color="secondary"
+                  value={newFullId}
+                  variant="standard"
+                  label="ID"
+                  placeholder={full_id}
+                  onChange={(e) => setNewFullId(e.target.value)}
+                />
+                <TextField
+                  color="secondary"
+                  value={newTitle}
+                  variant="standard"
+                  label="Title"
+                  placeholder={title}
+                  onChange={(e) => setNewTitle(e.target.value)}
+                />
+                <Select
+                  labelId="task-status-select-label"
+                  id="task-status-select"
+                  label="Status"
+                  variant="standard"
+                  value={newStatus}
+                  onChange={(e) => setNewStatus(e.target.value as TaskStatus)}
+                >
+                  {Object.values(TaskStatus).map((value) => (
+                    <MenuItem key={value} value={value}>
+                      {value.toUpperCase()}
+                    </MenuItem>
+                  ))}
+                </Select>
+                <TextField
+                  color="secondary"
+                  placeholder={manager}
+                  variant="standard"
+                  label="Manager"
+                  value={newManager}
+                  onChange={(e) => setNewManager(e.target.value)}
+                />
+              </Stack>
+            </Box>
           </Box>
-        </Box>
-      </CardContent>
-      <CardActions>
-        <Box
-          p={1}
-          width={"100%"}
-          display={"flex"}
-          justifyContent={"space-between"}
-        >
-          <Box>
-            <Button color="success" onClick={handleTaskEdit}>
-              Save
+        </CardContent>
+        <CardActions>
+          <Box
+            p={1}
+            width={"100%"}
+            display={"flex"}
+            justifyContent={"space-between"}
+          >
+            <Box>
+              <Button color="success" onClick={handleTaskEdit}>
+                Save
+              </Button>
+              <Button onClick={handleCancel}>Cancel</Button>
+            </Box>
+            <Button color="error" onClick={handleTaskDelete}>
+              Delete
             </Button>
-            <Button onClick={handleCancel}>Cancel</Button>
           </Box>
-          <Button color="error" onClick={handleTaskDelete}>
-            Delete
-          </Button>
-        </Box>
-      </CardActions>
-    </Card>
+        </CardActions>
+      </Card>
+    </>
   );
 };
