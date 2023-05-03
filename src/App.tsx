@@ -7,12 +7,54 @@ import ChecklistPage from "./pages/Checklist.page";
 import TasksPage from "./pages/TasksPage";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import SecuredRoute from "./features/auth/components/SecuredRoute";
+import { CssBaseline } from "@mui/material";
 
-const theme = createTheme({
+const lightTheme = createTheme({
   typography: {
     fontFamily: "Segoe UI",
   },
   palette: {
+    mode: "light",
+    background: {
+      paper: "#F9FAFB",
+    },
+    common: {
+      black: "#1C2536",
+      white: "#111927",
+    },
+    primary: {
+      main: "#1C2536",
+      contrastText: "#9DA4AE",
+    },
+    secondary: {
+      main: "#6366F1",
+      contrastText: "rgba(255, 255, 255, 0.04)",
+    },
+  },
+});
+
+const darkTheme = createTheme({
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          backgroundColor: "#0E1320",
+        },
+      },
+    },
+  },
+  typography: {
+    fontFamily: "Segoe UI",
+  },
+  palette: {
+    mode: "dark",
+    background: {
+      paper: "#111927",
+    },
+    common: {
+      black: "#000",
+      white: "#111",
+    },
     primary: {
       main: "#1C2536",
       contrastText: "#9DA4AE",
@@ -26,7 +68,8 @@ const theme = createTheme({
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={lightTheme}>
+      <CssBaseline />
       <Router>
         <Routes>
           <Route path="/" element={<SecuredRoute page={<HomePage />} />} />
