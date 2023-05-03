@@ -27,9 +27,20 @@ const createTask = async (
   return response.data;
 };
 
+const deleteTask = async (
+  token: string | undefined,
+  taskId: number
+): Promise<Task> => {
+  const response = await axios.delete(`http://localhost:3000/task/${taskId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+};
+
 const taskService = {
   getUserTasks,
   createTask,
+  deleteTask,
 };
 
 export default taskService;

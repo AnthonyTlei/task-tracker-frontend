@@ -12,9 +12,13 @@ import {
 } from "@mui/material";
 import React from "react";
 import { TaskStatus } from "../models/task";
+import { useAppDispatch } from "../../../hooks/redux/redux-hooks";
+import { deleteTask } from "../taskSlice";
+import { useToken } from "../../../hooks/redux/useToken";
 
 export interface EditTaskCardProps {
-  id: string;
+  id: number;
+  full_id: string;
   title: string;
   status: string;
   manager: string;
@@ -23,11 +27,18 @@ export interface EditTaskCardProps {
 
 export const EditTaskCard: React.FC<EditTaskCardProps> = ({
   id,
+  full_id,
   title,
   status,
   manager,
   handleClose,
 }) => {
+  const dispatch = useAppDispatch();
+  const token = useToken();
+  const handleTaskDelete = () => {
+    dispatch(deleteTask({ token, taskId: id }));
+    handleClose();
+  };
   return (
     <Card sx={{ width: "350px", height: "auto", borderRadius: "10px" }}>
       <CardHeader title="Edit" sx={{ margin: "0 8px" }} />
@@ -41,7 +52,7 @@ export const EditTaskCard: React.FC<EditTaskCardProps> = ({
             <Stack spacing={3}>
               <TextField
                 color="secondary"
-                placeholder={id}
+                placeholder={full_id}
                 variant="standard"
                 label="ID"
               />
@@ -87,7 +98,7 @@ export const EditTaskCard: React.FC<EditTaskCardProps> = ({
             </Button>
             <Button onClick={handleClose}>Cancel</Button>
           </Box>
-          <Button color="error" onClick={handleClose}>
+          <Button color="error" onClick={handleTaskDelete}>
             Delete
           </Button>
         </Box>

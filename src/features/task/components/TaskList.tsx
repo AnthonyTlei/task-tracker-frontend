@@ -5,15 +5,18 @@ import { useState } from "react";
 import { EditTaskCard } from "./EditTaskCard";
 import { useAppSelector } from "../../../hooks/redux/redux-hooks";
 import { CreateTaskCard } from "./CreateTaskCard";
+import { TaskStatus } from "../models/task";
 
 export const TaskList = () => {
   const [openEdit, setOpenEdit] = useState(false);
   const [openCreate, setOpenCreate] = useState(false);
+  const [selectedTaskId, setSelectedTaskId] = useState(0);
   const { tasks } = useAppSelector((state) => state.task);
   const handleEditClose = () => {
     setOpenEdit(false);
   };
-  const handleEditOpen = () => {
+  const handleEditOpen = (taskId: number) => {
+    setSelectedTaskId(taskId);
     setOpenEdit(true);
   };
   const handleCreateOpen = () => {
@@ -55,7 +58,7 @@ export const TaskList = () => {
                 title={task.title}
                 status={task.status}
                 manager={task.manager}
-                handleEditClicked={handleEditOpen}
+                handleEditClicked={() => handleEditOpen(task.id)}
               />
             </Grid>
           ))}
@@ -66,9 +69,10 @@ export const TaskList = () => {
         open={openEdit}
       >
         <EditTaskCard
-          id="P10000-5"
+          id={selectedTaskId}
+          full_id="P10000-5"
           title="Task 5"
-          status="Status 5"
+          status={TaskStatus.BACKLOG}
           manager="Manager 5"
           handleClose={handleEditClose}
         />

@@ -40,7 +40,21 @@ export const createTask = createAsyncThunk(
     try {
       return await taskService.createTask(token, newTask);
     } catch (error) {
-      return thunkAPI.rejectWithValue("Unable to fetch tasks.");
+      return thunkAPI.rejectWithValue("Unable to create tasks.");
+    }
+  }
+);
+
+export const deleteTask = createAsyncThunk(
+  "tasks/deleteTask",
+  async (
+    { token, taskId }: { token: string | undefined; taskId: number },
+    thunkAPI
+  ) => {
+    try {
+      return await taskService.deleteTask(token, taskId);
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Unable to delete tasks.");
     }
   }
 );
@@ -78,10 +92,24 @@ export const taskSlice = createSlice({
       .addCase(createTask.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        // TODO: verify if this works
         state.tasks.push(action.payload);
       })
       .addCase(createTask.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      })
+      // deleteTask
+      .addCase(deleteTask.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteTask.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.tasks = state.tasks.filter(
+          (task) => task.id !== action.payload.id
+        );
+      })
+      .addCase(deleteTask.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
       });
