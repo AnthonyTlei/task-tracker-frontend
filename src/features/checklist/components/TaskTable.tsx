@@ -17,13 +17,14 @@ import { CircularProgress } from "@mui/material";
 import { useToken } from "../../../hooks/redux/useToken";
 
 interface Column {
-  id: "id" | "title" | "status" | "manager" | "assignee";
+  id: "id" | "full_id" | "title" | "status" | "manager" | "assignee";
   label: string;
   minWidth?: number;
 }
 
 const columns: readonly Column[] = [
-  { id: "id", label: "ID", minWidth: 20 },
+  // { id: "id", label: "ID", minWidth: 20 },
+  { id: "full_id", label: "ID", minWidth: 20 },
   { id: "title", label: "TITLE", minWidth: 170 },
   {
     id: "status",
@@ -43,7 +44,8 @@ const columns: readonly Column[] = [
 ];
 
 interface Data {
-  id: string;
+  id: number;
+  full_id: string;
   title: string;
   status: string;
   manager: string;
@@ -51,13 +53,14 @@ interface Data {
 }
 
 function createData(
-  id: string,
+  id: number,
+  full_id: string,
   title: string,
   status: string,
   manager: string,
   assignee: number
 ): Data {
-  return { id, title, status, manager, assignee };
+  return { id, full_id, title, status, manager, assignee };
 }
 
 export default function TaskTable() {
@@ -82,6 +85,7 @@ export default function TaskTable() {
   const populateTable = () => {
     const newRows = tasks.map((task) =>
       createData(
+        task.id,
         task.full_id,
         task.title,
         task.status,
