@@ -9,10 +9,6 @@ import {
   CardHeader,
   MenuItem,
   Select,
-  Alert,
-  Snackbar,
-  CircularProgress,
-  IconButton,
 } from "@mui/material";
 import React, { useState } from "react";
 import { TaskStatus } from "../models/task";
@@ -23,7 +19,6 @@ import {
 import { createTask } from "../taskSlice";
 import { useToken } from "../../../hooks/redux/useToken";
 import { NewTask } from "../models/newTask";
-import { Close } from "@mui/icons-material";
 import ErrorSnackbar from "../../../shared/components/ErrorSnackbar";
 
 export interface CreateTaskCardProps {

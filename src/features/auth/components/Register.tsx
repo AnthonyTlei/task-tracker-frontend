@@ -11,9 +11,6 @@ import {
   Button,
   useTheme,
   CircularProgress,
-  Snackbar,
-  IconButton,
-  Alert,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { FormEvent, useEffect, useState } from "react";
@@ -23,7 +20,6 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../../hooks/redux/redux-hooks";
-import { Close } from "@mui/icons-material";
 import ErrorSnackbar from "../../../shared/components/ErrorSnackbar";
 
 export const Register = () => {
@@ -47,8 +43,7 @@ export const Register = () => {
       dispatch(reset());
       navigate("/login");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSuccess, dispatch]);
+  }, [isSuccess, dispatch, navigate]);
 
   const validateEmail = (email: string): boolean => {
     const emailRegex =

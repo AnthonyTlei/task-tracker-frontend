@@ -15,8 +15,7 @@ const SecuredRoute = ({ page }: { page: JSX.Element }) => {
       return;
     };
     dispatch(verifyJwt(jwt.token));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [jwt, isSuccess]);
+  }, [jwt, isSuccess, dispatch]);
 
   return isAuthenticated ? page : <Navigate replace to="/login" />;
 };

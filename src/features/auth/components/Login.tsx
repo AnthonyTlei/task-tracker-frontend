@@ -10,9 +10,6 @@ import {
   Button,
   useTheme,
   CircularProgress,
-  IconButton,
-  Alert,
-  Snackbar,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { LoginUser } from "../models/loginUser";
@@ -22,7 +19,6 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../../hooks/redux/redux-hooks";
-import { Close } from "@mui/icons-material";
 import ErrorSnackbar from "../../../shared/components/ErrorSnackbar";
 
 export const Login = () => {
@@ -44,14 +40,12 @@ export const Login = () => {
     if (isSuccess) {
       dispatch(reset());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, dispatch]);
 
   useEffect(() => {
     if (!isAuthenticated) return;
     navigate("/");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated]);
+  }, [isAuthenticated, navigate]);
 
   // TODO : refactor into either a validation feature or some utils
   const validateEmail = (email: string): boolean => {

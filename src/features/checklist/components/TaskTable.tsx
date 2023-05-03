@@ -7,7 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   useAppDispatch,
   useAppSelector,
@@ -82,7 +82,7 @@ export default function TaskTable() {
     setPage(0);
   };
 
-  const populateTable = () => {
+  const populateTable = useCallback(() => {
     const newRows = tasks.map((task) =>
       createData(
         task.id,
@@ -94,20 +94,20 @@ export default function TaskTable() {
       )
     );
     setRows(newRows);
-  };
+  }, [tasks]);
 
   useEffect(() => {
     // TODO: figure out a way to only fetch these once and store them in store then update locally.
     if (tasks.length === 0) {
       dispatch(fetchAllTasks(token));
     }
-  }, [dispatch, token]);
+  }, [dispatch, token, tasks.length]);
 
   useEffect(() => {
     if (isSuccess) {
       populateTable();
     }
-  }, [isSuccess]);
+  }, [isSuccess, populateTable]);
 
   if (isLoading) {
     return <CircularProgress sx={{ marginTop: "64px" }} color="primary" />;

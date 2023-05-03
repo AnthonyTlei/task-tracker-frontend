@@ -14,7 +14,7 @@ import {
   useAppSelector,
 } from "../../../hooks/redux/redux-hooks";
 import { fetchTasks } from "../../task/taskSlice";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useToken } from "../../../hooks/redux/useToken";
 import { TaskStatus } from "../../task/models/task";
 import { useState } from "react";
@@ -34,7 +34,7 @@ export const Overview = () => {
   const [tasksBacklog, setTasksBacklog] = useState(0);
 
   // TODO : refactor
-  const countTasks = () => {
+  const countTasks = useCallback(() => {
     setTasksDone(0);
     setTasksProgress(0);
     setTasksBacklog(0);
@@ -47,20 +47,20 @@ export const Overview = () => {
         setTasksBacklog((prev) => prev + 1);
       }
     }
-  };
+  }, [tasks]);
 
   useEffect(() => {
     // TODO: temporary to reduce api load. (will fail if user has 0 tasks to begin with)
     if (tasks.length === 0) {
       dispatch(fetchTasks(token));
     }
-  }, [dispatch, token]);
+  }, [dispatch, token, tasks.length]);
 
   useEffect(() => {
     if (isSuccess) {
       countTasks();
     }
-  }, [isSuccess]);
+  }, [isSuccess, countTasks]);
 
   if (isLoading) {
     return <CircularProgress sx={{ marginTop: "64px" }} color="primary" />;
