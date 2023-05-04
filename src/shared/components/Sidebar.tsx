@@ -1,7 +1,6 @@
 import {
   Assignment,
   Checklist,
-  Inbox,
   Logout,
   Menu,
   Summarize,
