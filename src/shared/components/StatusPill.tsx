@@ -1,20 +1,21 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import { TaskStatus } from "../../features/task/models/task";
 
 export const StatusPill = ({ status }: { status: TaskStatus }) => {
   // TODO: make this component return either a Pill or a Text with editable font sizes.
+  const theme = useTheme();
   const getColorFromStatus = (status: TaskStatus) => {
     switch (status) {
       case TaskStatus.DONE:
       case TaskStatus.VALIDATING:
-        return "rgb(16, 185, 129);";
+        return theme.palette.status.success;
       case TaskStatus.PROGRESS:
       case TaskStatus.BACKLOG:
-        return "rgb(6, 174, 212);";
+        return theme.palette.status.progress;
       case TaskStatus.PAUSED:
-        return "rgb(247, 144, 9)";
+        return theme.palette.status.pending;
       case TaskStatus.CANCELLED:
-        return "rgb(240, 68, 56);";
+        return theme.palette.status.rejected;
     }
   };
   return (

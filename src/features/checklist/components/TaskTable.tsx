@@ -12,7 +12,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../../hooks/redux/redux-hooks";
-import { fetchAllTasks } from "../../task/taskSlice";
+import { getAllTasks } from "../../task/taskSlice";
 import { CircularProgress } from "@mui/material";
 import { useToken } from "../../../hooks/redux/useToken";
 import { StatusPill } from "../../../shared/components/StatusPill";
@@ -101,7 +101,7 @@ export default function TaskTable() {
   useEffect(() => {
     // TODO: figure out a way to only fetch these once and store them in store then update locally.
     if (tasks.length === 0) {
-      dispatch(fetchAllTasks(token));
+      dispatch(getAllTasks(token));
     }
   }, [dispatch, token, tasks.length]);
 

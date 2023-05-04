@@ -23,8 +23,8 @@ const initialState: TaskState = {
   isError: false,
 };
 
-export const fetchAllTasks = createAsyncThunk(
-  "tasks/fetchAllTasks",
+export const getAllTasks = createAsyncThunk(
+  "tasks/getAllTasks",
   async (token: string | undefined, thunkAPI) => {
     try {
       return await taskService.getTasks(token);
@@ -34,8 +34,8 @@ export const fetchAllTasks = createAsyncThunk(
   }
 );
 
-export const fetchTasks = createAsyncThunk(
-  "tasks/fetchTasks",
+export const getUserTasks = createAsyncThunk(
+  "tasks/getUserTasks",
   async (token: string | undefined, thunkAPI) => {
     try {
       return await taskService.getUserTasks(token);
@@ -107,32 +107,30 @@ export const taskSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // fetchAllTasks
-      // TODO: rename to getAllTasks
-      .addCase(fetchAllTasks.pending, (state) => {
+      // getAllTasks
+      .addCase(getAllTasks.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(fetchAllTasks.fulfilled, (state, action) => {
+      .addCase(getAllTasks.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.tasks = action.payload;
       })
-      .addCase(fetchAllTasks.rejected, (state) => {
+      .addCase(getAllTasks.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.tasks = [];
       })
-      // fetchTasks
-      // TODO: rename to getUserTasks
-      .addCase(fetchTasks.pending, (state) => {
+      // getUserTasks
+      .addCase(getUserTasks.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(fetchTasks.fulfilled, (state, action) => {
+      .addCase(getUserTasks.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.userTasks = action.payload;
       })
-      .addCase(fetchTasks.rejected, (state) => {
+      .addCase(getUserTasks.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.userTasks = [];

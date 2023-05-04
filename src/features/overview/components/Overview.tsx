@@ -13,7 +13,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../../hooks/redux/redux-hooks";
-import { fetchTasks } from "../../task/taskSlice";
+import { getUserTasks } from "../../task/taskSlice";
 import { useCallback, useEffect } from "react";
 import { useToken } from "../../../hooks/redux/useToken";
 import { TaskStatus } from "../../task/models/task";
@@ -52,7 +52,7 @@ export const Overview = () => {
   useEffect(() => {
     // TODO: temporary to reduce api load. (will fail if user has 0 tasks to begin with)
     if (tasks.length === 0) {
-      dispatch(fetchTasks(token));
+      dispatch(getUserTasks(token));
     }
   }, [dispatch, token, tasks.length]);
 

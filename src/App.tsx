@@ -8,7 +8,7 @@ import TasksPage from "./pages/TasksPage";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import SecuredRoute from "./features/auth/components/SecuredRoute";
 import { CssBaseline } from "@mui/material";
-import { lightTheme, darkTheme } from "./assets/themes/themes";
+import { lightTheme, darkTheme } from "./themes/themes";
 import { createContext, useEffect, useMemo, useState } from "react";
 import LayoutWrapper from "./layouts/Layout";
 import { ActiveSectionProvider } from "./contexts/ActiveSectionContext";

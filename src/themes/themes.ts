@@ -1,5 +1,24 @@
 import { createTheme } from "@mui/material";
 
+declare module "@mui/material/styles" {
+  interface Palette {
+    status: {
+      success: string;
+      progress: string;
+      pending: string;
+      rejected: string;
+    };
+  }
+  interface PaletteOptions {
+    status?: {
+      success?: string;
+      progress?: string;
+      pending?: string;
+      rejected?: string;
+    };
+  }
+}
+
 export const lightTheme = createTheme({
   typography: {
     fontFamily: "Segoe UI",
@@ -24,6 +43,12 @@ export const lightTheme = createTheme({
     secondary: {
       main: "#6366F1",
       contrastText: "white",
+    },
+    status: {
+      success: "rgb(16, 185, 129);",
+      progress: "rgb(6, 174, 212);",
+      pending: "rgb(247, 144, 9)",
+      rejected: "rgb(240, 68, 56)",
     },
   },
 });
@@ -61,6 +86,12 @@ export const darkTheme = createTheme({
     secondary: {
       main: "#6366F1",
       contrastText: "white",
+    },
+    status: {
+      success: "rgb(16, 185, 129);",
+      progress: "rgb(6, 174, 212);",
+      pending: "rgb(247, 144, 9)",
+      rejected: "rgb(240, 68, 56)",
     },
   },
 });
