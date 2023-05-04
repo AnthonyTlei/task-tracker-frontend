@@ -15,7 +15,7 @@ export const Checklist = () => {
         marginTop={isLargeScreen ? 0 : 5}
       >
         <Typography variant={"h4"} fontWeight={"500"} color={"common.white"}>
-          Checklist
+          Tasks
         </Typography>
       </Box>
       <TaskTable />

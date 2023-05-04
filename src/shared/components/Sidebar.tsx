@@ -134,7 +134,7 @@ export const Sidebar = () => {
                   </ListItemIcon>
                   <ListItemText
                     primaryTypographyProps={{ fontSize: "14px" }}
-                    primary={"Checklist"}
+                    primary={"All Tasks"}
                   />
                 </ListItemButton>
               </ListItem>
@@ -193,7 +193,7 @@ export const Sidebar = () => {
             "& .MuiDrawer-paper": {
               width: drawerWidth,
               boxSizing: "border-box",
-              backgroundColor: `${theme.palette.primary.main}}`,
+              backgroundColor: `${theme.palette.primary.main}`,
             },
           }}
           variant="permanent"
@@ -211,7 +211,8 @@ export const Sidebar = () => {
             "& .MuiDrawer-paper": {
               width: drawerWidth,
               boxSizing: "border-box",
-              backgroundColor: `${theme.palette.primary.main}}`,
+              backgroundColor: `${theme.palette.primary.main}`,
+              backgroundImage: "none"
             },
           }}
           variant="temporary"
