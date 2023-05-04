@@ -1,11 +1,13 @@
 import {
   Box,
+  Button,
   Drawer,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { ColorModeContext } from "../../App";
 
 export const SettingsDrawer = ({
   open,
@@ -15,6 +17,7 @@ export const SettingsDrawer = ({
   onClose: React.MouseEventHandler<HTMLDivElement>;
 }) => {
   const theme = useTheme();
+  const colorMode = useContext(ColorModeContext);
   const isSmallScreen = useMediaQuery(theme.breakpoints.up("sm"));
   const [width, setWidth] = useState("440px");
 
@@ -48,6 +51,7 @@ export const SettingsDrawer = ({
         <Typography variant="body2" color={"common.white"}>
           COLOR MODE
         </Typography>
+        <Button onClick={colorMode.toggleColorMode}>Toggle theme</Button>
       </Box>
     </Drawer>
   );
