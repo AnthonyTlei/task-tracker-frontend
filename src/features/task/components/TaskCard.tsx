@@ -8,8 +8,11 @@ import {
   CardActionArea,
   useTheme,
   CardHeader,
+  TextField,
 } from "@mui/material";
 import React from "react";
+import { StatusPill } from "../../../shared/components/StatusPill";
+import { TaskStatus } from "../models/task";
 
 export interface TaskCardProps {
   id: number;
@@ -31,21 +34,22 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   const theme = useTheme();
   return (
     <Card sx={{ width: "250px", height: "auto", borderRadius: "10px" }}>
-      <CardHeader title={full_id} subheader={manager}/>
-      <CardContent>
-        <Box
-          display={"flex"}
-          justifyContent={"space-around"}
-          alignItems={"center"}
-        >
-          <Box p={2}>
-            <Typography variant="body2" color={"secondary"}>
-              {status}
-            </Typography>
-            <Typography variant="body2" color={"secondary"}>
-              {title}
-            </Typography>
+      <CardHeader
+        title={
+          <Typography variant="h6" color={"common.white"} fontWeight={"bold"}>
+            {full_id}
+          </Typography>
+        }
+        subheader={
+          <Box>
+            <StatusPill status={status as TaskStatus} />
+            <Typography variant="body2" color={"grey.500"}>{manager}</Typography>
           </Box>
+        }
+      />
+      <CardContent>
+        <Box display={"flex"} alignItems={"center"}>
+          <Typography variant="body1" color={"common.white"}>{title}</Typography>
         </Box>
       </CardContent>
       <CardActionArea onClick={handleEditClicked}>

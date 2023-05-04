@@ -1,7 +1,8 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { TaskStatus } from "../../features/task/models/task";
 
 export const StatusPill = ({ status }: { status: TaskStatus }) => {
+  // TODO: make this component return either a Pill or a Text with editable font sizes.
   const getColorFromStatus = (status: TaskStatus) => {
     switch (status) {
       case TaskStatus.DONE:
@@ -16,7 +17,11 @@ export const StatusPill = ({ status }: { status: TaskStatus }) => {
         return "rgb(240, 68, 56);";
     }
   };
-  return <Box sx={{ color: getColorFromStatus(status) }} fontWeight={"bold"}>
-    {status.toUpperCase()}
-  </Box>;
+  return (
+    <Box sx={{ color: getColorFromStatus(status) }}>
+      <Typography variant="body2" fontWeight={"500"}>
+        {status.toUpperCase()}
+      </Typography>
+    </Box>
+  );
 };
