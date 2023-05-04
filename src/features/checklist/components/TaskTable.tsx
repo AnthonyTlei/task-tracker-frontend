@@ -12,9 +12,11 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../../hooks/redux/redux-hooks";
-import { fetchAllTasks, reset } from "../../task/taskSlice";
-import { CircularProgress, Typography } from "@mui/material";
+import { fetchAllTasks } from "../../task/taskSlice";
+import { CircularProgress } from "@mui/material";
 import { useToken } from "../../../hooks/redux/useToken";
+import { StatusPill } from "../../../shared/components/StatusPill";
+import { TaskStatus } from "../../task/models/task";
 
 interface Column {
   id: "id" | "full_id" | "title" | "status" | "manager" | "assignee";
@@ -140,9 +142,7 @@ export default function TaskTable() {
                       if (column.id === "status") {
                         return (
                           <TableCell key={column.id}>
-                            <Typography color={"green"} fontSize={"14px"}>
-                              {value.toString().toUpperCase()}
-                            </Typography>
+                            <StatusPill status={value as TaskStatus} />
                           </TableCell>
                         );
                       }
