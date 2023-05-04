@@ -30,7 +30,6 @@ export const Sidebar = () => {
     >
       <Box>
         <UserCard />
-        <Divider />
         <Box>
           <Stack
             direction={"column"}
@@ -39,7 +38,6 @@ export const Sidebar = () => {
             <SidebarSections />
           </Stack>
         </Box>
-        <Divider />
       </Box>
       <LogoutButton/>
     </Box>
