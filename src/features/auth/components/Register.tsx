@@ -116,7 +116,7 @@ export const Register = () => {
         sx={{
           borderRadius: "20px",
           padding: "24px",
-          width: { xs: "80%", sm: "500px" },
+          width: { xs: "80%", sm: "550px" },
         }}
       >
         <form onSubmit={onSubmitHandler}>
@@ -134,17 +134,20 @@ export const Register = () => {
               <Typography
                 variant="body2"
                 component={"div"}
-                sx={{ fontWeight: 400, color: "grey" }}
+                sx={{ color: "grey.500" }}
               >
                 Already have an account?{" "}
                 <Link to={"/login"} style={{ textDecoration: "none" }}>
                   <DisplayLink
-                    component="button"
-                    color={`${theme.palette.primary.main}`}
+                    variant="body2"
+                    component="span"
+                    color={`${theme.palette.secondary.main}`}
                     underline="hover"
+                    fontWeight={"500"}
                     sx={{ cursor: "pointer" }}
+                    p={0}
                   >
-                    Log in
+                    Login
                   </DisplayLink>
                 </Link>
               </Typography>
@@ -159,7 +162,20 @@ export const Register = () => {
                   onChange={(e) => setFirstName(e.target.value)}
                   label="First Name"
                   variant="outlined"
-                  sx={{ borderRadius: "8px" }}
+                  color="secondary"
+                  InputLabelProps={{
+                    shrink: true,
+                    style: {
+                      fontWeight: "500",
+                    },
+                  }}
+                  sx={{
+                    borderRadius: "8px",
+                    "& :-webkit-autofill": {
+                      WebkitBoxShadow: `0 0 0 1000px ${theme.palette.secondary.light} inset`,
+                      WebkitTextFillColor: `${theme.palette.secondary.contrastText}`,
+                    },
+                  }}
                 />
                 <TextField
                   fullWidth
@@ -167,7 +183,20 @@ export const Register = () => {
                   onChange={(e) => setLastName(e.target.value)}
                   label="Last Name"
                   variant="outlined"
-                  sx={{ borderRadius: "8px" }}
+                  color="secondary"
+                  InputLabelProps={{
+                    shrink: true,
+                    style: {
+                      fontWeight: "500",
+                    },
+                  }}
+                  sx={{
+                    borderRadius: "8px",
+                    "& :-webkit-autofill": {
+                      WebkitBoxShadow: `0 0 0 1000px ${theme.palette.secondary.light} inset`,
+                      WebkitTextFillColor: `${theme.palette.secondary.contrastText}`,
+                    },
+                  }}
                 />
               </Stack>
               <TextField
@@ -176,7 +205,20 @@ export const Register = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 label="Email"
                 variant="outlined"
-                sx={{ borderRadius: "8px" }}
+                color="secondary"
+                InputLabelProps={{
+                  shrink: true,
+                  style: {
+                    fontWeight: "500",
+                  },
+                }}
+                sx={{
+                  borderRadius: "8px",
+                  "& :-webkit-autofill": {
+                    WebkitBoxShadow: `0 0 0 1000px ${theme.palette.secondary.light} inset`,
+                    WebkitTextFillColor: `${theme.palette.secondary.contrastText}`,
+                  },
+                }}
               />
               <TextField
                 fullWidth
@@ -185,7 +227,20 @@ export const Register = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 label="Password"
                 variant="outlined"
-                sx={{ borderRadius: "8px" }}
+                color="secondary"
+                InputLabelProps={{
+                  shrink: true,
+                  style: {
+                    fontWeight: "500",
+                  },
+                }}
+                sx={{
+                  borderRadius: "8px",
+                  "& :-webkit-autofill": {
+                    WebkitBoxShadow: `0 0 0 1000px ${theme.palette.secondary.light} inset`,
+                    WebkitTextFillColor: `${theme.palette.secondary.contrastText}`,
+                  },
+                }}
               />
               <TextField
                 fullWidth
@@ -194,7 +249,20 @@ export const Register = () => {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 label="Confirm Password"
                 variant="outlined"
-                sx={{ borderRadius: "8px" }}
+                color="secondary"
+                InputLabelProps={{
+                  shrink: true,
+                  style: {
+                    fontWeight: "500",
+                  },
+                }}
+                sx={{
+                  borderRadius: "8px",
+                  "& :-webkit-autofill": {
+                    WebkitBoxShadow: `0 0 0 1000px ${theme.palette.secondary.light} inset`,
+                    WebkitTextFillColor: `${theme.palette.secondary.contrastText}`,
+                  },
+                }}
               />
             </Stack>
           </CardContent>
@@ -204,6 +272,7 @@ export const Register = () => {
                 type="submit"
                 variant="contained"
                 fullWidth
+                color="secondary"
                 sx={{ borderRadius: "12px", padding: "12px 0px" }}
               >
                 Register

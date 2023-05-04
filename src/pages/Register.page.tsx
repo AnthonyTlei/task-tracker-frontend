@@ -1,9 +1,8 @@
-import { useTheme } from "@mui/material/styles";
 import { Box } from "@mui/material";
 import { Register } from "../features/auth/components/Register";
+import { ToggleDarkMode } from "../shared/components/ToggleDarkMode";
 
 const RegisterPage = () => {
-  const theme = useTheme();
   return (
     <Box
       display={"flex"}
@@ -16,9 +15,15 @@ const RegisterPage = () => {
         top: 0,
         left: 0,
         zIndex: -1,
-        background: `linear-gradient(to right, ${theme.palette.primary.light}, ${theme.palette.secondary.light})`,
       }}
     >
+      <Box
+        position={"fixed"}
+        top={16}
+        right={16}
+      >
+        <ToggleDarkMode />
+      </Box>
       <Register />
     </Box>
   );

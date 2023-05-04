@@ -1,9 +1,8 @@
-import { useTheme } from "@mui/material/styles";
 import { Box } from "@mui/material";
 import { Login } from "../features/auth/components/Login";
+import { ToggleDarkMode } from "../shared/components/ToggleDarkMode";
 
 const LoginPage = () => {
-  const theme = useTheme();
   return (
     <Box
       display={"flex"}
@@ -16,9 +15,15 @@ const LoginPage = () => {
         top: 0,
         left: 0,
         zIndex: -1,
-        background: `linear-gradient(to right, ${theme.palette.primary.light}, ${theme.palette.secondary.light})`,
       }}
     >
+      <Box
+        position={"fixed"}
+        top={16}
+        right={16}
+      >
+        <ToggleDarkMode />
+      </Box>
       <Login />
     </Box>
   );

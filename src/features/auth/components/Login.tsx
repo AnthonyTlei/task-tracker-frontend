@@ -33,7 +33,7 @@ export const Login = () => {
   const [error, setError] = useState("");
 
   const dispatch = useAppDispatch();
-  const { isLoading, isSuccess, isAuthenticated, isError } = useAppSelector(
+  const { isLoading, isSuccess, isAuthenticated } = useAppSelector(
     (state) => state.auth
   );
 
@@ -105,7 +105,7 @@ export const Login = () => {
         sx={{
           borderRadius: "20px",
           padding: "24px",
-          width: { xs: "80%", sm: "500px" },
+          width: { xs: "80%", sm: "550px" },
         }}
       >
         <form onSubmit={onSubmitHandler}>
@@ -123,15 +123,18 @@ export const Login = () => {
               <Typography
                 variant="body2"
                 component={"div"}
-                sx={{ fontWeight: 400, color: "grey" }}
+                sx={{ color: "grey.500" }}
               >
                 Don't have an account?{" "}
                 <Link to={"/register"} style={{ textDecoration: "none" }}>
                   <DisplayLink
-                    component="button"
-                    color={`${theme.palette.primary.main}`}
+                    variant="body2"
+                    component="span"
+                    color={`${theme.palette.secondary.main}`}
                     underline="hover"
+                    fontWeight={"500"}
                     sx={{ cursor: "pointer" }}
+                    p={0}
                   >
                     Register
                   </DisplayLink>
@@ -147,7 +150,20 @@ export const Login = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 label="Email"
                 variant="outlined"
-                sx={{ borderRadius: "8px" }}
+                color="secondary"
+                InputLabelProps={{
+                  shrink: true,
+                  style: {
+                    fontWeight: "500",
+                  },
+                }}
+                sx={{
+                  borderRadius: "8px",
+                  "& :-webkit-autofill": {
+                    WebkitBoxShadow: `0 0 0 1000px ${theme.palette.secondary.light} inset`,
+                    WebkitTextFillColor: `${theme.palette.secondary.contrastText}`,
+                  },
+                }}
               />
               <TextField
                 fullWidth
@@ -156,7 +172,20 @@ export const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 label="Password"
                 variant="outlined"
-                sx={{ borderRadius: "8px" }}
+                color="secondary"
+                InputLabelProps={{
+                  shrink: true,
+                  style: {
+                    color: theme.palette.common.white,
+                  },
+                }}
+                sx={{
+                  borderRadius: "8px",
+                  "& :-webkit-autofill": {
+                    WebkitBoxShadow: `0 0 0 1000px ${theme.palette.secondary.light} inset`,
+                    WebkitTextFillColor: `${theme.palette.secondary.contrastText}`,
+                  },
+                }}
               />
             </Stack>
           </CardContent>
@@ -173,6 +202,7 @@ export const Login = () => {
                 fullWidth
                 type="submit"
                 variant="contained"
+                color="secondary"
                 sx={{ borderRadius: "12px", padding: "12px 0px" }}
               >
                 Login
@@ -180,7 +210,7 @@ export const Login = () => {
               <Typography
                 variant="body2"
                 gutterBottom
-                color={`${theme.palette.primary.light}`}
+                color={`${theme.palette.secondary.main}`}
                 sx={{ cursor: "pointer" }}
               >
                 Forgot password?

@@ -2,12 +2,13 @@ import {
   Box,
   Button,
   Drawer,
+  Stack,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
-import { ColorModeContext } from "../../App";
+import { useEffect, useState } from "react";
+import { ToggleDarkMode } from "./ToggleDarkMode";
 
 export const SettingsDrawer = ({
   open,
@@ -17,7 +18,6 @@ export const SettingsDrawer = ({
   onClose: React.MouseEventHandler<HTMLDivElement>;
 }) => {
   const theme = useTheme();
-  const colorMode = useContext(ColorModeContext);
   const isSmallScreen = useMediaQuery(theme.breakpoints.up("sm"));
   const [width, setWidth] = useState("440px");
 
@@ -48,10 +48,9 @@ export const SettingsDrawer = ({
         <Typography variant="h4" fontWeight={"bold"} gutterBottom>
           Settings
         </Typography>
-        <Typography variant="body2" color={"common.white"}>
-          COLOR MODE
-        </Typography>
-        <Button onClick={colorMode.toggleColorMode}>Toggle theme</Button>
+        <Stack direction={"row"}>
+          <ToggleDarkMode />
+        </Stack>
       </Box>
     </Drawer>
   );
