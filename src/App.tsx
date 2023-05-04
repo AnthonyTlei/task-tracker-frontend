@@ -11,6 +11,7 @@ import { CssBaseline } from "@mui/material";
 import { lightTheme, darkTheme } from "./assets/themes/themes";
 import { createContext, useEffect, useMemo, useState } from "react";
 import LayoutWrapper from "./layouts/Layout";
+import { ActiveSectionProvider } from "./contexts/ActiveSectionContext";
 
 export const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
@@ -19,21 +20,23 @@ function ThemedApp() {
     <>
       <CssBaseline />
       <Router>
-        <LayoutWrapper>
-          <Routes>
-            <Route path="/" element={<SecuredRoute page={<HomePage />} />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route
-              path="/checklist"
-              element={<SecuredRoute page={<ChecklistPage />} />}
-            />
-            <Route
-              path="/tasks"
-              element={<SecuredRoute page={<TasksPage />} />}
-            />
-          </Routes>
-        </LayoutWrapper>
+        <ActiveSectionProvider>
+          <LayoutWrapper>
+            <Routes>
+              <Route path="/" element={<SecuredRoute page={<HomePage />} />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route
+                path="/checklist"
+                element={<SecuredRoute page={<ChecklistPage />} />}
+              />
+              <Route
+                path="/tasks"
+                element={<SecuredRoute page={<TasksPage />} />}
+              />
+            </Routes>
+          </LayoutWrapper>
+        </ActiveSectionProvider>
       </Router>
     </>
   );
