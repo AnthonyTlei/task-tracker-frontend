@@ -75,7 +75,7 @@ export const Overview = () => {
         marginBottom={5}
         marginTop={isLargeScreen ? 0 : 5}
       >
-        <Typography variant={"h4"} fontWeight={"500"} color={"primary"}>
+        <Typography variant={"h4"} fontWeight={"500"} color={"common.white"}>
           Overview
         </Typography>
         <Button
@@ -91,7 +91,7 @@ export const Overview = () => {
       </Box>
 
       <Box marginBottom={2} margin={5}>
-        <Typography variant="h6" color={"primary.dark"} gutterBottom>
+        <Typography variant="h6" color={"common.white"} gutterBottom>
           Total: {tasks?.length || 0}
         </Typography>
         <Grid container spacing={5}>
@@ -118,7 +118,7 @@ export const Overview = () => {
         marginBottom={5}
         marginTop={5}
       >
-        <Typography variant={"h4"} fontWeight={"500"} color={"primary"}>
+        <Typography variant={"h4"} fontWeight={"500"} color={"common.white"}>
           Notes
         </Typography>
       </Box>

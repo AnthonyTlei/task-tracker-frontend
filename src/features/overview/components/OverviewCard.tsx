@@ -35,10 +35,10 @@ export const OverviewCard: React.FC<OverviewCardProps> = ({
             sx={{ color: `${theme.palette.primary.light}` }}
           />
           <Box p={2}>
-            <Typography variant="body2" color={"secondary"}>
+            <Typography variant="body2" color={"grey.500"}>
               {title}
             </Typography>
-            <Typography variant="h4" fontWeight={"500"} color={"primary.dark"}>
+            <Typography variant="h4" fontWeight={"500"} color={"common.white"}>
               {count}
             </Typography>
           </Box>

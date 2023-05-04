@@ -17,18 +17,22 @@ const lightTheme = createTheme({
     mode: "light",
     background: {
       paper: "#F9FAFB",
+      default: "rgba(255, 255, 255, 0.04)",
     },
     common: {
       black: "#1C2536",
       white: "#111927",
     },
+    grey: {
+      500: "#9DA4AE",
+    },
     primary: {
       main: "#1C2536",
-      contrastText: "#9DA4AE",
+      contrastText: "white",
     },
     secondary: {
       main: "#6366F1",
-      contrastText: "rgba(255, 255, 255, 0.04)",
+      contrastText: "white",
     },
   },
 });
@@ -38,7 +42,7 @@ const darkTheme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          backgroundColor: "#0E1320",
+          backgroundColor: "#040e1a",
         },
       },
     },
@@ -49,26 +53,30 @@ const darkTheme = createTheme({
   palette: {
     mode: "dark",
     background: {
-      paper: "#111927",
+      paper: "#050c19",
+      default: "rgba(255, 255, 255, 0.04)",
     },
     common: {
-      black: "#000",
-      white: "#111",
+      black: "white",
+      white: "white",
+    },
+    grey: {
+      500: "#9DA4AE",
     },
     primary: {
       main: "#1C2536",
-      contrastText: "#9DA4AE",
+      contrastText: "white",
     },
     secondary: {
       main: "#6366F1",
-      contrastText: "rgba(255, 255, 255, 0.04)",
+      contrastText: "white",
     },
   },
 });
 
 function App() {
   return (
-    <ThemeProvider theme={lightTheme}>
+    <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <Router>
         <Routes>

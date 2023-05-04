@@ -35,7 +35,7 @@ export const TaskList = () => {
         justifyContent={"space-between"}
         marginBottom={5}
       >
-        <Typography variant={"h4"} fontWeight={"500"} color={"primary"}>
+        <Typography variant={"h4"} fontWeight={"500"} color={"common.white"}>
           My Tasks
         </Typography>
         <Button

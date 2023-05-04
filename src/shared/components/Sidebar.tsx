@@ -28,6 +28,8 @@ import { logout } from "../../features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux/redux-hooks";
 
 export const Sidebar = () => {
+  // TODO: refactor sections into a component (lisittems)
+  // TODO: create a selectedSection + theme
   const drawerWidth = 280;
   const theme = useTheme();
   const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
@@ -70,7 +72,10 @@ export const Sidebar = () => {
               backgroundColor: `${theme.palette.secondary.main}`,
             }}
           >
-            {user?.first_name[0].toUpperCase()}{user?.last_name[0].toUpperCase()}
+            <Typography color={theme.palette.secondary.contrastText}>
+              {user?.first_name[0].toUpperCase()}
+              {user?.last_name[0].toUpperCase()}
+            </Typography>
           </Avatar>
           <Box width={"56px"}>
             <Typography color={"white"} fontSize={"18px"} fontWeight={"bold"}>
@@ -85,7 +90,7 @@ export const Sidebar = () => {
         <Box>
           <Stack
             direction={"column"}
-            sx={{ color: `${theme.palette.primary.contrastText}` }}
+            sx={{ color: `${theme.palette.grey[500]}` }}
           >
             <List sx={{ padding: "0px 15px" }}>
               <ListItem disablePadding>
@@ -93,7 +98,7 @@ export const Sidebar = () => {
                   sx={{
                     margin: "0px 0px 5px 0px",
                     "&:hover": {
-                      backgroundColor: `${theme.palette.secondary.contrastText}`,
+                      backgroundColor: `${theme.palette.background.default}`,
                       backgroundBlendMode: "lighten",
                       borderRadius: "10px",
                     },
@@ -116,7 +121,7 @@ export const Sidebar = () => {
                   sx={{
                     margin: "0px 0px 5px 0px",
                     "&:hover": {
-                      backgroundColor: `${theme.palette.secondary.contrastText}`,
+                      backgroundColor: `${theme.palette.background.default}`,
                       backgroundBlendMode: "lighten",
                       borderRadius: "10px",
                     },
@@ -139,7 +144,7 @@ export const Sidebar = () => {
                   sx={{
                     margin: "0px 0px 5px 0px",
                     "&:hover": {
-                      backgroundColor: `${theme.palette.secondary.contrastText}`,
+                      backgroundColor: `${theme.palette.background.default}`,
                       backgroundBlendMode: "lighten",
                       borderRadius: "10px",
                     },
