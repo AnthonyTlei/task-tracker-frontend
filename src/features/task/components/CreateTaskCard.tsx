@@ -155,11 +155,23 @@ export const CreateTaskCard: React.FC<CreateTaskCardProps> = ({
           </Box>
         </CardContent>
         <CardActions>
-          <Box p={2} width={"100%"}>
-            <Button color="success" onClick={handleCreate}>
+          <Box
+            p={2}
+            width={"100%"}
+            display={"flex"}
+            flexDirection={"row-reverse"}
+          >
+            <Button
+              color="secondary"
+              variant="contained"
+              onClick={handleCreate}
+            >
               Create
             </Button>
-            <Button color="error" onClick={handleCancel}>
+            <Button
+              onClick={handleCancel}
+              sx={{ color: "common.white", marginRight: "10px" }}
+            >
               Cancel
             </Button>
           </Box>

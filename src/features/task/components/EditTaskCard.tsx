@@ -173,16 +173,28 @@ export const EditTaskCard: React.FC<EditTaskCardProps> = ({
             width={"100%"}
             display={"flex"}
             justifyContent={"space-between"}
+            flexDirection={"row-reverse"}
           >
-            <Box>
-              <Button color="success" onClick={handleTaskEdit}>
+            <Box p={2} display={"flex"} flexDirection={"row-reverse"}>
+              <Button
+                color="secondary"
+                variant="contained"
+                onClick={handleTaskEdit}
+              >
                 Save
               </Button>
-              <Button onClick={handleCancel}>Cancel</Button>
+              <Button
+                onClick={handleCancel}
+                sx={{ color: "common.white", marginRight: "10px" }}
+              >
+                Cancel
+              </Button>
             </Box>
-            <Button color="error" onClick={handleTaskDelete}>
-              Delete
-            </Button>
+            <Box p={2} display={"flex"} flexDirection={"row-reverse"}>
+              <Button color="error" variant="outlined" onClick={handleTaskDelete}>
+                Delete
+              </Button>
+            </Box>
           </Box>
         </CardActions>
       </Card>

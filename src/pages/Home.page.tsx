@@ -1,22 +1,13 @@
 import { Sidebar } from "../shared/components/Sidebar";
 import { Box } from "@mui/material";
 import { Overview } from "../features/overview/components/Overview";
-import { SettingsDial } from "../shared/components/SettingsDial";
-import { useState } from "react";
-import { SettingsDrawer } from "../shared/components/SettingsDrawer";
+import { SettingsLayout } from "../shared/components/SettingsLayout";
 
 const HomePage = () => {
-  // TODO: refactor all pages that use Sidebar and Speedial into another component.
-  const [settingsOpen, setSettingsOpen] = useState(false);
-
-  const handleSettingsClick = () => {
-    setSettingsOpen(!settingsOpen);
-  };
-
+  // TODO: Refactor layout into separate src/layout folder, with sidebad and settings.
   return (
     <Box display={"flex"} flexDirection={"row"} width={"100%"} height={"100%"}>
-      <SettingsDial onClick={handleSettingsClick} />
-      <SettingsDrawer open={settingsOpen} onClose={handleSettingsClick} />
+      <SettingsLayout/>
       <Sidebar />
       <Overview />
     </Box>
