@@ -56,7 +56,7 @@ export const login = createAsyncThunk(
       if (error.response && error.response.data.message) {
         return thunkAPI.rejectWithValue(error.response.data.message);
       }
-      return thunkAPI.rejectWithValue("Unable to login tasks.");
+      return thunkAPI.rejectWithValue("Unable to login.");
     }
   }
 );
