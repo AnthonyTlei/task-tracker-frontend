@@ -72,7 +72,7 @@ export const Sidebar = () => {
               backgroundColor: `${theme.palette.secondary.main}`,
             }}
           >
-            <Typography color={theme.palette.secondary.contrastText}>
+            <Typography color={theme.palette.secondary.contrastText} fontWeight={"bold"}>
               {user?.first_name[0].toUpperCase()}
               {user?.last_name[0].toUpperCase()}
             </Typography>
