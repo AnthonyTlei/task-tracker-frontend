@@ -9,15 +9,30 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Section } from "../models/section";
+import { createElement } from "react";
+
+const getIcon = (iconName: string) => {
+  switch (iconName) {
+    case "Summarize":
+      return Summarize;
+    case "Checklist":
+      return Checklist;
+    case "Assignment":
+      return Assignment;
+    default:
+      return Summarize;
+  }
+};
 
 export const SidebarSections = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const sections: Section[] = [
-    { id: "overview", title: "Overview", path: "/", icon: Summarize },
-    { id: "list", title: "All Tasks", path: "/checklist", icon: Checklist },
-    { id: "tasks", title: "My Tasks", path: "/tasks", icon: Assignment },
+    { id: "overview", title: "Overview", path: "/", icon: "Summarize" },
+    { id: "list", title: "All Tasks", path: "/checklist", icon: "Checklist" },
+    { id: "tasks", title: "My Tasks", path: "/tasks", icon: "Assignment" },
   ];
+
   return (
     <List sx={{ padding: "0px 15px" }}>
       {sections.map((section) => (
@@ -36,7 +51,10 @@ export const SidebarSections = () => {
             }}
           >
             <ListItemIcon sx={{ minWidth: "35px" }}>
-              <Summarize color="secondary" fontSize="small" />
+              {createElement(getIcon(section.icon), {
+                color: "secondary",
+                fontSize: "small",
+              })}
             </ListItemIcon>
             <ListItemText
               primaryTypographyProps={{ fontSize: "14px" }}
