@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { useState } from "react";
-import { SettingsDial } from "./SettingsDial";
-import { SettingsDrawer } from "./SettingsDrawer";
+import { SettingsDial } from "../shared/components/SettingsDial";
+import { SettingsDrawer } from "../shared/components/SettingsDrawer";
 
 export const SettingsLayout = () => {
   const [settingsOpen, setSettingsOpen] = useState(false);

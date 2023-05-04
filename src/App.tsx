@@ -10,6 +10,7 @@ import SecuredRoute from "./features/auth/components/SecuredRoute";
 import { CssBaseline } from "@mui/material";
 import { lightTheme, darkTheme } from "./assets/themes/themes";
 import { createContext, useEffect, useMemo, useState } from "react";
+import LayoutWrapper from "./layouts/Layout";
 
 export const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
@@ -18,19 +19,21 @@ function ThemedApp() {
     <>
       <CssBaseline />
       <Router>
-        <Routes>
-          <Route path="/" element={<SecuredRoute page={<HomePage />} />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route
-            path="/checklist"
-            element={<SecuredRoute page={<ChecklistPage />} />}
-          />
-          <Route
-            path="/tasks"
-            element={<SecuredRoute page={<TasksPage />} />}
-          />
-        </Routes>
+        <LayoutWrapper>
+          <Routes>
+            <Route path="/" element={<SecuredRoute page={<HomePage />} />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route
+              path="/checklist"
+              element={<SecuredRoute page={<ChecklistPage />} />}
+            />
+            <Route
+              path="/tasks"
+              element={<SecuredRoute page={<TasksPage />} />}
+            />
+          </Routes>
+        </LayoutWrapper>
       </Router>
     </>
   );
