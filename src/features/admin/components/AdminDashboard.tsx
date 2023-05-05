@@ -28,9 +28,11 @@ export const AdminDashboard = () => {
   const [confirmationOpen, setConfirmationOpen] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { isLoading, isSuccess, importResult } = useAppSelector(
-    (state) => state.task
-  );
+  const {
+    importLoading: isLoading,
+    importSuccess: isSuccess,
+    importResult,
+  } = useAppSelector((state) => state.task);
 
   const handleFileChange = async (
     // TODO: adapt to new ImportResults
@@ -103,11 +105,18 @@ export const AdminDashboard = () => {
   };
 
   const Results = () => {
-    return <Box p={1}>
-      <Typography variant={"h6"}>Import Results</Typography>
-      <Typography variant={"body1"} color={"status.success"}>Success: {importResult.success.length} Tasks</Typography>
-      <Typography variant={"body1"} color={"status.rejected"}>Fails: {importResult.fails.length} Tasks</Typography>
-    </Box>;
+    // TODO: display these in a Card (sort of like the score after you win a game)
+    return (
+      <Box p={1}>
+        <Typography variant={"h6"}>Import Results</Typography>
+        <Typography variant={"body1"} color={"status.success"}>
+          Success: {importResult.success.length} Tasks
+        </Typography>
+        <Typography variant={"body1"} color={"status.rejected"}>
+          Fails: {importResult.fails.length} Tasks
+        </Typography>
+      </Box>
+    );
   };
 
   return (

@@ -11,7 +11,15 @@ interface AsyncState {
   isError: boolean;
 }
 
-interface TaskState extends AsyncState {
+interface ImportState {
+  importLoading: boolean;
+  importSuccess: boolean;
+  importError: boolean;
+}
+
+interface States extends AsyncState, ImportState {}
+
+interface TaskState extends States {
   tasks: TaskWithUser[];
   userTasks: Task[];
   importResult: ImportResults;
@@ -23,6 +31,9 @@ const initialState: TaskState = {
   isLoading: false,
   isSuccess: false,
   isError: false,
+  importLoading: false,
+  importSuccess: false,
+  importError: false,
   importResult: {
     total: 0,
     success: [],
@@ -124,6 +135,11 @@ export const taskSlice = createSlice({
       state.isSuccess = false;
       state.isError = false;
     },
+    resetImport: (state) => {
+      state.importLoading = false;
+      state.importSuccess = false;
+      state.importError = false;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -213,23 +229,23 @@ export const taskSlice = createSlice({
       })
       // importTasks
       .addCase(importTasks.pending, (state) => {
-        state.isLoading = true;
-        state.isSuccess = false;
-        state.isError = false;
+        state.importLoading = true;
+        state.importSuccess = false;
+        state.importError = false;
       })
       .addCase(importTasks.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
+        state.importLoading = false;
+        state.importSuccess = true;
         state.importResult = action.payload;
         // TODO: append to userTasks
       })
       .addCase(importTasks.rejected, (state) => {
-        state.isLoading = false;
-        state.isError = true;
+        state.importLoading = false;
+        state.importError = true;
       });
   },
 });
 
-export const { reset } = taskSlice.actions;
+export const { reset, resetImport } = taskSlice.actions;
 
 export default taskSlice.reducer;
