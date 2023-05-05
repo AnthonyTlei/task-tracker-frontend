@@ -66,7 +66,7 @@ export const SettingsDrawer = ({
         <Stack direction={"row"} py={5}>
           <Box
             borderRadius={"25%"}
-            bgcolor={"common.black"}
+            bgcolor={"background.paper"}
             display={"flex"}
             flexDirection={"row"}
             justifyContent={"center"}
