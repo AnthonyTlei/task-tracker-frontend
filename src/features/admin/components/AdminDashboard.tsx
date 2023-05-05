@@ -12,12 +12,16 @@ import {
   CardHeader,
 } from "@mui/material";
 import React, { useState } from "react";
-import taskService from "../../task/services/task.service";
+import { importTasks } from "../../task/taskSlice";
+import { useToken } from "../../../hooks/redux/useToken";
+import { useAppDispatch } from "../../../hooks/redux/redux-hooks";
 
 export const AdminDashboard = () => {
   const theme = useTheme();
   const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+  const token = useToken();
   const [openImport, setOpenImport] = useState(false);
+  const dispatch = useAppDispatch();
 
   const handleImport = () => {
     setOpenImport(false);
@@ -27,13 +31,12 @@ export const AdminDashboard = () => {
     setOpenImport(false);
   };
 
-  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
     if (file) {
-      const tasks = await taskService.importTasks(file);
-      // TODO: handle server error (duplicate id)
-      // TODO: either modify the tasks in taskSLice or use dispatcher to import (OPTIMAL)
-      console.log(tasks);
+      dispatch(importTasks({ token, file }));
     }
   };
 

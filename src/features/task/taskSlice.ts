@@ -62,7 +62,6 @@ export const createTask = createAsyncThunk(
   }
 );
 
-
 export const editTask = createAsyncThunk(
   "tasks/editTask",
   async (
@@ -91,6 +90,21 @@ export const deleteTask = createAsyncThunk(
       return await taskService.deleteTask(token, taskId);
     } catch (error) {
       return thunkAPI.rejectWithValue("Unable to delete tasks.");
+    }
+  }
+);
+
+export const importTasks = createAsyncThunk(
+  "tasks/importTasks",
+  async (
+    { token, file }: { token: string | undefined; file: File },
+    thunkAPI
+  ) => {
+    // TODO: handle server error (duplicate id)
+    try {
+      return await taskService.importTasks(token, file);
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Unable to import tasks.");
     }
   }
 );
@@ -178,6 +192,20 @@ export const taskSlice = createSlice({
         );
       })
       .addCase(deleteTask.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      })
+      // importTasks
+      .addCase(importTasks.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(importTasks.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        // TODO: append to userTasks
+        console.log(action.payload);
+      })
+      .addCase(importTasks.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
       });

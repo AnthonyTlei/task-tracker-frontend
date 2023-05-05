@@ -68,6 +68,7 @@ const deleteTask = async (
 };
 
 const importTasks = async (
+  token: string | undefined,
   file: File
 ): Promise<Task[]> => {
   // TODO: validate file format
@@ -76,6 +77,9 @@ const importTasks = async (
   const response = await axios.post(
     `${process.env.REACT_APP_BASE_API}/tasks/import`,
     formData,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
   );
   return response.data;
 };
