@@ -36,7 +36,6 @@ export const SidebarSections = () => {
   const [selection, setSelection] = useState("overview");
 
   useEffect(() => {
-    console.log("Selection:", selection);
   }, [selection]);
 
   return (

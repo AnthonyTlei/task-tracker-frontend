@@ -30,8 +30,8 @@ export const lightTheme = createTheme({
       default: "rgba(255, 255, 255, 0.04)",
     },
     common: {
-      black: "#1C2536",
-      white: "#111927",
+      black: "white",
+      white: "black",
     },
     grey: {
       500: "#9DA4AE",
@@ -73,7 +73,7 @@ export const darkTheme = createTheme({
       default: "rgba(255, 255, 255, 0.04)",
     },
     common: {
-      black: "white",
+      black: "black",
       white: "white",
     },
     grey: {
