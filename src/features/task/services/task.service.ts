@@ -6,10 +6,9 @@ import { DecodedJwt } from "../../auth/models/Jwt";
 import { TaskWithUser } from "../../checklist/models/taskWithUsers";
 
 const getTasks = async (token: string | undefined): Promise<TaskWithUser[]> => {
-  const response = await axios.get(
-    `${process.env.REACT_APP_BASE_API}/tasks`,
-    { headers: { Authorization: `Bearer ${token}` } }
-  );
+  const response = await axios.get(`${process.env.REACT_APP_BASE_API}/tasks`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
   return response.data;
 };
 
@@ -30,9 +29,13 @@ const createTask = async (
   token: string | undefined,
   newTask: NewTask
 ): Promise<Task> => {
-  const response = await axios.post(`${process.env.REACT_APP_BASE_API}/tasks`, newTask, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  const response = await axios.post(
+    `${process.env.REACT_APP_BASE_API}/tasks`,
+    newTask,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
   return response.data;
 };
 
@@ -41,9 +44,13 @@ const editTask = async (
   taskId: number,
   updatedTask: NewTask
 ): Promise<Task> => {
-  const response = await axios.put(`${process.env.REACT_APP_BASE_API}/tasks/${taskId}`, updatedTask, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  const response = await axios.put(
+    `${process.env.REACT_APP_BASE_API}/tasks/${taskId}`,
+    updatedTask,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
   return response.data;
 };
 
@@ -51,9 +58,25 @@ const deleteTask = async (
   token: string | undefined,
   taskId: number
 ): Promise<Task> => {
-  const response = await axios.delete(`${process.env.REACT_APP_BASE_API}/tasks/${taskId}`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  const response = await axios.delete(
+    `${process.env.REACT_APP_BASE_API}/tasks/${taskId}`,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+  return response.data;
+};
+
+const importTasks = async (
+  file: File
+): Promise<Task[]> => {
+  // TODO: validate file format
+  const formData = new FormData();
+  formData.append("file", file);
+  const response = await axios.post(
+    `${process.env.REACT_APP_BASE_API}/tasks/import`,
+    formData,
+  );
   return response.data;
 };
 
@@ -63,6 +86,7 @@ const taskService = {
   createTask,
   editTask,
   deleteTask,
+  importTasks,
 };
 
 export default taskService;
