@@ -1,6 +1,6 @@
 import { ReactNode, createContext, useContext, useState } from "react";
 
-type ActiveSection = "home" | "checklist" | "tasks" | null;
+type ActiveSection = "home" | "checklist" | "tasks" | "admin" | null;
 type ActiveSectionContextType = {
   activeSection: ActiveSection;
   setActiveSection: (section: ActiveSection) => void;

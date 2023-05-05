@@ -12,6 +12,9 @@ import { lightTheme, darkTheme } from "./themes/themes";
 import { createContext, useEffect, useMemo, useState } from "react";
 import LayoutWrapper from "./layouts/Layout";
 import { ActiveSectionProvider } from "./contexts/ActiveSectionContext";
+import { NotAuthorizedPage } from "./pages/NotAuthorized.page";
+import AdminRoute from "./features/auth/components/AdminRoute";
+import AdminDashboardPage from "./pages/AdminDashboard.page";
 
 export const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
@@ -34,6 +37,15 @@ function ThemedApp() {
                 path="/tasks"
                 element={<SecuredRoute page={<TasksPage />} />}
               />
+              <Route
+                path="/admin"
+                element={
+                  <SecuredRoute
+                    page={<AdminRoute element={<AdminDashboardPage />} />}
+                  />
+                }
+              />
+              <Route path="/not-authorized" element={<NotAuthorizedPage />} />
             </Routes>
           </LayoutWrapper>
         </ActiveSectionProvider>

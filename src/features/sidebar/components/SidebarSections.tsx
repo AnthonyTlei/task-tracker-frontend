@@ -1,4 +1,9 @@
-import { Summarize, Checklist, Assignment } from "@mui/icons-material";
+import {
+  Summarize,
+  Checklist,
+  Assignment,
+  AdminPanelSettings,
+} from "@mui/icons-material";
 import {
   List,
   ListItem,
@@ -10,7 +15,9 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Section } from "../models/section";
-import { createElement, useEffect, useState } from "react";
+import { createElement, useState } from "react";
+import authService from "../../auth/services/auth.service";
+import { UserRole } from "../../auth/models/userRole";
 
 const getIcon = (iconName: string) => {
   switch (iconName) {
@@ -20,6 +27,8 @@ const getIcon = (iconName: string) => {
       return Checklist;
     case "Assignment":
       return Assignment;
+    case "AdminPanelSettings":
+      return AdminPanelSettings;
     default:
       return Summarize;
   }
@@ -28,15 +37,24 @@ const getIcon = (iconName: string) => {
 export const SidebarSections = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const userRole = authService.getUserRole();
+  const isAdmin = userRole === UserRole.ADMIN || userRole === UserRole.SUPERADMIN;
   const sections: Section[] = [
     { id: "overview", title: "Overview", path: "/", icon: "Summarize" },
     { id: "list", title: "All Tasks", path: "/checklist", icon: "Checklist" },
     { id: "tasks", title: "My Tasks", path: "/tasks", icon: "Assignment" },
   ];
+  const adminSection: Section = {
+    id: "admin-dashboard",
+    title: "Admin Dashboard",
+    path: "/admin",
+    icon: "AdminPanelSettings",
+  };
   const [selection, setSelection] = useState("overview");
 
-  useEffect(() => {
-  }, [selection]);
+  if (isAdmin) {
+    sections.push(adminSection);
+  }
 
   return (
     <List sx={{ padding: "0px 15px" }}>

@@ -4,6 +4,7 @@ import { DisplayUser } from "../models/displayUser";
 import { NewUser } from "../models/newUser";
 import { LoginUser } from "../models/loginUser";
 import { DecodedJwt, Jwt } from "../models/Jwt";
+import { UserRole } from "../models/userRole";
 
 const register = async (newUser: NewUser): Promise<DisplayUser | null> => {
   const response = await axios.post(
@@ -46,11 +47,24 @@ const logout = (): void => {
   localStorage.removeItem("jwt");
 };
 
+const getUserRole = (): UserRole | null => {
+  // TODO: consider adding a verify-role endpoint to the backend
+  const storedJwt: string | null = localStorage.getItem("jwt");
+  const jwt: Jwt = !!storedJwt ? JSON.parse(storedJwt) : null;
+  if (jwt) {
+    const token = jwt?.token;
+    const decodedToken: DecodedJwt = jwt_decode(token);
+    return decodedToken.user.role;
+  }
+  return null;
+};
+
 const authService = {
   register,
   login,
   verifyJwt,
   logout,
+  getUserRole,
 };
 
 export default authService;
