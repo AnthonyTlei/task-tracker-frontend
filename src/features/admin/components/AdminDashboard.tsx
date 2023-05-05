@@ -1,4 +1,4 @@
-import { FileDownload } from "@mui/icons-material";
+import { Delete, FileDownload, Settings } from "@mui/icons-material";
 import {
   Box,
   Typography,
@@ -10,6 +10,7 @@ import {
   DialogContent,
   DialogTitle,
   CircularProgress,
+  IconButton,
 } from "@mui/material";
 import { importTasks } from "../../task/taskSlice";
 import { useToken } from "../../../hooks/redux/useToken";
@@ -119,19 +120,8 @@ export const AdminDashboard = () => {
     );
   };
 
-  return (
-    <Box p={3} width={"100%"} height={"100%"}>
-      <Box
-        display={"flex"}
-        flexDirection={"row"}
-        justifyContent={"space-between"}
-        marginBottom={5}
-        marginTop={isLargeScreen ? 0 : 5}
-      >
-        <Typography variant={"h4"} fontWeight={"500"} color={"common.white"}>
-          Admin Dashboard
-        </Typography>
-      </Box>
+  const ExcelImportButton = () => {
+    return (
       <Button
         variant="contained"
         sx={{
@@ -149,7 +139,42 @@ export const AdminDashboard = () => {
           ref={fileInputRef}
         />
       </Button>
+    );
+  };
+
+  const ExcelImportConfigButton = () => {
+    return (
+      <IconButton sx={{ color: `${theme.palette.status.success}` }}>
+        <Settings />
+      </IconButton>
+    );
+  };
+
+  const FlushTasksButton = () => {
+    return (
+      <IconButton sx={{ color: `${theme.palette.status.rejected}` }}>
+        <Delete />
+      </IconButton>
+    );
+  };
+
+  return (
+    <Box p={3} width={"100%"} height={"100%"}>
+      <Box
+        display={"flex"}
+        flexDirection={"row"}
+        justifyContent={"space-between"}
+        marginBottom={5}
+        marginTop={isLargeScreen ? 0 : 5}
+      >
+        <Typography variant={"h4"} fontWeight={"500"} color={"common.white"}>
+          Admin Dashboard
+        </Typography>
+      </Box>
+      <ExcelImportButton />
+      <ExcelImportConfigButton />
       {isSuccess && <Results />}
+      <FlushTasksButton/>
       <ConfirmDialog />
     </Box>
   );
