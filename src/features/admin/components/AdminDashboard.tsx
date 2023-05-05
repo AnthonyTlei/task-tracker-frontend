@@ -17,8 +17,9 @@ export const AdminDashboard = () => {
   const dispatch = useAppDispatch();
 
   const handleFileChange = async (
-    // TODO: handle server error (duplicate id)
+    // TODO: adapt to new ImportResults
     // TODO: add loading indicator
+    // TODO: add help button that shows excel format
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = event.target.files?.[0];
