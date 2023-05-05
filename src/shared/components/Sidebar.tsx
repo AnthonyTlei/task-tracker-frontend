@@ -1,7 +1,6 @@
 import { Menu } from "@mui/icons-material";
 import {
   Box,
-  Divider,
   IconButton,
   Stack,
   useMediaQuery,

@@ -50,6 +50,7 @@ export const SidebarSections = () => {
     path: "/admin",
     icon: "AdminPanelSettings",
   };
+  // TODO: fix selection not saving for temporary drawers
   const [selection, setSelection] = useState("overview");
 
   if (isAdmin) {

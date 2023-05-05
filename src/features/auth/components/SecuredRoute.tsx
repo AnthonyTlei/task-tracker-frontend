@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../../hooks/redux/redux-hooks";
 
 const SecuredRoute = ({ page }: { page: JSX.Element }) => {
-  const { isSuccess, isAuthenticated, jwt } = useAppSelector(
+  const { isSuccess, isLoading, isAuthenticated, jwt } = useAppSelector(
     (state) => state.auth
   );
 
@@ -15,9 +15,20 @@ const SecuredRoute = ({ page }: { page: JSX.Element }) => {
       return;
     };
     dispatch(verifyJwt(jwt.token));
-  }, [jwt, isSuccess, dispatch]);
+  }, [jwt, dispatch]);
 
-  return isAuthenticated ? page : <Navigate replace to="/login" />;
+  // TODO: refactor loading into a shared component
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isSuccess) {
+    return isAuthenticated ? page : <Navigate replace to="/login" />;
+  }
+
+  // TODO: replace with a better error page
+  return <div>Something went wrong...</div>;
+  
 };
 
 export default SecuredRoute;
