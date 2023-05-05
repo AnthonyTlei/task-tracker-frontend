@@ -12,7 +12,7 @@ import {
   CircularProgress,
   IconButton,
 } from "@mui/material";
-import { importTasks } from "../../task/taskSlice";
+import { deleteAllTasks, importTasks } from "../../task/taskSlice";
 import { useToken } from "../../../hooks/redux/useToken";
 import {
   useAppDispatch,
@@ -65,7 +65,12 @@ export const AdminDashboard = () => {
     cleanUp();
   };
 
+  const handleFlushTasks = () => {
+    dispatch(deleteAllTasks({ token }));
+  };
+
   // TODO: make the icon change into a loading indicator instead :P
+  // TODO: add loading for flush tasks
   if (isLoading) {
     return <CircularProgress sx={{ marginTop: "64px" }} color="primary" />;
   }
@@ -152,7 +157,10 @@ export const AdminDashboard = () => {
 
   const FlushTasksButton = () => {
     return (
-      <IconButton sx={{ color: `${theme.palette.status.rejected}` }}>
+      <IconButton
+        sx={{ color: `${theme.palette.status.rejected}` }}
+        onClick={handleFlushTasks}
+      >
         <Delete />
       </IconButton>
     );
@@ -174,7 +182,7 @@ export const AdminDashboard = () => {
       <ExcelImportButton />
       <ExcelImportConfigButton />
       {isSuccess && <Results />}
-      <FlushTasksButton/>
+      <FlushTasksButton />
       <ConfirmDialog />
     </Box>
   );

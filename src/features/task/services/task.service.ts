@@ -68,6 +68,17 @@ const deleteTask = async (
   return response.data;
 };
 
+const deleteAllTasks = async (
+  token: string | undefined,
+): Promise<void> => {
+  await axios.delete(
+    `${process.env.REACT_APP_BASE_API}/tasks`,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+};
+
 const importTasks = async (
   token: string | undefined,
   file: File
@@ -92,6 +103,7 @@ const taskService = {
   editTask,
   deleteTask,
   importTasks,
+  deleteAllTasks,
 };
 
 export default taskService;
