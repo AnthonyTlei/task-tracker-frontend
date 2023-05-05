@@ -21,7 +21,7 @@ import {
 import { useRef, useState } from "react";
 
 export const AdminDashboard = () => {
-  // TODO: refactor AdminDashboard
+  // TODO: refactor AdminDashboard LOL
   const theme = useTheme();
   const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
   const token = useToken();
@@ -36,9 +36,8 @@ export const AdminDashboard = () => {
   } = useAppSelector((state) => state.task);
 
   const handleFileChange = async (
-    // TODO: adapt to new ImportResults
-    // TODO: add loading indicator
     // TODO: add help button that shows excel format
+    // TODO: adapt to import tasks options
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = event.target.files?.[0];
