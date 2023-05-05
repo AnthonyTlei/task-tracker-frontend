@@ -4,6 +4,7 @@ import { Task } from "../models/task";
 import { NewTask } from "../models/newTask";
 import { DecodedJwt } from "../../auth/models/Jwt";
 import { TaskWithUser } from "../../checklist/models/taskWithUsers";
+import { ImportResults } from "../models/importResult";
 
 const getTasks = async (token: string | undefined): Promise<TaskWithUser[]> => {
   const response = await axios.get(`${process.env.REACT_APP_BASE_API}/tasks`, {
@@ -70,7 +71,7 @@ const deleteTask = async (
 const importTasks = async (
   token: string | undefined,
   file: File
-): Promise<Task[]> => {
+): Promise<ImportResults> => {
   // TODO: validate file format
   const formData = new FormData();
   formData.append("file", file);

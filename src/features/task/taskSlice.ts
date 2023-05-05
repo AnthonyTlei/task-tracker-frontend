@@ -3,6 +3,7 @@ import taskService from "./services/task.service";
 import { Task } from "./models/task";
 import { NewTask } from "./models/newTask";
 import { TaskWithUser } from "../checklist/models/taskWithUsers";
+import { ImportResults } from "./models/importResult";
 
 interface AsyncState {
   isLoading: boolean;
@@ -13,6 +14,7 @@ interface AsyncState {
 interface TaskState extends AsyncState {
   tasks: TaskWithUser[];
   userTasks: Task[];
+  importResult: ImportResults;
 }
 
 const initialState: TaskState = {
@@ -21,6 +23,11 @@ const initialState: TaskState = {
   isLoading: false,
   isSuccess: false,
   isError: false,
+  importResult: {
+    total: 0,
+    success: [],
+    fails: [],
+  },
 };
 
 export const getAllTasks = createAsyncThunk(
@@ -123,6 +130,8 @@ export const taskSlice = createSlice({
       // getAllTasks
       .addCase(getAllTasks.pending, (state) => {
         state.isLoading = true;
+        state.isSuccess = false;
+        state.isError = false;
       })
       .addCase(getAllTasks.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -137,6 +146,8 @@ export const taskSlice = createSlice({
       // getUserTasks
       .addCase(getUserTasks.pending, (state) => {
         state.isLoading = true;
+        state.isSuccess = false;
+        state.isError = false;
       })
       .addCase(getUserTasks.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -151,6 +162,8 @@ export const taskSlice = createSlice({
       // createTask
       .addCase(createTask.pending, (state) => {
         state.isLoading = true;
+        state.isSuccess = false;
+        state.isError = false;
       })
       .addCase(createTask.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -164,6 +177,8 @@ export const taskSlice = createSlice({
       // editTask
       .addCase(editTask.pending, (state) => {
         state.isLoading = true;
+        state.isSuccess = false;
+        state.isError = false;
       })
       .addCase(editTask.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -182,6 +197,8 @@ export const taskSlice = createSlice({
       // deleteTask
       .addCase(deleteTask.pending, (state) => {
         state.isLoading = true;
+        state.isSuccess = false;
+        state.isError = false;
       })
       .addCase(deleteTask.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -197,12 +214,14 @@ export const taskSlice = createSlice({
       // importTasks
       .addCase(importTasks.pending, (state) => {
         state.isLoading = true;
+        state.isSuccess = false;
+        state.isError = false;
       })
       .addCase(importTasks.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.importResult = action.payload;
         // TODO: append to userTasks
-        console.log(action.payload);
       })
       .addCase(importTasks.rejected, (state) => {
         state.isLoading = false;

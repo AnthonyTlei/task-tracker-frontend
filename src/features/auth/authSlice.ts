@@ -12,6 +12,7 @@ const user: DisplayUser | null = !!storedUser ? JSON.parse(storedUser) : null;
 const storedJwt: string | null = localStorage.getItem("jwt");
 const jwt: Jwt = !!storedJwt ? JSON.parse(storedJwt) : null;
 
+// TODO: fix the States sync issues: (ex: overview isSuccess, navigate to Admin dashboard, isSuccess is still true) maybe split them?
 interface AsyncState {
   isLoading: boolean;
   isSuccess: boolean;
