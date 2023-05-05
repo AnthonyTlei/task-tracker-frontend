@@ -100,7 +100,6 @@ export const importTasks = createAsyncThunk(
     { token, file }: { token: string | undefined; file: File },
     thunkAPI
   ) => {
-    // TODO: handle server error (duplicate id)
     try {
       return await taskService.importTasks(token, file);
     } catch (error) {

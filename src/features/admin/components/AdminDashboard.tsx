@@ -5,13 +5,7 @@ import {
   Button,
   useMediaQuery,
   useTheme,
-  Backdrop,
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
 } from "@mui/material";
-import React, { useState } from "react";
 import { importTasks } from "../../task/taskSlice";
 import { useToken } from "../../../hooks/redux/useToken";
 import { useAppDispatch } from "../../../hooks/redux/redux-hooks";
@@ -20,18 +14,11 @@ export const AdminDashboard = () => {
   const theme = useTheme();
   const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
   const token = useToken();
-  const [openImport, setOpenImport] = useState(false);
   const dispatch = useAppDispatch();
 
-  const handleImport = () => {
-    setOpenImport(false);
-  };
-
-  const handleCancel = () => {
-    setOpenImport(false);
-  };
-
   const handleFileChange = async (
+    // TODO: handle server error (duplicate id)
+    // TODO: add loading indicator
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = event.target.files?.[0];
@@ -59,55 +46,12 @@ export const AdminDashboard = () => {
           borderRadius: "10px",
           backgroundColor: `${theme.palette.status.success}`,
         }}
-        onClick={() => setOpenImport(true)}
         endIcon={<FileDownload />}
+        component="label"
       >
         <Typography color={"white"}>Import From Excel</Typography>
+        <input type="file" hidden onChange={handleFileChange} />
       </Button>
-      <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={openImport}
-      >
-        <Card sx={{ width: "350px", height: "auto", borderRadius: "10px" }}>
-          <CardHeader title="Import Tasks" sx={{ margin: "0 8px" }} />
-          <CardContent>
-            <Box
-              display={"flex"}
-              justifyContent={"space-around"}
-              alignItems={"center"}
-            >
-              <Box p={1} width={"100%"}>
-                <Button variant="contained" component="label">
-                  Upload File{" "}
-                  <input type="file" hidden onChange={handleFileChange} />
-                </Button>
-              </Box>
-            </Box>
-          </CardContent>
-          <CardActions>
-            <Box
-              p={2}
-              width={"100%"}
-              display={"flex"}
-              flexDirection={"row-reverse"}
-            >
-              <Button
-                color="secondary"
-                variant="contained"
-                onClick={handleImport}
-              >
-                Import
-              </Button>
-              <Button
-                onClick={handleCancel}
-                sx={{ color: "common.white", marginRight: "10px" }}
-              >
-                Cancel
-              </Button>
-            </Box>
-          </CardActions>
-        </Card>
-      </Backdrop>
     </Box>
   );
 };
