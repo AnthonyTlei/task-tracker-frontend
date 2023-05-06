@@ -5,10 +5,6 @@ import {
   Button,
   useMediaQuery,
   useTheme,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   CircularProgress,
   IconButton,
 } from "@mui/material";
@@ -19,6 +15,7 @@ import {
   useAppSelector,
 } from "../../../hooks/redux/redux-hooks";
 import { useRef, useState } from "react";
+import ConfirmDialog from "../../../shared/components/ConfirmationDialog";
 
 export const AdminDashboard = () => {
   // TODO: refactor AdminDashboard LOL
@@ -63,41 +60,6 @@ export const AdminDashboard = () => {
 
   const handleFlushTasks = () => {
     dispatch(deleteAllTasks({ token }));
-  };
-
-  const ConfirmDialog = () => {
-    return (
-      <Dialog
-        open={confirmationOpen}
-        onClose={() => {
-          setConfirmationOpen(false);
-        }}
-        maxWidth="sm"
-        fullWidth
-        style={{ backgroundColor: theme.palette.background.default }}
-      >
-        <DialogTitle>Are you sure you want to proceed?</DialogTitle>
-        <DialogContent>
-          This will override all the currently stored tasks.
-        </DialogContent>
-        <DialogActions>
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={handleImportCancel}
-          >
-            Cancel
-          </Button>
-          <Button
-            color="secondary"
-            variant="contained"
-            onClick={handleImportConfirm}
-          >
-            Confirm
-          </Button>
-        </DialogActions>
-      </Dialog>
-    );
   };
 
   const Results = () => {
@@ -213,7 +175,13 @@ export const AdminDashboard = () => {
         <FlushTasksButton />
       </Box>
       <Box p={2}>{importSuccess && <Results />}</Box>
-      <ConfirmDialog />
+      <ConfirmDialog
+        open={confirmationOpen}
+        title="Are you sure you want to proceed?"
+        content="This will override all the currently stored tasks."
+        onConfirm={handleImportConfirm}
+        onCancel={handleImportCancel}
+      />
     </Box>
   );
 };
