@@ -1,11 +1,9 @@
-import { Delete, FileDownload, Settings } from "@mui/icons-material";
+import { Delete, Settings, Upload } from "@mui/icons-material";
 import {
   Box,
   Typography,
-  Button,
   useMediaQuery,
   useTheme,
-  CircularProgress,
   IconButton,
 } from "@mui/material";
 import { deleteAllTasks, importTasks } from "../../task/taskSlice";
@@ -16,6 +14,7 @@ import {
 } from "../../../hooks/redux/redux-hooks";
 import { useRef, useState } from "react";
 import ConfirmDialog from "../../../shared/components/ConfirmationDialog";
+import { LoadingButton } from "../../../shared/components/LoadingButton";
 
 export const AdminDashboard = () => {
   // TODO: refactor AdminDashboard LOL
@@ -77,27 +76,9 @@ export const AdminDashboard = () => {
     );
   };
 
-  const ExcelImportButton = () => {
+  const ExcelImportInput = () => {
     return (
-      <Button
-        variant="contained"
-        sx={{
-          borderRadius: "10px",
-          backgroundColor: `${theme.palette.status.success}`,
-        }}
-        endIcon={
-          importLoading ? (
-            <CircularProgress
-              size={20}
-              sx={{ color: `${theme.palette.grey[100]}` }}
-            />
-          ) : (
-            <FileDownload />
-          )
-        }
-        component="label"
-        disabled={importLoading}
-      >
+      <Box>
         <Typography color={"white"}>Import From Excel</Typography>
         <input
           type="file"
@@ -105,7 +86,20 @@ export const AdminDashboard = () => {
           onChange={handleFileChange}
           ref={fileInputRef}
         />
-      </Button>
+      </Box>
+    );
+  };
+
+  const ExcelImportButton = () => {
+    return (
+      <Box>
+        <LoadingButton
+          content={<ExcelImportInput />}
+          icon={<Upload />}
+          isLoading={importLoading}
+          color={theme.palette.status.success}
+        />
+      </Box>
     );
   };
 
@@ -119,33 +113,6 @@ export const AdminDashboard = () => {
       >
         <Settings fontSize="small" />
       </IconButton>
-    );
-  };
-
-  // TODO: refactor into loading button component
-  const FlushTasksButton = () => {
-    return (
-      <Button
-        variant="contained"
-        sx={{
-          borderRadius: "10px",
-          backgroundColor: `${theme.palette.status.rejected}`,
-        }}
-        onClick={handleFlushTasks}
-        endIcon={
-          isLoading ? (
-            <CircularProgress
-              size={20}
-              sx={{ color: `${theme.palette.grey[100]}` }}
-            />
-          ) : (
-            <Delete />
-          )
-        }
-        component="label"
-      >
-        <Typography color={"white"}>Delete All Tasks</Typography>
-      </Button>
     );
   };
 
@@ -172,7 +139,13 @@ export const AdminDashboard = () => {
         <ExcelImportConfigButton />
       </Box>
       <Box p={2}>
-        <FlushTasksButton />
+        <LoadingButton
+          content="Delete All Tasks"
+          icon={<Delete />}
+          isLoading={isLoading}
+          onClick={handleFlushTasks}
+          color={theme.palette.status.rejected}
+        />
       </Box>
       <Box p={2}>{importSuccess && <Results />}</Box>
       <ConfirmDialog
