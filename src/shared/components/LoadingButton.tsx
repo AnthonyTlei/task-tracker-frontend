@@ -38,7 +38,7 @@ export const LoadingButton: React.FC<LoadingButtonProps> = ({
       component="label"
       disabled={isLoading}
     >
-      <Typography color={"white"}>{content}</Typography>
+      {content}
     </Button>
   );
 };
