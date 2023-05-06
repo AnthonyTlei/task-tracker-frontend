@@ -14,27 +14,10 @@ export const AdminDashboard = () => {
   const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
   const token = useToken();
   const dispatch = useAppDispatch();
-  const { importSuccess, importResult, isLoading } = useAppSelector(
-    (state) => state.task
-  );
+  const { isLoading } = useAppSelector((state) => state.task);
 
   const handleFlushTasks = () => {
     dispatch(deleteAllTasks({ token }));
-  };
-
-  const Results = () => {
-    // TODO: display these in a Card (sort of like the score after you win a game)
-    return (
-      <Box p={1}>
-        <Typography variant={"h6"}>Import Results</Typography>
-        <Typography variant={"body1"} color={"status.success"}>
-          Success: {importResult.success.length} Tasks
-        </Typography>
-        <Typography variant={"body1"} color={"status.rejected"}>
-          Fails: {importResult.fails.length} Tasks
-        </Typography>
-      </Box>
-    );
   };
 
   return (
@@ -60,7 +43,6 @@ export const AdminDashboard = () => {
           color={theme.palette.status.rejected}
         />
       </Box>
-      <Box p={2}>{importSuccess && <Results />}</Box>
     </Box>
   );
 };

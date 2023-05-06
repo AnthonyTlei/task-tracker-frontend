@@ -9,15 +9,19 @@ import {
 import { importTasks } from "../../task/taskSlice";
 import { useToken } from "../../../hooks/redux/useToken";
 import ConfirmDialog from "../../../shared/components/ConfirmationDialog";
+import { ExcelImportResults } from "./ExcelImportResults";
 
 export const ExcelImport = () => {
   const theme = useTheme();
+  const token = useToken();
+  const dispatch = useAppDispatch();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const [confirmationOpen, setConfirmationOpen] = useState(false);
   const [file, setFile] = useState<File | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const { importLoading } = useAppSelector((state) => state.task);
-  const dispatch = useAppDispatch();
-  const token = useToken();
+  
+  const { importLoading, importSuccess } = useAppSelector((state) => state.task);
+
   const handleFileChange = async (
     // TODO: add help button that shows excel format
     // TODO: adapt to import tasks options
@@ -90,6 +94,7 @@ export const ExcelImport = () => {
         onConfirm={handleImportConfirm}
         onCancel={handleImportCancel}
       />
+      <Box p={2}>{importSuccess && <ExcelImportResults />}</Box>
     </>
   );
 };
