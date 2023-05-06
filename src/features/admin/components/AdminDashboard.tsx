@@ -90,19 +90,6 @@ export const AdminDashboard = () => {
     );
   };
 
-  const ExcelImportButton = () => {
-    return (
-      <Box>
-        <LoadingButton
-          content={<ExcelImportInput />}
-          icon={<Upload />}
-          isLoading={importLoading}
-          color={theme.palette.status.success}
-        />
-      </Box>
-    );
-  };
-
   const ExcelImportConfigButton = () => {
     return (
       <IconButton
@@ -135,7 +122,12 @@ export const AdminDashboard = () => {
         justifyContent={"space-between"}
         width={"300px"}
       >
-        <ExcelImportButton />
+        <LoadingButton
+          content={<ExcelImportInput />}
+          icon={<Upload />}
+          isLoading={importLoading}
+          color={theme.palette.status.success}
+        />
         <ExcelImportConfigButton />
       </Box>
       <Box p={2}>
@@ -147,6 +139,7 @@ export const AdminDashboard = () => {
           color={theme.palette.status.rejected}
         />
       </Box>
+
       <Box p={2}>{importSuccess && <Results />}</Box>
       <ConfirmDialog
         open={confirmationOpen}
