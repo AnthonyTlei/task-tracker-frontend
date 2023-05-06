@@ -29,11 +29,8 @@ export const AdminDashboard = () => {
   const [confirmationOpen, setConfirmationOpen] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const {
-    importLoading: isLoading,
-    importSuccess: isSuccess,
-    importResult,
-  } = useAppSelector((state) => state.task);
+  const { importLoading, importSuccess, importResult, isLoading, isSuccess } =
+    useAppSelector((state) => state.task);
 
   const handleFileChange = async (
     // TODO: add help button that shows excel format
@@ -67,12 +64,6 @@ export const AdminDashboard = () => {
   const handleFlushTasks = () => {
     dispatch(deleteAllTasks({ token }));
   };
-
-  // TODO: make the icon change into a loading indicator instead :P
-  // TODO: add loading for flush tasks
-  if (isLoading) {
-    return <CircularProgress sx={{ marginTop: "64px" }} color="primary" />;
-  }
 
   const ConfirmDialog = () => {
     return (
@@ -132,7 +123,16 @@ export const AdminDashboard = () => {
           borderRadius: "10px",
           backgroundColor: `${theme.palette.status.success}`,
         }}
-        endIcon={<FileDownload />}
+        endIcon={
+          importLoading ? (
+            <CircularProgress
+              size={20}
+              sx={{ color: `${theme.palette.grey[100]}` }}
+            />
+          ) : (
+            <FileDownload />
+          )
+        }
         component="label"
       >
         <Typography color={"white"}>Import From Excel</Typography>
@@ -156,12 +156,27 @@ export const AdminDashboard = () => {
 
   const FlushTasksButton = () => {
     return (
-      <IconButton
-        sx={{ color: `${theme.palette.status.rejected}` }}
+      <Button
+        variant="contained"
+        sx={{
+          borderRadius: "10px",
+          backgroundColor: `${theme.palette.status.rejected}`,
+        }}
         onClick={handleFlushTasks}
+        endIcon={
+          isLoading ? (
+            <CircularProgress
+              size={20}
+              sx={{ color: `${theme.palette.grey[100]}` }}
+            />
+          ) : (
+            <Delete />
+          )
+        }
+        component="label"
       >
-        <Delete />
-      </IconButton>
+        <Typography color={"white"}>Delete All Tasks</Typography>
+      </Button>
     );
   };
 
@@ -180,7 +195,7 @@ export const AdminDashboard = () => {
       </Box>
       <ExcelImportButton />
       <ExcelImportConfigButton />
-      {isSuccess && <Results />}
+      {importSuccess && <Results />}
       <FlushTasksButton />
       <ConfirmDialog />
     </Box>
