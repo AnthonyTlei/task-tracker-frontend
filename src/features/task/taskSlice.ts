@@ -3,7 +3,7 @@ import taskService from "./services/task.service";
 import { Task } from "./models/task";
 import { NewTask } from "./models/newTask";
 import { TaskWithUser } from "../checklist/models/taskWithUsers";
-import { ImportResults } from "./models/importResult";
+import { ImportResults } from "./models/importTasks";
 
 interface AsyncState {
   isLoading: boolean;

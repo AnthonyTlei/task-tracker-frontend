@@ -4,7 +4,7 @@ import { Task } from "../models/task";
 import { NewTask } from "../models/newTask";
 import { DecodedJwt } from "../../auth/models/Jwt";
 import { TaskWithUser } from "../../checklist/models/taskWithUsers";
-import { ImportResults } from "../models/importResult";
+import { ImportResults } from "../models/importTasks";
 
 const getTasks = async (token: string | undefined): Promise<TaskWithUser[]> => {
   const response = await axios.get(`${process.env.REACT_APP_BASE_API}/tasks`, {
