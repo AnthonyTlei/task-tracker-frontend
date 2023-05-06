@@ -10,6 +10,7 @@ import { importTasks } from "../../task/taskSlice";
 import { useToken } from "../../../hooks/redux/useToken";
 import ConfirmDialog from "../../../shared/components/ConfirmationDialog";
 import { ExcelImportResults } from "./ExcelImportResults";
+import { ExcelImportConfig } from "./ExcelImportConfig";
 
 export const ExcelImport = () => {
   const theme = useTheme();
@@ -18,13 +19,15 @@ export const ExcelImport = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [confirmationOpen, setConfirmationOpen] = useState(false);
+  const [configOpen, setConfigOpen] = useState(false);
   const [file, setFile] = useState<File | null>(null);
-  
-  const { importLoading, importSuccess } = useAppSelector((state) => state.task);
+
+  const { importLoading, importSuccess, importOptions } = useAppSelector(
+    (state) => state.task
+  );
 
   const handleFileChange = async (
     // TODO: add help button that shows excel format
-    // TODO: adapt to import tasks options
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = event.target.files?.[0];
@@ -42,7 +45,7 @@ export const ExcelImport = () => {
 
   const handleImportConfirm = () => {
     if (file) {
-      dispatch(importTasks({ token, file }));
+      dispatch(importTasks({ token, file, options: importOptions }));
     }
     cleanUp();
   };
@@ -83,6 +86,7 @@ export const ExcelImport = () => {
             backgroundColor: `${theme.palette.status.success}`,
             borderRadius: "10px",
           }}
+          onClick={() => setConfigOpen(true)}
         >
           <Settings fontSize="small" />
         </IconButton>
@@ -95,6 +99,12 @@ export const ExcelImport = () => {
         onCancel={handleImportCancel}
       />
       <Box p={2}>{importSuccess && <ExcelImportResults />}</Box>
+      <ExcelImportConfig
+        open={configOpen}
+        onClose={() => {
+          setConfigOpen(false);
+        }}
+      />
     </>
   );
 };

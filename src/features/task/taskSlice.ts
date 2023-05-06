@@ -3,7 +3,7 @@ import taskService from "./services/task.service";
 import { Task } from "./models/task";
 import { NewTask } from "./models/newTask";
 import { TaskWithUser } from "../checklist/models/taskWithUsers";
-import { ImportResults } from "./models/importTasks";
+import { ImportOptions, ImportResults } from "./models/importTasks";
 
 interface AsyncState {
   isLoading: boolean;
@@ -23,6 +23,7 @@ interface TaskState extends States {
   tasks: TaskWithUser[];
   userTasks: Task[];
   importResult: ImportResults;
+  importOptions: ImportOptions;
 }
 
 const initialState: TaskState = {
@@ -38,6 +39,15 @@ const initialState: TaskState = {
     total: 0,
     success: [],
     fails: [],
+  },
+  importOptions: {
+    handleErrors: false,
+    worksheetName: undefined,
+    idColName: undefined,
+    titleColName: undefined,
+    managerColName: undefined,
+    assigneeColName: undefined,
+    statusColName: undefined,
   },
 };
 
@@ -126,11 +136,15 @@ export const deleteAllTasks = createAsyncThunk(
 export const importTasks = createAsyncThunk(
   "tasks/importTasks",
   async (
-    { token, file }: { token: string | undefined; file: File },
+    {
+      token,
+      file,
+      options,
+    }: { token: string | undefined; file: File; options?: ImportOptions },
     thunkAPI
   ) => {
     try {
-      return await taskService.importTasks(token, file);
+      return await taskService.importTasks(token, file, options);
     } catch (error) {
       return thunkAPI.rejectWithValue("Unable to import tasks.");
     }
@@ -150,6 +164,9 @@ export const taskSlice = createSlice({
       state.importLoading = false;
       state.importSuccess = false;
       state.importError = false;
+    },
+    setImportOptions: (state, action) => {
+      state.importOptions = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -273,6 +290,6 @@ export const taskSlice = createSlice({
   },
 });
 
-export const { reset, resetImport } = taskSlice.actions;
+export const { reset, resetImport, setImportOptions } = taskSlice.actions;
 
 export default taskSlice.reducer;
