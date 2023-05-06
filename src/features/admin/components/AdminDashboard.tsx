@@ -29,7 +29,7 @@ export const AdminDashboard = () => {
   const [confirmationOpen, setConfirmationOpen] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { importLoading, importSuccess, importResult, isLoading, isSuccess } =
+  const { importLoading, importSuccess, importResult, isLoading } =
     useAppSelector((state) => state.task);
 
   const handleFileChange = async (
@@ -134,6 +134,7 @@ export const AdminDashboard = () => {
           )
         }
         component="label"
+        disabled={importLoading}
       >
         <Typography color={"white"}>Import From Excel</Typography>
         <input
@@ -148,12 +149,18 @@ export const AdminDashboard = () => {
 
   const ExcelImportConfigButton = () => {
     return (
-      <IconButton sx={{ color: `${theme.palette.status.success}` }}>
-        <Settings />
+      <IconButton
+        sx={{
+          backgroundColor: `${theme.palette.status.success}`,
+          borderRadius: "10px",
+        }}
+      >
+        <Settings fontSize="small" />
       </IconButton>
     );
   };
 
+  // TODO: refactor into loading button component
   const FlushTasksButton = () => {
     return (
       <Button
@@ -193,10 +200,19 @@ export const AdminDashboard = () => {
           Admin Dashboard
         </Typography>
       </Box>
-      <ExcelImportButton />
-      <ExcelImportConfigButton />
-      {importSuccess && <Results />}
-      <FlushTasksButton />
+      <Box
+        p={2}
+        display={"flex"}
+        justifyContent={"space-between"}
+        width={"300px"}
+      >
+        <ExcelImportButton />
+        <ExcelImportConfigButton />
+      </Box>
+      <Box p={2}>
+        <FlushTasksButton />
+      </Box>
+      <Box p={2}>{importSuccess && <Results />}</Box>
       <ConfirmDialog />
     </Box>
   );
