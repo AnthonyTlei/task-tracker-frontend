@@ -1,4 +1,4 @@
-import { Button, CircularProgress, Typography, useTheme } from "@mui/material";
+import { Button, CircularProgress, useTheme } from "@mui/material";
 import React from "react";
 
 interface LoadingButtonProps {
