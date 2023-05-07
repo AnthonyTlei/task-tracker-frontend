@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Table,
   TableBody,
@@ -14,18 +14,26 @@ import {
   InputAdornment,
   TextField,
   MenuItem,
+  Menu,
 } from "@mui/material";
 import { TaskWithUser } from "../models/taskWithUsers";
 import { Search } from "@mui/icons-material";
+import authServices from "../../auth/services/auth.service";
+import { useToken } from "../../../hooks/redux/useToken";
 
 const TaskTable = ({ tasks }: { tasks: TaskWithUser[] }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
+  // Filters
   const [searchID, setSearchID] = useState("");
   const [filterAssignee, setFilterAssignee] = useState("");
   const [filterManager, setFilterManager] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
+
+  // others
+  const token = useToken();
+  const [usernames, setUsernames] = useState<string[]>([]);
 
   const filteredTasks = useMemo(() => {
     return tasks
@@ -40,6 +48,13 @@ const TaskTable = ({ tasks }: { tasks: TaskWithUser[] }) => {
           : true
       );
   }, [tasks, filterAssignee, filterManager, filterStatus, searchID]);
+
+  useEffect(() => {
+    if (!token) return;
+    authServices.getUserNames(token).then((res) => {
+      setUsernames(res);
+    });
+  }, [token]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -80,10 +95,10 @@ const TaskTable = ({ tasks }: { tasks: TaskWithUser[] }) => {
             fullWidth
             select
           >
-            {/* TODO: Make user names dynamic (create new endpoint for only user.first_name[]) */}
             <MenuItem value="">All</MenuItem>
-            <MenuItem value="user">User</MenuItem>
-            <MenuItem value="root">Root</MenuItem>
+            {usernames.map((username) => (
+              <MenuItem value={username} key={username}>{username}</MenuItem>
+            ))}
           </TextField>
         </Grid>
         <Grid item xs={12} sm={6} md={4}>

@@ -42,6 +42,16 @@ const verifyJwt = async (jwt: string): Promise<boolean> => {
   return false;
 };
 
+const getUserNames = async (token: string | undefined): Promise<string[]> => {
+  const response = await axios.get(
+    `${process.env.REACT_APP_BASE_API}/users/names`,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+  return response.data;
+};
+
 const logout = (): void => {
   localStorage.removeItem("user");
   localStorage.removeItem("jwt");
@@ -65,6 +75,7 @@ const authService = {
   verifyJwt,
   logout,
   getUserRole,
+  getUserNames,
 };
 
 export default authService;
