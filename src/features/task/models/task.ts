@@ -5,6 +5,7 @@ export enum TaskStatus {
   DONE = "done",
   PAUSED = "paused",
   CANCELLED = "cancelled",
+  UNKNOWN = "unknown",
 }
 
 export interface Task {
