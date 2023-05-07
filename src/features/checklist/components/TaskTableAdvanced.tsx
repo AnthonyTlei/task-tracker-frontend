@@ -14,12 +14,12 @@ import {
   InputAdornment,
   TextField,
   MenuItem,
-  Menu,
 } from "@mui/material";
 import { TaskWithUser } from "../models/taskWithUsers";
 import { Search } from "@mui/icons-material";
 import authServices from "../../auth/services/auth.service";
 import { useToken } from "../../../hooks/redux/useToken";
+import { TaskStatus } from "../../task/models/task";
 
 const TaskTable = ({ tasks }: { tasks: TaskWithUser[] }) => {
   const [page, setPage] = useState(0);
@@ -97,7 +97,9 @@ const TaskTable = ({ tasks }: { tasks: TaskWithUser[] }) => {
           >
             <MenuItem value="">All</MenuItem>
             {usernames.map((username) => (
-              <MenuItem value={username} key={username}>{username}</MenuItem>
+              <MenuItem value={username} key={username}>
+                {username}
+              </MenuItem>
             ))}
           </TextField>
         </Grid>
@@ -123,11 +125,14 @@ const TaskTable = ({ tasks }: { tasks: TaskWithUser[] }) => {
             fullWidth
             select
           >
-            {/* TODO: Make status values dynamic and use the StatusPill component */}
-            <MenuItem value="">All</MenuItem>
-            <MenuItem value="backlog">Backlog</MenuItem>
-            <MenuItem value="progress">In Progress</MenuItem>
-            <MenuItem value="done">Done</MenuItem>
+            <MenuItem value="">
+              All
+            </MenuItem>
+            {Object.values(TaskStatus).map((status) => (
+              <MenuItem key={status} value={status}>
+                {status}
+              </MenuItem>
+            ))}
           </TextField>
         </Grid>
       </Grid>
