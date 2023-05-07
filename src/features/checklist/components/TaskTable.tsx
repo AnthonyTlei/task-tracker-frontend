@@ -8,15 +8,9 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { useCallback, useEffect, useState } from "react";
-import {
-  useAppDispatch,
-  useAppSelector,
-} from "../../../hooks/redux/redux-hooks";
-import { getAllTasks } from "../../task/taskSlice";
-import { CircularProgress } from "@mui/material";
-import { useToken } from "../../../hooks/redux/useToken";
 import { StatusPill } from "../../../shared/components/StatusPill";
 import { TaskStatus } from "../../task/models/task";
+import { TaskWithUser } from "../models/taskWithUsers";
 
 interface Column {
   id: "id" | "full_id" | "title" | "status" | "manager" | "assignee";
@@ -65,13 +59,10 @@ function createData(
   return { id, full_id, title, status, manager, assignee };
 }
 
-export default function TaskTable() {
+const TaskTable = ({ tasks }: { tasks: TaskWithUser[] }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [rows, setRows] = useState<Data[]>([]);
-  const dispatch = useAppDispatch();
-  const token = useToken();
-  const { isSuccess, isLoading, tasks } = useAppSelector((state) => state.task);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -99,21 +90,8 @@ export default function TaskTable() {
   }, [tasks]);
 
   useEffect(() => {
-    // TODO: figure out a way to only fetch these once and store them in store then update locally.
-    if (tasks.length === 0) {
-      dispatch(getAllTasks(token));
-    }
-  }, [dispatch, token, tasks.length]);
-
-  useEffect(() => {
-    if (isSuccess) {
-      populateTable();
-    }
-  }, [isSuccess, populateTable]);
-
-  if (isLoading) {
-    return <CircularProgress sx={{ marginTop: "64px" }} color="primary" />;
-  }
+    populateTable();
+  }, [populateTable, tasks]);
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -165,4 +143,6 @@ export default function TaskTable() {
       />
     </Paper>
   );
-}
+};
+
+export default TaskTable;
