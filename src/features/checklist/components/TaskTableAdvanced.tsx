@@ -20,6 +20,7 @@ import { Search } from "@mui/icons-material";
 import authServices from "../../auth/services/auth.service";
 import { useToken } from "../../../hooks/redux/useToken";
 import { TaskStatus } from "../../task/models/task";
+import { StatusPill } from "../../../shared/components/StatusPill";
 
 const TaskTable = ({ tasks }: { tasks: TaskWithUser[] }) => {
   const [page, setPage] = useState(0);
@@ -69,7 +70,7 @@ const TaskTable = ({ tasks }: { tasks: TaskWithUser[] }) => {
 
   return (
     <>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} p={2}>
         <Grid item xs={12} sm={6} md={4}>
           <TextField
             label="Search by ID"
@@ -103,7 +104,8 @@ const TaskTable = ({ tasks }: { tasks: TaskWithUser[] }) => {
             ))}
           </TextField>
         </Grid>
-        <Grid item xs={12} sm={6} md={4}>
+        {/* TODO: Make manager values dynamic */}
+        {/* <Grid item xs={12} sm={6} md={4}>
           <TextField
             label="Filter by Manager"
             value={filterManager}
@@ -111,12 +113,11 @@ const TaskTable = ({ tasks }: { tasks: TaskWithUser[] }) => {
             fullWidth
             select
           >
-            {/* TODO: Make manager values dynamic */}
             <MenuItem value="">All</MenuItem>
             <MenuItem value="manager1">Manager 1</MenuItem>
             <MenuItem value="manager2">Manager 2</MenuItem>
           </TextField>
-        </Grid>
+        </Grid> */}
         <Grid item xs={12} sm={6} md={4}>
           <TextField
             label="Filter by Status"
@@ -125,9 +126,7 @@ const TaskTable = ({ tasks }: { tasks: TaskWithUser[] }) => {
             fullWidth
             select
           >
-            <MenuItem value="">
-              All
-            </MenuItem>
+            <MenuItem value="">All</MenuItem>
             {Object.values(TaskStatus).map((status) => (
               <MenuItem key={status} value={status}>
                 {status}
@@ -136,7 +135,6 @@ const TaskTable = ({ tasks }: { tasks: TaskWithUser[] }) => {
           </TextField>
         </Grid>
       </Grid>
-
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="task table">
           <TableHead>
@@ -157,7 +155,9 @@ const TaskTable = ({ tasks }: { tasks: TaskWithUser[] }) => {
                   <TableCell>{task.id}</TableCell>
                   <TableCell>{task.full_id}</TableCell>
                   <TableCell>{task.title}</TableCell>
-                  <TableCell>{task.status}</TableCell>
+                  <TableCell>
+                    <StatusPill status={task.status as TaskStatus} />
+                  </TableCell>
                   <TableCell>{task.manager}</TableCell>
                   <TableCell>{task.user.first_name}</TableCell>
                 </TableRow>
