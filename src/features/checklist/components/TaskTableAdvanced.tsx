@@ -135,7 +135,7 @@ const TaskTable = ({ tasks }: { tasks: TaskWithUser[] }) => {
           </TextField>
         </Grid>
       </Grid>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ marginBottom: "75px" }}>
         <Table sx={{ minWidth: 650 }} aria-label="task table">
           <TableHead>
             <TableRow>
