@@ -10,6 +10,9 @@ export const ExcelImportResults = () => {
       <Typography variant={"body1"} color={"status.success"}>
         Success: {importResult.success.length} Tasks
       </Typography>
+      <Typography variant={"body1"} color={"status.pending"}>
+        Success: {importResult.warnings.length} Tasks
+      </Typography>
       <Typography variant={"body1"} color={"status.rejected"}>
         Fails: {importResult.fails.length} Tasks
       </Typography>
