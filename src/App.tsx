@@ -15,6 +15,9 @@ import { ActiveSectionProvider } from "./contexts/ActiveSectionContext";
 import { NotAuthorizedPage } from "./pages/NotAuthorized.page";
 import AdminRoute from "./features/auth/components/AdminRoute";
 import AdminDashboardPage from "./pages/AdminDashboard.page";
+import ExcelImportSuccessPage from "./pages/ExcelImportSuccess.page";
+import ExcelImportWarningsPage from "./pages/ExcelImportWarnings.page";
+import ExcelImportFailsPage from "./pages/ExcelImportFails.page";
 
 export const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
@@ -43,6 +46,24 @@ function ThemedApp() {
                   <SecuredRoute
                     page={<AdminRoute element={<AdminDashboardPage />} />}
                   />
+                }
+              />
+              <Route
+                path="/admin/import/success"
+                element={
+                  <SecuredRoute page={<AdminRoute element={<ExcelImportSuccessPage />} />} />
+                }
+              />
+              <Route
+                path="/admin/import/warnings"
+                element={
+                  <SecuredRoute page={<AdminRoute element={<ExcelImportWarningsPage />} />} />
+                }
+              />
+              <Route
+                path="/admin/import/fails"
+                element={
+                  <SecuredRoute page={<AdminRoute element={<ExcelImportFailsPage />} />} />
                 }
               />
               <Route path="/not-authorized" element={<NotAuthorizedPage />} />
