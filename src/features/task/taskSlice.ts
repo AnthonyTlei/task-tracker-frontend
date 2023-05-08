@@ -38,6 +38,7 @@ const initialState: TaskState = {
   importResult: {
     total: 0,
     success: [],
+    warnings: [],
     fails: [],
   },
   importOptions: {
@@ -282,6 +283,7 @@ export const taskSlice = createSlice({
         state.importSuccess = true;
         state.importResult = action.payload;
         // TODO: append to userTasks
+        console.log(action.payload);
       })
       .addCase(importTasks.rejected, (state) => {
         state.importLoading = false;

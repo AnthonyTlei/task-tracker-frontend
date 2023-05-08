@@ -1,5 +1,5 @@
 import { NewTask } from "./newTask";
-import { Task } from "./task";
+import { Task, TaskWithWarning } from "./task";
 
 export enum ErrorType {
   DUPLICATE = "DUPLICATE",
@@ -33,5 +33,6 @@ export interface ImportOptions extends ImportConversionOptions {
 export interface ImportResults {
   total: number;
   success: Task[];
+  warnings: TaskWithWarning[];
   fails: FailTask[];
 }
