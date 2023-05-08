@@ -17,16 +17,27 @@ export interface Task {
   manager: string;
 }
 
-export enum WarningType {
+export enum WarningCode {
   INVALID_STATUS = "INVALID_STATUS",
 }
 
+export enum ErrorCode {
+  DUPLICATE = "DUPLICATE",
+  INVALID = "INVALID",
+  UNKNOWN = "UNKNOWN",
+}
+
 export interface Warning {
-  code: WarningType;
+  code: WarningCode;
   message: string;
 }
 
 export interface TaskWithWarning {
   task: Task;
   warning: Warning;
+}
+
+export interface TaskWithError {
+  task: Task;
+  error: Error;
 }
