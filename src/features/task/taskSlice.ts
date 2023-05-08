@@ -36,7 +36,6 @@ const initialState: TaskState = {
   importSuccess: false,
   importError: false,
   importResult: {
-    total: 0,
     success: [],
     warnings: [],
     fails: [],
