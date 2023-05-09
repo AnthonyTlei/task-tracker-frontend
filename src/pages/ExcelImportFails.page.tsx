@@ -1,10 +1,10 @@
 import { Box } from "@mui/material";
-import { Overview } from "../features/overview/components/Overview";
+import { FailsTaskList } from "../features/admin/components/FailsTaskList";
 
 const ExcelImportFailsPage = () => {
   return (
     <Box display={"flex"} flexDirection={"row"} width={"100%"} height={"100%"}>
-      <Overview />
+      <FailsTaskList />
     </Box>
   );
 };

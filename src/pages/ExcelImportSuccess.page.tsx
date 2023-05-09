@@ -1,10 +1,10 @@
 import { Box } from "@mui/material";
-import { Overview } from "../features/overview/components/Overview";
+import { SuccessTaskList } from "../features/admin/components/SuccessTaskList";
 
 const ExcelImportSuccessPage = () => {
   return (
     <Box display={"flex"} flexDirection={"row"} width={"100%"} height={"100%"}>
-      <Overview />
+      <SuccessTaskList/>
     </Box>
   );
 };
