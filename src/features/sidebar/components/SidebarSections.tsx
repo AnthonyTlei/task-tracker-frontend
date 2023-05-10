@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Section } from "../models/section";
-import { createElement, useContext, useEffect, useState } from "react";
+import { createElement } from "react";
 import authService from "../../auth/services/auth.service";
 import { UserRole } from "../../auth/models/userRole";
 import { useActiveSection } from "../../../contexts/ActiveSectionContext";
@@ -79,7 +79,6 @@ export const SidebarSections = () => {
             }}
             onClick={() => {
               navigate(`${section.path}`);
-              // setSelection(section.id);
             }}
           >
             <ListItemIcon sx={{ minWidth: "35px" }}>
