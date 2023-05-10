@@ -15,6 +15,7 @@ export interface Task {
   title: string;
   status: TaskStatus;
   manager: string;
+  warning?: Warning;
 }
 
 export enum WarningCode {
@@ -30,11 +31,6 @@ export enum ErrorCode {
 export interface Warning {
   code: WarningCode;
   message: string;
-}
-
-export interface TaskWithWarning {
-  task: Task;
-  warning: Warning;
 }
 
 export interface TaskWithError {

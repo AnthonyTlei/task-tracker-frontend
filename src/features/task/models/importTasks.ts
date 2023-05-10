@@ -1,4 +1,4 @@
-import { Task, TaskWithError, TaskWithWarning } from "./task";
+import { Task, TaskWithError } from "./task";
 
 export interface ImportConversionOptions {
   idColName?: string;
@@ -14,8 +14,7 @@ export interface ImportOptions extends ImportConversionOptions {
 }
 
 export interface ImportResults {
-  // TODO: remove total
   success: Task[];
-  warnings: TaskWithWarning[];
+  warnings: Task[];
   fails: TaskWithError[];
 }

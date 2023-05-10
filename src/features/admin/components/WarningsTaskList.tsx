@@ -1,7 +1,7 @@
 import { Box, Grid, Typography } from "@mui/material";
 import { useAppSelector } from "../../../hooks/redux/redux-hooks";
-import { TaskWithWarning } from "../../task/models/task";
 import { TaskCard } from "../../task/components/TaskCard";
+import { Task } from "../../task/models/task";
 
 export const WarningsTaskList = () => {
   const { importResult: results } = useAppSelector((state) => state.task);
@@ -20,14 +20,14 @@ export const WarningsTaskList = () => {
       </Box>
       <Box>
         <Grid container spacing={10}>
-          {results?.warnings.map((warning: TaskWithWarning) => (
-            <Grid item key={warning.task.id}>
+          {results?.warnings.map((task: Task) => (
+            <Grid item key={task.id}>
               <TaskCard
-                id={warning.task.id}
-                full_id={warning.task.full_id}
-                title={warning.task.title}
-                status={warning.task.status}
-                manager={warning.task.manager}
+                id={task.id}
+                full_id={task.full_id}
+                title={task.title}
+                status={task.status}
+                manager={task.manager}
                 handleEditClicked={() => {}}
               />
             </Grid>
