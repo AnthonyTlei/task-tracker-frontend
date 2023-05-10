@@ -1,17 +1,28 @@
 import { Add } from "@mui/icons-material";
 import { Backdrop, Box, Button, Grid, Typography } from "@mui/material";
 import { TaskCard } from "./TaskCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EditTaskCard } from "./EditTaskCard";
-import { useAppSelector } from "../../../hooks/redux/redux-hooks";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux/redux-hooks";
 import { CreateTaskCard } from "./CreateTaskCard";
 import { Task } from "../models/task";
+import { useToken } from "../../../hooks/redux/useToken";
+import { getUserTasks } from "../taskSlice";
 
 export const TaskList = () => {
   const [openEdit, setOpenEdit] = useState(false);
   const [openCreate, setOpenCreate] = useState(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const { userTasks: tasks } = useAppSelector((state) => state.task);
+  const dispatch = useAppDispatch();
+  const token = useToken();
+
+  useEffect(() => {
+    // TODO: temporary to reduce api load. (will fail if user has 0 tasks to begin with)
+    if (tasks.length === 0) {
+      dispatch(getUserTasks(token));
+    }
+  }, [dispatch, token, tasks.length]);
 
   const handleEditClose = () => {
     setOpenEdit(false);
