@@ -6,7 +6,7 @@ import { useEffect } from "react";
 const ChecklistPage = () => {
   const { setActiveSection } = useActiveSection();
   useEffect(() => {
-    setActiveSection("checklist");
+    setActiveSection("list");
     return () => {
       setActiveSection(null);
     };

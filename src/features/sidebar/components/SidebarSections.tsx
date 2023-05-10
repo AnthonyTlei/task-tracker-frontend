@@ -15,9 +15,10 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Section } from "../models/section";
-import { createElement, useState } from "react";
+import { createElement, useContext, useEffect, useState } from "react";
 import authService from "../../auth/services/auth.service";
 import { UserRole } from "../../auth/models/userRole";
+import { useActiveSection } from "../../../contexts/ActiveSectionContext";
 
 const getIcon = (iconName: string) => {
   switch (iconName) {
@@ -38,20 +39,20 @@ export const SidebarSections = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const userRole = authService.getUserRole();
-  const isAdmin = userRole === UserRole.ADMIN || userRole === UserRole.SUPERADMIN;
+  const isAdmin =
+    userRole === UserRole.ADMIN || userRole === UserRole.SUPERADMIN;
   const sections: Section[] = [
-    { id: "overview", title: "Overview", path: "/", icon: "Summarize" },
+    { id: "home", title: "Overview", path: "/", icon: "Summarize" },
     { id: "list", title: "All Tasks", path: "/checklist", icon: "Checklist" },
     { id: "tasks", title: "My Tasks", path: "/tasks", icon: "Assignment" },
   ];
   const adminSection: Section = {
-    id: "admin-dashboard",
+    id: "admin",
     title: "Admin Dashboard",
     path: "/admin",
     icon: "AdminPanelSettings",
   };
-  // TODO: fix selection not saving for temporary drawers
-  const [selection, setSelection] = useState("overview");
+  const { activeSection } = useActiveSection();
 
   if (isAdmin) {
     sections.push(adminSection);
@@ -70,22 +71,22 @@ export const SidebarSections = () => {
                 borderRadius: "10px",
               },
               backgroundColor:
-                selection === section.id
+                activeSection === section.id
                   ? `${theme.palette.background.default}`
                   : "none",
               backgroundBlendMode: "lighten",
-              borderRadius: selection === section.id ? `10px` : "0",
+              borderRadius: activeSection === section.id ? `10px` : "0",
             }}
             onClick={() => {
               navigate(`${section.path}`);
-              setSelection(section.id);
+              // setSelection(section.id);
             }}
           >
             <ListItemIcon sx={{ minWidth: "35px" }}>
               {createElement(getIcon(section.icon), {
                 style: {
                   color:
-                    selection === section.id
+                    activeSection === section.id
                       ? `${theme.palette.secondary.main}`
                       : `${theme.palette.grey[500]}`,
                 },
@@ -98,7 +99,7 @@ export const SidebarSections = () => {
                   fontWeight={"bold"}
                   fontSize={"14px"}
                   color={
-                    section.id === selection
+                    section.id === activeSection
                       ? theme.palette.grey[100]
                       : theme.palette.grey[500]
                   }
