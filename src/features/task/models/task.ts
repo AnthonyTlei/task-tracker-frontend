@@ -15,7 +15,6 @@ export interface Task {
   title: string;
   status: TaskStatus;
   manager: string;
-  warning?: Warning;
 }
 
 export enum WarningCode {
@@ -34,6 +33,12 @@ export interface Warning {
 }
 
 export interface TaskWithError {
+  // TODO: modify Task to NEwTask since TaskWithError isnt created so it doesnt have an id
   task: Task;
   error: Error;
+}
+
+export interface TaskWithWarning {
+  task: Task;
+  warning: Warning;
 }
