@@ -33,7 +33,7 @@ function ThemedApp() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route
-                path="/checklist"
+                path="/list"
                 element={<SecuredRoute page={<ChecklistPage />} />}
               />
               <Route

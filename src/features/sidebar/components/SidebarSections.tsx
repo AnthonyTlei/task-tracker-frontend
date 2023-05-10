@@ -43,7 +43,7 @@ export const SidebarSections = () => {
     userRole === UserRole.ADMIN || userRole === UserRole.SUPERADMIN;
   const sections: Section[] = [
     { id: "home", title: "Overview", path: "/", icon: "Summarize" },
-    { id: "list", title: "All Tasks", path: "/checklist", icon: "Checklist" },
+    { id: "list", title: "All Tasks", path: "/list", icon: "Checklist" },
     { id: "tasks", title: "My Tasks", path: "/tasks", icon: "Assignment" },
   ];
   const adminSection: Section = {
