@@ -15,6 +15,8 @@ export interface Task {
   title: string;
   status: TaskStatus;
   manager: string;
+  date_assigned?: Date;
+  date_completed?: Date;
 }
 
 export enum WarningCode {

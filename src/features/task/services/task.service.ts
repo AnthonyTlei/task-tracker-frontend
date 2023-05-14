@@ -37,6 +37,12 @@ const createTask = async (
       headers: { Authorization: `Bearer ${token}` },
     }
   );
+  // TODO: try converting to date then to localeString
+  const date = response.data.date_assigned;
+  const localeDate = new Date(date).toLocaleString();
+  console.log(date);
+  console.log(localeDate);
+  console.log(typeof date);
   return response.data;
 };
 
