@@ -71,6 +71,8 @@ export const TaskList = () => {
                 title={task.title}
                 status={task.status}
                 manager={task.manager}
+                date_assigned={task.date_assigned}
+                date_completed={task.date_completed}
                 handleEditClicked={() => handleEditOpen(task)}
               />
             </Grid>
