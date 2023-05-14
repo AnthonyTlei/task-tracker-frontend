@@ -21,6 +21,7 @@ import { useToken } from "../../../hooks/redux/useToken";
 import { NewTask } from "../models/newTask";
 import ErrorSnackbar from "../../../shared/components/ErrorSnackbar";
 import { unwrapResult } from "@reduxjs/toolkit";
+import { DatePicker } from "@mui/x-date-pickers";
 
 export interface CreateTaskCardProps {
   handleClose: () => void;
@@ -33,6 +34,8 @@ export const CreateTaskCard: React.FC<CreateTaskCardProps> = ({
   const [title, setTitle] = useState("");
   const [status, setStatus] = useState(TaskStatus.BACKLOG);
   const [manager, setManager] = useState("");
+  const [assignedDate, setAssignedDate] = useState<Date | null>(null);
+  const [completedDate, setCompletedDate] = useState<Date | null>(null);
   const [error, setError] = useState("");
 
   const token = useToken();
@@ -53,6 +56,7 @@ export const CreateTaskCard: React.FC<CreateTaskCardProps> = ({
       setError("Manager cannot be empty");
       return false;
     }
+    // TODO: add validation for assigned date and completed date
     setError("");
     return true;
   };
@@ -73,6 +77,8 @@ export const CreateTaskCard: React.FC<CreateTaskCardProps> = ({
       title,
       status,
       manager,
+      date_assigned: assignedDate? assignedDate : undefined,
+      date_completed: completedDate? completedDate : undefined,
     };
     if (validateFields(newTask)) {
       try {
@@ -149,6 +155,20 @@ export const CreateTaskCard: React.FC<CreateTaskCardProps> = ({
                   label="Manager"
                   value={manager}
                   onChange={(e) => setManager(e.target.value)}
+                />
+                <DatePicker
+                  label="Assigned Date"
+                  value={assignedDate}
+                  onChange={(newValue) => {
+                    setAssignedDate(newValue);
+                  }}
+                />
+                <DatePicker
+                  label="Completed Date"
+                  value={completedDate}
+                  onChange={(newValue) => {
+                    setCompletedDate(newValue);
+                  }}
                 />
               </Stack>
             </Box>

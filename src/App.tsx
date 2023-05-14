@@ -18,6 +18,8 @@ import AdminDashboardPage from "./pages/AdminDashboard.page";
 import ExcelImportSuccessPage from "./pages/ExcelImportSuccess.page";
 import ExcelImportWarningsPage from "./pages/ExcelImportWarnings.page";
 import ExcelImportFailsPage from "./pages/ExcelImportFails.page";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 export const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
@@ -51,19 +53,25 @@ function ThemedApp() {
               <Route
                 path="/admin/import/success"
                 element={
-                  <SecuredRoute page={<AdminRoute element={<ExcelImportSuccessPage />} />} />
+                  <SecuredRoute
+                    page={<AdminRoute element={<ExcelImportSuccessPage />} />}
+                  />
                 }
               />
               <Route
                 path="/admin/import/warnings"
                 element={
-                  <SecuredRoute page={<AdminRoute element={<ExcelImportWarningsPage />} />} />
+                  <SecuredRoute
+                    page={<AdminRoute element={<ExcelImportWarningsPage />} />}
+                  />
                 }
               />
               <Route
                 path="/admin/import/fails"
                 element={
-                  <SecuredRoute page={<AdminRoute element={<ExcelImportFailsPage />} />} />
+                  <SecuredRoute
+                    page={<AdminRoute element={<ExcelImportFailsPage />} />}
+                  />
                 }
               />
               <Route path="/not-authorized" element={<NotAuthorizedPage />} />
@@ -101,11 +109,13 @@ function App() {
   }, [theme, storageTheme, mode]);
 
   return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <ThemedApp />
-      </ThemeProvider>
-    </ColorModeContext.Provider>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <ColorModeContext.Provider value={colorMode}>
+        <ThemeProvider theme={theme}>
+          <ThemedApp />
+        </ThemeProvider>
+      </ColorModeContext.Provider>
+    </LocalizationProvider>
   );
 }
 

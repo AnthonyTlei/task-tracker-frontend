@@ -6,4 +6,6 @@ export interface NewTask {
   title: string;
   status: TaskStatus;
   manager: string;
+  date_assigned?: Date;
+  date_completed?: Date;
 }
