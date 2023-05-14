@@ -20,6 +20,7 @@ import { deleteTask, editTask } from "../taskSlice";
 import { useToken } from "../../../hooks/redux/useToken";
 import { NewTask } from "../models/newTask";
 import ErrorSnackbar from "../../../shared/components/ErrorSnackbar";
+import { DatePicker } from "@mui/x-date-pickers";
 
 export interface EditTaskCardProps {
   id: number;
@@ -42,6 +43,8 @@ export const EditTaskCard: React.FC<EditTaskCardProps> = ({
   const [newTitle, setNewTitle] = useState(title);
   const [newStatus, setNewStatus] = useState(status);
   const [newManager, setNewManager] = useState(manager);
+  const [assignedDate, setAssignedDate] = useState<Date | null>(null);
+  const [completedDate, setCompletedDate] = useState<Date | null>(null);
   const [error, setError] = useState("");
 
   const { user } = useAppSelector((state) => state.auth);
@@ -62,6 +65,7 @@ export const EditTaskCard: React.FC<EditTaskCardProps> = ({
       setError("Manager cannot be empty");
       return false;
     }
+    // TODO: add validation for assigned date and completed date
     setError("");
     return true;
   };
@@ -81,6 +85,8 @@ export const EditTaskCard: React.FC<EditTaskCardProps> = ({
       title: newTitle,
       status: newStatus,
       manager: newManager,
+      date_assigned: assignedDate ? assignedDate : undefined,
+      date_completed: completedDate ? completedDate : undefined,
     };
     if (validateFields(newTask)) {
       dispatch(editTask({ token, taskId: id, newTask }));
@@ -163,6 +169,20 @@ export const EditTaskCard: React.FC<EditTaskCardProps> = ({
                   value={newManager}
                   onChange={(e) => setNewManager(e.target.value)}
                 />
+                <DatePicker
+                  label="Assigned Date"
+                  value={assignedDate}
+                  onChange={(newValue) => {
+                    setAssignedDate(newValue);
+                  }}
+                />
+                <DatePicker
+                  label="Completed Date"
+                  value={completedDate}
+                  onChange={(newValue) => {
+                    setCompletedDate(newValue);
+                  }}
+                />
               </Stack>
             </Box>
           </Box>
@@ -191,7 +211,11 @@ export const EditTaskCard: React.FC<EditTaskCardProps> = ({
               </Button>
             </Box>
             <Box p={2} display={"flex"} flexDirection={"row-reverse"}>
-              <Button color="error" variant="outlined" onClick={handleTaskDelete}>
+              <Button
+                color="error"
+                variant="outlined"
+                onClick={handleTaskDelete}
+              >
                 Delete
               </Button>
             </Box>
