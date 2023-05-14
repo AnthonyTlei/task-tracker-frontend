@@ -12,9 +12,7 @@ import {
 import React from "react";
 import { StatusPill } from "../../../shared/components/StatusPill";
 import { TaskStatus } from "../models/task";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
+import { formatDate } from "../../../shared/utilities/date.utils";
 
 export interface TaskCardProps {
   id: number;
@@ -38,23 +36,8 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   handleEditClicked,
 }) => {
   const theme = useTheme();
-  // TODO: refactor dates as a context and utilities
-  dayjs.extend(utc);
-  dayjs.extend(timezone);
-  const server_timezone = "Etc/UTC";
-  const local_timezone = dayjs.tz.guess();
-  const date_assigned_local = date_assigned
-    ? dayjs(date_assigned)
-        .tz(server_timezone)
-        .tz(local_timezone)
-        .format("MM/DD/YYYY")
-    : "";
-  const date_completed_local = date_completed
-    ? dayjs(date_completed)
-        .tz(server_timezone)
-        .tz(local_timezone)
-        .format("MM/DD/YYYY")
-    : "";
+  const date_assigned_local = date_assigned ? formatDate(date_assigned) : "";
+  const date_completed_local = date_completed ? formatDate(date_completed) : "";
   return (
     <Card sx={{ width: "250px", height: "auto", borderRadius: "10px" }}>
       <CardHeader

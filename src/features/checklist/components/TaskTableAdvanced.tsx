@@ -21,24 +21,18 @@ import authServices from "../../auth/services/auth.service";
 import { useToken } from "../../../hooks/redux/useToken";
 import { TaskStatus } from "../../task/models/task";
 import { StatusPill } from "../../../shared/components/StatusPill";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
+import { formatDate } from "../../../shared/utilities/date.utils";
 
 const TaskTable = ({ tasks }: { tasks: TaskWithUser[] }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  // Filters
   const [searchID, setSearchID] = useState("");
   const [filterAssignee, setFilterAssignee] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [filterManager, setFilterManager] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
-
-  // others
   const token = useToken();
   const [usernames, setUsernames] = useState<string[]>([]);
-
   const filteredTasks = useMemo(() => {
     return tasks
       .filter((task) =>
@@ -69,22 +63,6 @@ const TaskTable = ({ tasks }: { tasks: TaskWithUser[] }) => {
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
-  };
-
-  // TODO: refactor into a utility
-  const formatDate = (date: Date | undefined) => {
-    if (!date) return "";
-    dayjs.extend(utc);
-    dayjs.extend(timezone);
-    const server_timezone = "Etc/UTC";
-    const local_timezone = dayjs.tz.guess();
-    const date_formatted = date
-      ? dayjs(date)
-          .tz(server_timezone)
-          .tz(local_timezone)
-          .format("MM/DD/YYYY")
-      : "";
-    return date_formatted;
   };
 
   return (
@@ -181,8 +159,12 @@ const TaskTable = ({ tasks }: { tasks: TaskWithUser[] }) => {
                   </TableCell>
                   <TableCell>{task.manager}</TableCell>
                   <TableCell>{task.user.first_name}</TableCell>
-                  <TableCell>{formatDate(task.date_assigned)}</TableCell>
-                  <TableCell>{formatDate(task.date_completed)}</TableCell>
+                  <TableCell>
+                    {task.date_assigned ? formatDate(task.date_assigned) : ""}
+                  </TableCell>
+                  <TableCell>
+                    {task.date_completed ? formatDate(task.date_completed) : ""}
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>
