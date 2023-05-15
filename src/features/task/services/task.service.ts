@@ -1,14 +1,18 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-import { Task } from "../models/task";
+import { GetTasksFilterDTO, Task } from "../models/task";
 import { NewTask } from "../models/newTask";
 import { DecodedJwt } from "../../auth/models/Jwt";
 import { TaskWithUser } from "../../checklist/models/taskWithUsers";
 import { ImportOptions, ImportResults } from "../models/importTasks";
 
-const getTasks = async (token: string | undefined): Promise<TaskWithUser[]> => {
+const getTasks = async (
+  token: string | undefined,
+  filters: GetTasksFilterDTO
+): Promise<TaskWithUser[]> => {
   const response = await axios.get(`${process.env.REACT_APP_BASE_API}/tasks`, {
     headers: { Authorization: `Bearer ${token}` },
+    params: filters,
   });
   return response.data;
 };

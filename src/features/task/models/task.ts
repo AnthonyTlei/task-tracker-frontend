@@ -44,3 +44,7 @@ export interface TaskWithWarning {
   task: Task;
   warning: Warning;
 }
+
+export interface GetTasksFilterDTO {
+  range?: [Date, Date];
+}

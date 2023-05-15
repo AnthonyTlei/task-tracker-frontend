@@ -1,4 +1,10 @@
-import { Box, CircularProgress, Typography, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import TaskTableAdvanced from "./TaskTableAdvanced";
 import {
   useAppDispatch,
@@ -7,6 +13,7 @@ import {
 import { getAllTasks } from "../../task/taskSlice";
 import { useToken } from "../../../hooks/redux/useToken";
 import { useEffect } from "react";
+import { GetTasksFilterDTO } from "../../task/models/task";
 
 export const Checklist = () => {
   const theme = useTheme();
@@ -18,7 +25,13 @@ export const Checklist = () => {
   useEffect(() => {
     // TODO: figure out a way to only fetch these once and store them in store then update locally.
     if (tasks.length === 0) {
-      dispatch(getAllTasks(token));
+      const filters: GetTasksFilterDTO = {
+        range: [
+          new Date(Date.now() - 3 * 30 * 24 * 60 * 60 * 1000),
+          new Date(),
+        ],
+      };
+      dispatch(getAllTasks({ token, filters }));
     }
   }, [dispatch, token, tasks.length]);
 

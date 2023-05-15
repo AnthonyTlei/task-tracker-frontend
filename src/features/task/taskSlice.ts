@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import taskService from "./services/task.service";
-import { Task } from "./models/task";
+import { GetTasksFilterDTO, Task } from "./models/task";
 import { NewTask } from "./models/newTask";
 import { TaskWithUser } from "../checklist/models/taskWithUsers";
 import { ImportOptions, ImportResults } from "./models/importTasks";
@@ -53,9 +53,12 @@ const initialState: TaskState = {
 
 export const getAllTasks = createAsyncThunk(
   "tasks/getAllTasks",
-  async (token: string | undefined, thunkAPI) => {
+  async (
+    params: { token: string | undefined; filters: GetTasksFilterDTO },
+    thunkAPI
+  ) => {
     try {
-      return await taskService.getTasks(token);
+      return await taskService.getTasks(params.token, params.filters);
     } catch (error) {
       return thunkAPI.rejectWithValue("Unable to fetch tasks.");
     }
