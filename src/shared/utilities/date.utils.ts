@@ -25,3 +25,12 @@ export function formatDate(date: Date) {
     : "";
   return date_formatted;
 }
+
+export function convertToServerTime(date: Date) {
+  const server_timezone = "Etc/UTC";
+  const local_timezone = getUserTimezone();
+  const date_formatted = date
+    ? dayjs(date).tz(local_timezone).tz(server_timezone).format("MM/DD/YYYY")
+    : date;
+  return new Date(date_formatted);
+}

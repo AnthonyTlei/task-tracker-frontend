@@ -5,11 +5,16 @@ import { NewTask } from "../models/newTask";
 import { DecodedJwt } from "../../auth/models/Jwt";
 import { TaskWithUser } from "../../checklist/models/taskWithUsers";
 import { ImportOptions, ImportResults } from "../models/importTasks";
+import { convertToServerTime } from "../../../shared/utilities/date.utils";
 
 const getTasks = async (
   token: string | undefined,
   filters: GetTasksFilterDTO
 ): Promise<TaskWithUser[]> => {
+  if (filters.range) {
+    filters.range[0] = convertToServerTime(filters.range[0]);
+    filters.range[1] = convertToServerTime(filters.range[1]);
+  }
   const response = await axios.get(`${process.env.REACT_APP_BASE_API}/tasks`, {
     headers: { Authorization: `Bearer ${token}` },
     params: filters,
