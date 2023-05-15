@@ -23,6 +23,7 @@ import { TaskStatus } from "../../task/models/task";
 import { StatusPill } from "../../../shared/components/StatusPill";
 import { formatDate } from "../../../shared/utilities/date.utils";
 import OptionsMenu from "../../../shared/components/OptionsMenu";
+import { DateRangePicker } from "../../../shared/components/DateRangePicker";
 
 interface Column {
   name: string;
@@ -40,7 +41,19 @@ const columns: Column[] = [
   { name: "date_completed", label: "Date Completed" },
 ];
 
-const TaskTable = ({ tasks }: { tasks: TaskWithUser[] }) => {
+interface TaskTableProps {
+  tasks: TaskWithUser[];
+  startDate: Date;
+  endDate: Date;
+  onDateRangeChange: (newStartDate: Date, newEndDate: Date) => void;
+}
+
+const TaskTable: React.FC<TaskTableProps> = ({
+  tasks,
+  startDate,
+  endDate,
+  onDateRangeChange,
+}) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [searchID, setSearchID] = useState("");
@@ -102,6 +115,10 @@ const TaskTable = ({ tasks }: { tasks: TaskWithUser[] }) => {
     setPage(0);
   };
 
+  const handleDateRangeChange = (newStart: Date, newEnd: Date) => {
+    onDateRangeChange(newStart, newEnd);
+  };
+
   return (
     <>
       <OptionsMenu
@@ -111,6 +128,17 @@ const TaskTable = ({ tasks }: { tasks: TaskWithUser[] }) => {
         onOptionChange={handleOptionChange}
       />
       <Grid container spacing={2} p={2}>
+        <Grid item xs={12} sm={6} md={4}>
+          <DateRangePicker
+            startText="Start date"
+            endText="End date"
+            startDate={startDate}
+            endDate={endDate}
+            onConfirm={(newStart: Date, newEnd: Date) =>
+              handleDateRangeChange(newStart, newEnd)
+            }
+          />
+        </Grid>
         <Grid item xs={12} sm={6} md={4}>
           <TextField
             label="Search by ID"

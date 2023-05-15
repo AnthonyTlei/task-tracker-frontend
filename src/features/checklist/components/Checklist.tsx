@@ -12,7 +12,7 @@ import {
 } from "../../../hooks/redux/redux-hooks";
 import { getAllTasks } from "../../task/taskSlice";
 import { useToken } from "../../../hooks/redux/useToken";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { GetTasksFilterDTO } from "../../task/models/task";
 
 export const Checklist = () => {
@@ -21,19 +21,17 @@ export const Checklist = () => {
   const dispatch = useAppDispatch();
   const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
   const { tasks, isLoading, isSuccess } = useAppSelector((state) => state.task);
+  const [startDate, setStartDate] = useState<Date>(
+    new Date(Date.now() - 3 * 30 * 24 * 60 * 60 * 1000)
+  );
+  const [endDate, setEndDate] = useState<Date>(new Date());
 
   useEffect(() => {
-    // TODO: figure out a way to only fetch these once and store them in store then update locally.
-    if (tasks.length === 0) {
-      const filters: GetTasksFilterDTO = {
-        range: [
-          new Date(Date.now() - 3 * 30 * 24 * 60 * 60 * 1000),
-          new Date(),
-        ],
-      };
-      dispatch(getAllTasks({ token, filters }));
-    }
-  }, [dispatch, token, tasks.length]);
+    const filters: GetTasksFilterDTO = {
+      range: [startDate, endDate],
+    };
+    dispatch(getAllTasks({ token, filters }));
+  }, [dispatch, token, tasks.length, startDate, endDate]);
 
   return (
     <Box p={3} width={"100%"} height={"100%"}>
@@ -51,7 +49,17 @@ export const Checklist = () => {
       {isLoading && (
         <CircularProgress sx={{ marginTop: "64px" }} color="primary" />
       )}
-      {isSuccess && !isLoading && <TaskTableAdvanced tasks={tasks} />}
+      {isSuccess && !isLoading && (
+        <TaskTableAdvanced
+          tasks={tasks}
+          startDate={startDate}
+          endDate={endDate}
+          onDateRangeChange={(start, end) => {
+            setStartDate(start);
+            setEndDate(end);
+          }}
+        />
+      )}
     </Box>
   );
 };
