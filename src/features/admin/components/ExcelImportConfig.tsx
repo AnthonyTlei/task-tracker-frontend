@@ -30,6 +30,8 @@ export const ExcelImportConfig: React.FC<ExcelImportConfigProps> = ({
     assigneeColName: "",
     statusColName: "",
     managerColName: "",
+    dateAssignedColName: "",
+    dateCompletedColName: "",
   });
   const handleFieldChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -93,6 +95,20 @@ export const ExcelImportConfig: React.FC<ExcelImportConfigProps> = ({
               color="secondary"
               value={config.statusColName}
               onChange={(e) => handleFieldChange(e, "statusColName")}
+            />
+            <TextField
+              label={"Date assigned Column Name"}
+              variant="standard"
+              color="secondary"
+              value={config.dateAssignedColName}
+              onChange={(e) => handleFieldChange(e, "dateAssignedColName")}
+            />
+            <TextField
+              label={"Date completed Column Name"}
+              variant="standard"
+              color="secondary"
+              value={config.dateCompletedColName}
+              onChange={(e) => handleFieldChange(e, "dateCompletedColName")}
             />
           </Stack>
         </CardContent>
