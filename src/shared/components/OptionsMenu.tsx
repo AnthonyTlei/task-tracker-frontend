@@ -42,12 +42,16 @@ export default function OptionsMenu({
   return (
     <Box>
       <Button
+        variant="contained"
         aria-controls="options-menu"
         aria-haspopup="true"
         onClick={handleClick}
         endIcon={<ArrowDropDownIcon />}
+        color="secondary"
       >
-        <Typography variant="body2" color={"common.white"}>{label}</Typography>
+        <Typography variant="body2" color={"common.white"}>
+          {label}
+        </Typography>
       </Button>
       <Menu
         id="options-menu"

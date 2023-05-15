@@ -14,6 +14,8 @@ import {
   InputAdornment,
   TextField,
   MenuItem,
+  Card,
+  Box,
 } from "@mui/material";
 import { TaskWithUser } from "../models/taskWithUsers";
 import { Search } from "@mui/icons-material";
@@ -121,59 +123,55 @@ const TaskTable: React.FC<TaskTableProps> = ({
 
   return (
     <>
-      <OptionsMenu
-        label="Select Columns"
-        options={columns}
-        selectedOptions={selectedOptions}
-        onOptionChange={handleOptionChange}
-      />
-      <Grid container spacing={2} p={2}>
-        <Grid item xs={12} sm={6} md={4}>
-          <DateRangePicker
-            startText="Start date"
-            endText="End date"
-            startDate={startDate}
-            endDate={endDate}
-            onConfirm={(newStart: Date, newEnd: Date) =>
-              handleDateRangeChange(newStart, newEnd)
-            }
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <TextField
-            label="Search by ID"
-            value={searchID}
-            onChange={(e) => setSearchID(e.target.value)}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton>
-                    <Search />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <TextField
-            label="Filter by Assignee"
-            value={filterAssignee}
-            onChange={(e) => setFilterAssignee(e.target.value)}
-            fullWidth
-            select
-          >
-            <MenuItem value="">All</MenuItem>
-            {usernames.map((username) => (
-              <MenuItem value={username} key={username}>
-                {username}
-              </MenuItem>
-            ))}
-          </TextField>
-        </Grid>
-        {/* TODO: Make manager values dynamic */}
-        {/* <Grid item xs={12} sm={6} md={4}>
+      <Box py={2}>
+        <DateRangePicker
+          startText="Start date"
+          endText="End date"
+          startDate={startDate}
+          endDate={endDate}
+          onConfirm={(newStart: Date, newEnd: Date) =>
+            handleDateRangeChange(newStart, newEnd)
+          }
+        />
+      </Box>
+      <Box py={2}>
+        <Card>
+          <Grid container spacing={2} p={2}>
+            <Grid item xs={12} sm={6} md={4}>
+              <TextField
+                label="Search by ID"
+                value={searchID}
+                onChange={(e) => setSearchID(e.target.value)}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton>
+                        <Search />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <TextField
+                label="Filter by Assignee"
+                value={filterAssignee}
+                onChange={(e) => setFilterAssignee(e.target.value)}
+                fullWidth
+                select
+              >
+                <MenuItem value="">All</MenuItem>
+                {usernames.map((username) => (
+                  <MenuItem value={username} key={username}>
+                    {username}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            {/* TODO: Make manager values dynamic */}
+            {/* <Grid item xs={12} sm={6} md={4}>
           <TextField
             label="Filter by Manager"
             value={filterManager}
@@ -186,23 +184,32 @@ const TaskTable: React.FC<TaskTableProps> = ({
             <MenuItem value="manager2">Manager 2</MenuItem>
           </TextField>
         </Grid> */}
-        <Grid item xs={12} sm={6} md={4}>
-          <TextField
-            label="Filter by Status"
-            value={filterStatus}
-            onChange={(e) => setFilterStatus(e.target.value)}
-            fullWidth
-            select
-          >
-            <MenuItem value="">All</MenuItem>
-            {Object.values(TaskStatus).map((status) => (
-              <MenuItem key={status} value={status}>
-                {status}
-              </MenuItem>
-            ))}
-          </TextField>
-        </Grid>
-      </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <TextField
+                label="Filter by Status"
+                value={filterStatus}
+                onChange={(e) => setFilterStatus(e.target.value)}
+                fullWidth
+                select
+              >
+                <MenuItem value="">All</MenuItem>
+                {Object.values(TaskStatus).map((status) => (
+                  <MenuItem key={status} value={status}>
+                    {status}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+          </Grid>
+        </Card>
+      </Box>
+
+      <OptionsMenu
+        label="Show Columns"
+        options={columns}
+        selectedOptions={selectedOptions}
+        onOptionChange={handleOptionChange}
+      />
       <TableContainer component={Paper} sx={{ marginBottom: "75px" }}>
         <Table sx={{ minWidth: 650 }} aria-label="task table">
           <TableHead>

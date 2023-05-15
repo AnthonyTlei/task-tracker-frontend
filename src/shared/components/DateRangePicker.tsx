@@ -21,7 +21,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
   const [newStartDate, setNewStartDate] = useState<Date>(startDate);
   const [newEndDate, setNewEndDate] = useState<Date>(endDate);
   return (
-    <Box>
+    <Box width={"100%"} display={"flex"} flexDirection={"row"}>
       <Card>
         <CardContent>
           <DatePicker
