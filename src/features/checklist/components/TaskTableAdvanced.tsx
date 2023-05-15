@@ -22,6 +22,23 @@ import { useToken } from "../../../hooks/redux/useToken";
 import { TaskStatus } from "../../task/models/task";
 import { StatusPill } from "../../../shared/components/StatusPill";
 import { formatDate } from "../../../shared/utilities/date.utils";
+import OptionsMenu from "../../../shared/components/OptionsMenu";
+
+interface Column {
+  name: string;
+  label: string;
+}
+
+const columns: Column[] = [
+  { name: "id", label: "ID" },
+  { name: "full_id", label: "Full ID" },
+  { name: "title", label: "Title" },
+  { name: "manager", label: "Manager" },
+  { name: "assignee", label: "Assignee" },
+  { name: "status", label: "Status" },
+  { name: "date_assigned", label: "Date Assigned" },
+  { name: "date_completed", label: "Date Completed" },
+];
 
 const TaskTable = ({ tasks }: { tasks: TaskWithUser[] }) => {
   const [page, setPage] = useState(0);
@@ -33,6 +50,26 @@ const TaskTable = ({ tasks }: { tasks: TaskWithUser[] }) => {
   const [filterStatus, setFilterStatus] = useState("");
   const token = useToken();
   const [usernames, setUsernames] = useState<string[]>([]);
+  const [selectedOptions, setSelectedOptions] = React.useState<
+    Record<string, boolean>
+  >({
+    id: false,
+    full_id: true,
+    title: true,
+    assignee: true,
+    manager: false,
+    status: true,
+    date_assigned: false,
+    date_completed: false,
+  });
+
+  const handleOptionChange = (name: string, checked: boolean) => {
+    setSelectedOptions({
+      ...selectedOptions,
+      [name]: checked,
+    });
+  };
+
   const filteredTasks = useMemo(() => {
     return tasks
       .filter((task) =>
@@ -67,6 +104,12 @@ const TaskTable = ({ tasks }: { tasks: TaskWithUser[] }) => {
 
   return (
     <>
+      <OptionsMenu
+        label="Select Columns"
+        options={columns}
+        selectedOptions={selectedOptions}
+        onOptionChange={handleOptionChange}
+      />
       <Grid container spacing={2} p={2}>
         <Grid item xs={12} sm={6} md={4}>
           <TextField
@@ -136,14 +179,13 @@ const TaskTable = ({ tasks }: { tasks: TaskWithUser[] }) => {
         <Table sx={{ minWidth: 650 }} aria-label="task table">
           <TableHead>
             <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell>Full ID</TableCell>
-              <TableCell>Title</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Manager</TableCell>
-              <TableCell>Assignee</TableCell>
-              <TableCell>Date Assigned</TableCell>
-              <TableCell>Date Completed</TableCell>
+              {Object.entries(selectedOptions).map(([name, checked]) => {
+                if (checked) {
+                  const col = columns.find((col) => col.name === name);
+                  return <TableCell key={name}>{col?.label}</TableCell>;
+                }
+                return null;
+              })}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -151,20 +193,34 @@ const TaskTable = ({ tasks }: { tasks: TaskWithUser[] }) => {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((task) => (
                 <TableRow key={task.id}>
-                  <TableCell>{task.id}</TableCell>
-                  <TableCell>{task.full_id}</TableCell>
-                  <TableCell>{task.title}</TableCell>
-                  <TableCell>
-                    <StatusPill status={task.status as TaskStatus} />
-                  </TableCell>
-                  <TableCell>{task.manager}</TableCell>
-                  <TableCell>{task.user.first_name}</TableCell>
-                  <TableCell>
-                    {task.date_assigned ? formatDate(task.date_assigned) : ""}
-                  </TableCell>
-                  <TableCell>
-                    {task.date_completed ? formatDate(task.date_completed) : ""}
-                  </TableCell>
+                  {selectedOptions.id && <TableCell>{task.id}</TableCell>}
+                  {selectedOptions.full_id && (
+                    <TableCell>{task.full_id}</TableCell>
+                  )}
+                  {selectedOptions.title && <TableCell>{task.title}</TableCell>}
+                  {selectedOptions.assignee && (
+                    <TableCell>{task.user.first_name}</TableCell>
+                  )}
+                  {selectedOptions.manager && (
+                    <TableCell>{task.manager}</TableCell>
+                  )}
+                  {selectedOptions.status && (
+                    <TableCell>
+                      <StatusPill status={task.status as TaskStatus} />
+                    </TableCell>
+                  )}
+                  {selectedOptions.date_assigned && (
+                    <TableCell>
+                      {task.date_assigned ? formatDate(task.date_assigned) : ""}
+                    </TableCell>
+                  )}
+                  {selectedOptions.date_completed && (
+                    <TableCell>
+                      {task.date_completed
+                        ? formatDate(task.date_completed)
+                        : ""}
+                    </TableCell>
+                  )}
                 </TableRow>
               ))}
           </TableBody>
