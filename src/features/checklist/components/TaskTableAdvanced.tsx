@@ -9,16 +9,9 @@ import {
   Paper,
   TablePagination,
   TableFooter,
-  Grid,
-  IconButton,
-  InputAdornment,
-  TextField,
-  MenuItem,
-  Card,
   Box,
 } from "@mui/material";
 import { TaskWithUser } from "../models/taskWithUsers";
-import { Search } from "@mui/icons-material";
 import authServices from "../../auth/services/auth.service";
 import { useToken } from "../../../hooks/redux/useToken";
 import { TaskStatus } from "../../task/models/task";
@@ -26,6 +19,7 @@ import { StatusPill } from "../../../shared/components/StatusPill";
 import { formatDate } from "../../../shared/utilities/date.utils";
 import OptionsMenu from "../../../shared/components/OptionsMenu";
 import { DateRangePicker } from "../../../shared/components/DateRangePicker";
+import { TaskFilters } from "../../../shared/components/TaskFilters";
 
 interface Column {
   name: string;
@@ -62,7 +56,9 @@ const TaskTable: React.FC<TaskTableProps> = ({
   const [filterAssignee, setFilterAssignee] = useState("");
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [filterManager, setFilterManager] = useState("");
-  const [filterStatus, setFilterStatus] = useState("");
+  const [filterStatus, setFilterStatus] = useState<TaskStatus>(
+    "" as TaskStatus
+  );
   const token = useToken();
   const [usernames, setUsernames] = useState<string[]>([]);
   const [selectedOptions, setSelectedOptions] = React.useState<
@@ -135,75 +131,16 @@ const TaskTable: React.FC<TaskTableProps> = ({
         />
       </Box>
       <Box py={2}>
-        <Card>
-          <Grid container spacing={2} p={2}>
-            <Grid item xs={12} sm={6} md={4}>
-              <TextField
-                label="Search by ID"
-                value={searchID}
-                onChange={(e) => setSearchID(e.target.value)}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton>
-                        <Search />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <TextField
-                label="Filter by Assignee"
-                value={filterAssignee}
-                onChange={(e) => setFilterAssignee(e.target.value)}
-                fullWidth
-                select
-              >
-                <MenuItem value="">All</MenuItem>
-                {usernames.map((username) => (
-                  <MenuItem value={username} key={username}>
-                    {username}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-            {/* TODO: Make manager values dynamic */}
-            {/* <Grid item xs={12} sm={6} md={4}>
-          <TextField
-            label="Filter by Manager"
-            value={filterManager}
-            onChange={(e) => setFilterManager(e.target.value)}
-            fullWidth
-            select
-          >
-            <MenuItem value="">All</MenuItem>
-            <MenuItem value="manager1">Manager 1</MenuItem>
-            <MenuItem value="manager2">Manager 2</MenuItem>
-          </TextField>
-        </Grid> */}
-            <Grid item xs={12} sm={6} md={4}>
-              <TextField
-                label="Filter by Status"
-                value={filterStatus}
-                onChange={(e) => setFilterStatus(e.target.value)}
-                fullWidth
-                select
-              >
-                <MenuItem value="">All</MenuItem>
-                {Object.values(TaskStatus).map((status) => (
-                  <MenuItem key={status} value={status}>
-                    {status.toUpperCase()}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-          </Grid>
-        </Card>
+        <TaskFilters
+          searchID={searchID}
+          setSearchID={setSearchID}
+          filterAssignee={filterAssignee}
+          setFilterAssignee={setFilterAssignee}
+          filterStatus={filterStatus}
+          setFilterStatus={setFilterStatus}
+          assignees={usernames}
+        />
       </Box>
-
       <OptionsMenu
         label="Show Columns"
         options={columns}
