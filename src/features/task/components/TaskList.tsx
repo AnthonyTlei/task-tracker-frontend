@@ -1,19 +1,32 @@
 import { Add } from "@mui/icons-material";
 import { Backdrop, Box, Button, Grid, Typography } from "@mui/material";
 import { TaskCard } from "./TaskCard";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { EditTaskCard } from "./EditTaskCard";
-import { useAppDispatch, useAppSelector } from "../../../hooks/redux/redux-hooks";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../../hooks/redux/redux-hooks";
 import { CreateTaskCard } from "./CreateTaskCard";
-import { Task } from "../models/task";
+import { Task, TaskStatus } from "../models/task";
 import { useToken } from "../../../hooks/redux/useToken";
 import { getUserTasks } from "../taskSlice";
+import { DateRangePicker } from "../../../shared/components/DateRangePicker";
+import { TaskFilters } from "../../../shared/components/TaskFilters";
 
 export const TaskList = () => {
   const [openEdit, setOpenEdit] = useState(false);
   const [openCreate, setOpenCreate] = useState(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const { userTasks: tasks } = useAppSelector((state) => state.task);
+  const [searchID, setSearchID] = useState("");
+  const [filterStatus, setFilterStatus] = useState<TaskStatus>(
+    "" as TaskStatus
+  );
+  const [startDate, setStartDate] = useState<Date>(
+    new Date(Date.now() - 3 * 30 * 24 * 60 * 60 * 1000)
+  );
+  const [endDate, setEndDate] = useState<Date>(new Date());
   const dispatch = useAppDispatch();
   const token = useToken();
 
@@ -23,6 +36,23 @@ export const TaskList = () => {
       dispatch(getUserTasks(token));
     }
   }, [dispatch, token, tasks.length]);
+
+  const filteredTasks = useMemo(() => {
+    return tasks
+      .filter((task) => (filterStatus ? task.status === filterStatus : true))
+      .filter((task) =>
+        searchID
+          ? task.full_id.toLowerCase().includes(searchID.toLowerCase())
+          : true
+      )
+      .filter((task) => {
+        if (task.date_assigned) {
+          const date = new Date(task.date_assigned);
+          return date >= startDate && date <= endDate;
+        }
+        return false;
+      });
+  }, [tasks, startDate, endDate, filterStatus, searchID]);
 
   const handleEditClose = () => {
     setOpenEdit(false);
@@ -62,8 +92,28 @@ export const TaskList = () => {
         </Button>
       </Box>
       <Box>
+        <Box py={2}>
+          <DateRangePicker
+            startText="Start date"
+            endText="End date"
+            startDate={startDate}
+            endDate={endDate}
+            onConfirm={(newStart: Date, newEnd: Date) => {
+              setStartDate(newStart);
+              setEndDate(newEnd);
+            }}
+          />
+        </Box>
+        <Box py={2}>
+          <TaskFilters
+            searchID={searchID}
+            setSearchID={setSearchID}
+            filterStatus={filterStatus}
+            setFilterStatus={setFilterStatus}
+          />
+        </Box>
         <Grid container spacing={10}>
-          {tasks?.map((task) => (
+          {filteredTasks?.map((task) => (
             <Grid item key={task.id}>
               <TaskCard
                 id={task.id}

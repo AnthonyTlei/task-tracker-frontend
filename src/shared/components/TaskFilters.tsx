@@ -1,5 +1,4 @@
 import {
-  Box,
   Card,
   Grid,
   IconButton,
@@ -12,13 +11,13 @@ import { Search } from "@mui/icons-material";
 import React from "react";
 
 interface TaskFiltersProps {
-  searchID: string;
-  setSearchID: (searchID: string) => void;
-  filterAssignee: string;
-  setFilterAssignee: (filterAssignee: string) => void;
-  filterStatus: TaskStatus;
-  setFilterStatus: (filterStatus: TaskStatus) => void;
-  assignees: string[];
+  searchID?: string;
+  setSearchID?: (searchID: string) => void;
+  filterAssignee?: string;
+  setFilterAssignee?: (filterAssignee: string) => void;
+  filterStatus?: TaskStatus;
+  setFilterStatus?: (filterStatus: TaskStatus) => void;
+  assignees?: string[];
 }
 
 export const TaskFilters: React.FC<TaskFiltersProps> = ({
@@ -31,14 +30,16 @@ export const TaskFilters: React.FC<TaskFiltersProps> = ({
   assignees,
 }) => {
   return (
-    <Box>
-      <Card>
-        <Grid container spacing={2} p={2}>
+    <Card sx={{maxWidth: "auto"}}>
+      <Grid container spacing={2} p={2}>
+        {searchID !== undefined && setSearchID && (
           <Grid item xs={12} sm={6} md={4}>
             <TextField
               label="Search by ID"
               value={searchID}
-              onChange={(e) => setSearchID(e.target.value)}
+              onChange={(e) =>
+                setSearchID ? setSearchID(e.target.value) : null
+              }
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -51,6 +52,8 @@ export const TaskFilters: React.FC<TaskFiltersProps> = ({
               fullWidth
             />
           </Grid>
+        )}
+        {assignees !== undefined && setFilterAssignee && (
           <Grid item xs={12} sm={6} md={4}>
             <TextField
               label="Filter by Assignee"
@@ -67,20 +70,8 @@ export const TaskFilters: React.FC<TaskFiltersProps> = ({
               ))}
             </TextField>
           </Grid>
-          {/* TODO: Make manager values dynamic */}
-          {/* <Grid item xs={12} sm={6} md={4}>
-          <TextField
-            label="Filter by Manager"
-            value={filterManager}
-            onChange={(e) => setFilterManager(e.target.value)}
-            fullWidth
-            select
-          >
-            <MenuItem value="">All</MenuItem>
-            <MenuItem value="manager1">Manager 1</MenuItem>
-            <MenuItem value="manager2">Manager 2</MenuItem>
-          </TextField>
-        </Grid> */}
+        )}
+        {filterStatus !== undefined && setFilterStatus && (
           <Grid item xs={12} sm={6} md={4}>
             <TextField
               label="Filter by Status"
@@ -97,8 +88,22 @@ export const TaskFilters: React.FC<TaskFiltersProps> = ({
               ))}
             </TextField>
           </Grid>
-        </Grid>
-      </Card>
-    </Box>
+        )}
+        {/* TODO: Make manager values dynamic */}
+        {/* <Grid item xs={12} sm={6} md={4}>
+          <TextField
+            label="Filter by Manager"
+            value={filterManager}
+            onChange={(e) => setFilterManager(e.target.value)}
+            fullWidth
+            select
+          >
+            <MenuItem value="">All</MenuItem>
+            <MenuItem value="manager1">Manager 1</MenuItem>
+            <MenuItem value="manager2">Manager 2</MenuItem>
+          </TextField>
+        </Grid> */}
+      </Grid>
+    </Card>
   );
 };

@@ -50,6 +50,7 @@ const TaskTable: React.FC<TaskTableProps> = ({
   endDate,
   onDateRangeChange,
 }) => {
+  const token = useToken();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [searchID, setSearchID] = useState("");
@@ -59,7 +60,6 @@ const TaskTable: React.FC<TaskTableProps> = ({
   const [filterStatus, setFilterStatus] = useState<TaskStatus>(
     "" as TaskStatus
   );
-  const token = useToken();
   const [usernames, setUsernames] = useState<string[]>([]);
   const [selectedOptions, setSelectedOptions] = React.useState<
     Record<string, boolean>
