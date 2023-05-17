@@ -1,4 +1,4 @@
-import React, {useState } from "react";
+import React, { useState } from "react";
 import {
   Table,
   TableBody,
@@ -14,51 +14,21 @@ import { TaskWithUser } from "../models/taskWithUsers";
 import { TaskStatus } from "../../task/models/task";
 import { StatusPill } from "../../../shared/components/StatusPill";
 import { formatDate } from "../../../shared/utilities/date.utils";
-import OptionsMenu from "../../../shared/components/OptionsMenu";
-
-interface Column {
-  name: string;
-  label: string;
-}
-
-const columns: Column[] = [
-  { name: "id", label: "ID" },
-  { name: "full_id", label: "Full ID" },
-  { name: "title", label: "Title" },
-  { name: "manager", label: "Manager" },
-  { name: "assignee", label: "Assignee" },
-  { name: "status", label: "Status" },
-  { name: "date_assigned", label: "Date Assigned" },
-  { name: "date_completed", label: "Date Completed" },
-];
 
 interface TaskTableProps {
   tasks: TaskWithUser[];
+  selectedOptions: Record<string, boolean>;
+  options: { name: string; label: string }[];
 }
 
 const TaskTable: React.FC<TaskTableProps> = ({
   tasks,
+  selectedOptions,
+  options,
 }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [selectedOptions, setSelectedOptions] = React.useState<
-    Record<string, boolean>
-  >({
-    id: false,
-    full_id: true,
-    title: true,
-    assignee: true,
-    manager: false,
-    status: true,
-    date_assigned: false,
-    date_completed: false,
-  });
-  const handleOptionChange = (name: string, checked: boolean) => {
-    setSelectedOptions({
-      ...selectedOptions,
-      [name]: checked,
-    });
-  };
+
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
@@ -70,19 +40,13 @@ const TaskTable: React.FC<TaskTableProps> = ({
   };
   return (
     <>
-      <OptionsMenu
-        label="Show Columns"
-        options={columns}
-        selectedOptions={selectedOptions}
-        onOptionChange={handleOptionChange}
-      />
       <TableContainer component={Paper} sx={{ marginBottom: "75px" }}>
         <Table sx={{ minWidth: 650 }} aria-label="task table">
           <TableHead>
             <TableRow>
               {Object.entries(selectedOptions).map(([name, checked]) => {
                 if (checked) {
-                  const col = columns.find((col) => col.name === name);
+                  const col = options.find((col) => col.name === name);
                   return <TableCell key={name}>{col?.label}</TableCell>;
                 }
                 return null;

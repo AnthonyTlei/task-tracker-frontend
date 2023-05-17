@@ -17,6 +17,23 @@ import { GetTasksFilterDTO, TaskStatus } from "../../task/models/task";
 import { DateRangePicker } from "../../../shared/components/DateRangePicker";
 import { TaskFilters } from "../../../shared/components/TaskFilters";
 import authServices from "../../auth/services/auth.service";
+import OptionsMenu from "../../../shared/components/OptionsMenu";
+
+interface TableOption {
+  name: string;
+  label: string;
+}
+
+const options: TableOption[] = [
+  { name: "id", label: "ID" },
+  { name: "full_id", label: "Full ID" },
+  { name: "title", label: "Title" },
+  { name: "manager", label: "Manager" },
+  { name: "assignee", label: "Assignee" },
+  { name: "status", label: "Status" },
+  { name: "date_assigned", label: "Date Assigned" },
+  { name: "date_completed", label: "Date Completed" },
+];
 
 export const Checklist = () => {
   const theme = useTheme();
@@ -36,6 +53,24 @@ export const Checklist = () => {
     "" as TaskStatus
   );
   const [usernames, setUsernames] = useState<string[]>([]);
+  const [selectedOptions, setSelectedOptions] = useState<
+    Record<string, boolean>
+  >({
+    id: false,
+    full_id: true,
+    title: true,
+    assignee: true,
+    manager: false,
+    status: true,
+    date_assigned: false,
+    date_completed: false,
+  });
+  const handleOptionChange = (name: string, checked: boolean) => {
+    setSelectedOptions({
+      ...selectedOptions,
+      [name]: checked,
+    });
+  };
 
   const filteredTasks = useMemo(() => {
     return tasks
@@ -108,9 +143,19 @@ export const Checklist = () => {
           assignees={usernames}
         />
       </Box>
+      <OptionsMenu
+        label="Show Columns"
+        options={options}
+        selectedOptions={selectedOptions}
+        onOptionChange={handleOptionChange}
+      />
       {isSuccess && !isLoading && (
         <>
-          <TaskTableAdvanced tasks={filteredTasks} />
+          <TaskTableAdvanced
+            tasks={filteredTasks}
+            selectedOptions={selectedOptions}
+            options={options}
+          />
         </>
       )}
     </Box>
