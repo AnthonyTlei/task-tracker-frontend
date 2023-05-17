@@ -23,10 +23,10 @@ export const TaskList = () => {
   const [filterStatus, setFilterStatus] = useState<TaskStatus>(
     "" as TaskStatus
   );
-  const [startDate, setStartDate] = useState<Date>(
-    new Date(Date.now() - 3 * 30 * 24 * 60 * 60 * 1000)
-  );
-  const [endDate, setEndDate] = useState<Date>(new Date());
+  const initialStartDate = new Date(Date.now() - 3 * 30 * 24 * 60 * 60 * 1000);
+  const initialEndDate = new Date();
+  const [startDate, setStartDate] = useState<Date>(initialStartDate);
+  const [endDate, setEndDate] = useState<Date>(initialEndDate);
   const dispatch = useAppDispatch();
   const token = useToken();
 
@@ -96,8 +96,8 @@ export const TaskList = () => {
           <DateRangePicker
             startText="Start date"
             endText="End date"
-            startDate={startDate}
-            endDate={endDate}
+            startDate={initialStartDate}
+            endDate={initialEndDate}
             onConfirm={(newStart: Date, newEnd: Date) => {
               setStartDate(newStart);
               setEndDate(newEnd);

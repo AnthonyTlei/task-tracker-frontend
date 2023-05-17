@@ -21,10 +21,10 @@ export const Checklist = () => {
   const dispatch = useAppDispatch();
   const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
   const { tasks, isLoading, isSuccess } = useAppSelector((state) => state.task);
-  const [startDate, setStartDate] = useState<Date>(
-    new Date(Date.now() - 3 * 30 * 24 * 60 * 60 * 1000)
-  );
-  const [endDate, setEndDate] = useState<Date>(new Date());
+  const initialStartDate = new Date(Date.now() - 3 * 30 * 24 * 60 * 60 * 1000);
+  const initialEndDate = new Date();
+  const [startDate, setStartDate] = useState<Date>(initialStartDate);
+  const [endDate, setEndDate] = useState<Date>(initialEndDate);
 
   useEffect(() => {
     const filters: GetTasksFilterDTO = {
@@ -52,8 +52,8 @@ export const Checklist = () => {
       {isSuccess && !isLoading && (
         <TaskTableAdvanced
           tasks={tasks}
-          startDate={startDate}
-          endDate={endDate}
+          startDate={initialStartDate}
+          endDate={initialEndDate}
           onDateRangeChange={(start, end) => {
             setStartDate(start);
             setEndDate(end);
