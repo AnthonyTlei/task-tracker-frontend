@@ -1,4 +1,12 @@
-import { Add, Done, Pending, Storage } from "@mui/icons-material";
+import {
+  Add,
+  Cancel,
+  Done,
+  PauseRounded,
+  Pending,
+  QuestionMark,
+  Storage,
+} from "@mui/icons-material";
 import {
   Box,
   Typography,
@@ -32,12 +40,18 @@ export const Overview = () => {
   const [tasksDone, setTasksDone] = useState(0);
   const [tasksProgress, setTasksProgress] = useState(0);
   const [tasksBacklog, setTasksBacklog] = useState(0);
+  const [tasksPaused, setTasksPaused] = useState(0);
+  const [tasksCancelled, setTasksCancelled] = useState(0);
+  const [tasksUnknown, setTasksUnknown] = useState(0);
 
   // TODO : refactor
   const countTasks = useCallback(() => {
     setTasksDone(0);
     setTasksProgress(0);
     setTasksBacklog(0);
+    setTasksPaused(0);
+    setTasksCancelled(0);
+    setTasksUnknown(0);
     for (const task of tasks) {
       if (task.status === TaskStatus.DONE) {
         setTasksDone((prev) => prev + 1);
@@ -45,6 +59,12 @@ export const Overview = () => {
         setTasksProgress((prev) => prev + 1);
       } else if (task.status === TaskStatus.BACKLOG) {
         setTasksBacklog((prev) => prev + 1);
+      } else if (task.status === TaskStatus.PAUSED) {
+        setTasksPaused((prev) => prev + 1);
+      } else if (task.status === TaskStatus.CANCELLED) {
+        setTasksCancelled((prev) => prev + 1);
+      } else {
+        setTasksUnknown((prev) => prev + 1);
       }
     }
   }, [tasks]);
@@ -94,19 +114,40 @@ export const Overview = () => {
         <Typography variant="h6" color={"common.white"} gutterBottom>
           Total: {tasks?.length || 0}
         </Typography>
-        <Grid container spacing={5}>
-          <Grid item>
+        <Grid container spacing={3}>
+          <Grid item lg={4}>
             <OverviewCard title="Done" count={tasksDone} Icon={Done} />
           </Grid>
-          <Grid item>
+          <Grid item lg={4}>
             <OverviewCard
               title="In Progress"
               count={tasksProgress}
               Icon={Pending}
             />
           </Grid>
-          <Grid item>
+          <Grid item lg={4}>
             <OverviewCard title="Backlog" count={tasksBacklog} Icon={Storage} />
+          </Grid>
+          <Grid item lg={4}>
+            <OverviewCard
+              title="Paused"
+              count={tasksPaused}
+              Icon={PauseRounded}
+            />
+          </Grid>
+          <Grid item lg={4}>
+            <OverviewCard
+              title="Cancelled"
+              count={tasksCancelled}
+              Icon={Cancel}
+            />
+          </Grid>
+          <Grid item lg={4}>
+            <OverviewCard
+              title="Unknown"
+              count={tasksUnknown}
+              Icon={QuestionMark}
+            />
           </Grid>
         </Grid>
       </Box>

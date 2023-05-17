@@ -195,7 +195,7 @@ const TaskTable: React.FC<TaskTableProps> = ({
                 <MenuItem value="">All</MenuItem>
                 {Object.values(TaskStatus).map((status) => (
                   <MenuItem key={status} value={status}>
-                    {status}
+                    {status.toUpperCase()}
                   </MenuItem>
                 ))}
               </TextField>
