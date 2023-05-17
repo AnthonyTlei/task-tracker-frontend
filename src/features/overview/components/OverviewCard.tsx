@@ -52,6 +52,7 @@ export const OverviewCard: React.FC<OverviewCardProps> = ({
           justifyContent={"center"}
           alignItems={"center"}
           p={"3px"}
+          onClick={() => alert("To be Implemented")}
         >
           <Visibility
             fontSize="small"
