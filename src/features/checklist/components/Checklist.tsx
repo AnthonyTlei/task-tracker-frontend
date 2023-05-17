@@ -36,19 +36,21 @@ const options: TableOption[] = [
 ];
 
 export const Checklist = () => {
+
   const theme = useTheme();
   const token = useToken();
+
   const dispatch = useAppDispatch();
-  const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
   const { tasks, isLoading, isSuccess } = useAppSelector((state) => state.task);
+
+  const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
   const initialStartDate = new Date(Date.now() - 3 * 30 * 24 * 60 * 60 * 1000);
   const initialEndDate = new Date();
+
   const [startDate, setStartDate] = useState<Date>(initialStartDate);
   const [endDate, setEndDate] = useState<Date>(initialEndDate);
   const [searchID, setSearchID] = useState("");
   const [filterAssignee, setFilterAssignee] = useState("");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [filterManager, setFilterManager] = useState("");
   const [filterStatus, setFilterStatus] = useState<TaskStatus>(
     "" as TaskStatus
   );
@@ -65,6 +67,7 @@ export const Checklist = () => {
     date_assigned: false,
     date_completed: false,
   });
+
   const handleOptionChange = (name: string, checked: boolean) => {
     setSelectedOptions({
       ...selectedOptions,
@@ -72,19 +75,23 @@ export const Checklist = () => {
     });
   };
 
+  const handleDateRangeChange = (newStart: Date, newEnd: Date) => {
+    setStartDate(newStart);
+    setEndDate(newEnd);
+  };
+
   const filteredTasks = useMemo(() => {
     return tasks
       .filter((task) =>
         filterAssignee ? task.user.first_name === filterAssignee : true
       )
-      .filter((task) => (filterManager ? task.manager === filterManager : true))
       .filter((task) => (filterStatus ? task.status === filterStatus : true))
       .filter((task) =>
         searchID
           ? task.full_id.toLowerCase().includes(searchID.toLowerCase())
           : true
       );
-  }, [tasks, filterAssignee, filterManager, filterStatus, searchID]);
+  }, [tasks, filterAssignee, filterStatus, searchID]);
 
   useEffect(() => {
     if (!token) return;
@@ -99,11 +106,6 @@ export const Checklist = () => {
     };
     dispatch(getAllTasks({ token, filters }));
   }, [dispatch, token, tasks.length, startDate, endDate]);
-
-  const handleDateRangeChange = (newStart: Date, newEnd: Date) => {
-    setStartDate(newStart);
-    setEndDate(newEnd);
-  };
 
   return (
     <Box p={3} width={"100%"} height={"100%"}>
