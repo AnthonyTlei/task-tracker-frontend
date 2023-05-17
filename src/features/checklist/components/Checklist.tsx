@@ -36,7 +36,6 @@ const options: TableOption[] = [
 ];
 
 export const Checklist = () => {
-
   const theme = useTheme();
   const token = useToken();
 
@@ -120,9 +119,6 @@ export const Checklist = () => {
           Tasks
         </Typography>
       </Box>
-      {isLoading && (
-        <CircularProgress sx={{ marginTop: "64px" }} color="primary" />
-      )}
       <Box py={2}>
         <DateRangePicker
           startText="Start date"
@@ -151,6 +147,9 @@ export const Checklist = () => {
         selectedOptions={selectedOptions}
         onOptionChange={handleOptionChange}
       />
+      {isLoading && (
+        <CircularProgress sx={{ marginTop: "64px" }} color="primary" />
+      )}
       {isSuccess && !isLoading && (
         <>
           <TaskTableAdvanced
