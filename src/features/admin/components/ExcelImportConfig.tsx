@@ -25,6 +25,7 @@ export const ExcelImportConfig: React.FC<ExcelImportConfigProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const [config, setConfig] = useState<ImportOptions>({
+    worksheetName: "",
     idColName: "",
     titleColName: "",
     assigneeColName: "",
@@ -61,6 +62,13 @@ export const ExcelImportConfig: React.FC<ExcelImportConfigProps> = ({
         />
         <CardContent>
           <Stack spacing={1} p={1}>
+          <TextField
+              label={"Worksheet Name"}
+              variant="standard"
+              color="secondary"
+              value={config.worksheetName}
+              onChange={(e) => handleFieldChange(e, "worksheetName")}
+            />
             <TextField
               label={"ID Column Name"}
               variant="standard"
