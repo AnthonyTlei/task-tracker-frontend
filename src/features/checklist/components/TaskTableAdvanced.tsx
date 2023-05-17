@@ -18,7 +18,6 @@ import { TaskStatus } from "../../task/models/task";
 import { StatusPill } from "../../../shared/components/StatusPill";
 import { formatDate } from "../../../shared/utilities/date.utils";
 import OptionsMenu from "../../../shared/components/OptionsMenu";
-import { DateRangePicker } from "../../../shared/components/DateRangePicker";
 import { TaskFilters } from "../../../shared/components/TaskFilters";
 
 interface Column {
@@ -39,16 +38,10 @@ const columns: Column[] = [
 
 interface TaskTableProps {
   tasks: TaskWithUser[];
-  startDate: Date;
-  endDate: Date;
-  onDateRangeChange: (newStartDate: Date, newEndDate: Date) => void;
 }
 
 const TaskTable: React.FC<TaskTableProps> = ({
   tasks,
-  startDate,
-  endDate,
-  onDateRangeChange,
 }) => {
   const token = useToken();
   const [page, setPage] = useState(0);
@@ -113,23 +106,8 @@ const TaskTable: React.FC<TaskTableProps> = ({
     setPage(0);
   };
 
-  const handleDateRangeChange = (newStart: Date, newEnd: Date) => {
-    onDateRangeChange(newStart, newEnd);
-  };
-
   return (
     <>
-      <Box py={2}>
-        <DateRangePicker
-          startText="Start date"
-          endText="End date"
-          startDate={startDate}
-          endDate={endDate}
-          onConfirm={(newStart: Date, newEnd: Date) =>
-            handleDateRangeChange(newStart, newEnd)
-          }
-        />
-      </Box>
       <Box py={2}>
         <TaskFilters
           searchID={searchID}
