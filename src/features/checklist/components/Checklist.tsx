@@ -12,9 +12,11 @@ import {
 } from "../../../hooks/redux/redux-hooks";
 import { getAllTasks } from "../../task/taskSlice";
 import { useToken } from "../../../hooks/redux/useToken";
-import { useEffect, useState } from "react";
-import { GetTasksFilterDTO } from "../../task/models/task";
+import { useEffect, useMemo, useState } from "react";
+import { GetTasksFilterDTO, TaskStatus } from "../../task/models/task";
 import { DateRangePicker } from "../../../shared/components/DateRangePicker";
+import { TaskFilters } from "../../../shared/components/TaskFilters";
+import authServices from "../../auth/services/auth.service";
 
 export const Checklist = () => {
   const theme = useTheme();
@@ -26,6 +28,35 @@ export const Checklist = () => {
   const initialEndDate = new Date();
   const [startDate, setStartDate] = useState<Date>(initialStartDate);
   const [endDate, setEndDate] = useState<Date>(initialEndDate);
+  const [searchID, setSearchID] = useState("");
+  const [filterAssignee, setFilterAssignee] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [filterManager, setFilterManager] = useState("");
+  const [filterStatus, setFilterStatus] = useState<TaskStatus>(
+    "" as TaskStatus
+  );
+  const [usernames, setUsernames] = useState<string[]>([]);
+
+  const filteredTasks = useMemo(() => {
+    return tasks
+      .filter((task) =>
+        filterAssignee ? task.user.first_name === filterAssignee : true
+      )
+      .filter((task) => (filterManager ? task.manager === filterManager : true))
+      .filter((task) => (filterStatus ? task.status === filterStatus : true))
+      .filter((task) =>
+        searchID
+          ? task.full_id.toLowerCase().includes(searchID.toLowerCase())
+          : true
+      );
+  }, [tasks, filterAssignee, filterManager, filterStatus, searchID]);
+
+  useEffect(() => {
+    if (!token) return;
+    authServices.getUserNames(token).then((res) => {
+      setUsernames(res);
+    });
+  }, [token]);
 
   useEffect(() => {
     const filters: GetTasksFilterDTO = {
@@ -66,9 +97,20 @@ export const Checklist = () => {
           }
         />
       </Box>
+      <Box py={2}>
+        <TaskFilters
+          searchID={searchID}
+          setSearchID={setSearchID}
+          filterAssignee={filterAssignee}
+          setFilterAssignee={setFilterAssignee}
+          filterStatus={filterStatus}
+          setFilterStatus={setFilterStatus}
+          assignees={usernames}
+        />
+      </Box>
       {isSuccess && !isLoading && (
         <>
-          <TaskTableAdvanced tasks={tasks} />
+          <TaskTableAdvanced tasks={filteredTasks} />
         </>
       )}
     </Box>

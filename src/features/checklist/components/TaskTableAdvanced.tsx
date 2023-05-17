@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, {useState } from "react";
 import {
   Table,
   TableBody,
@@ -9,16 +9,12 @@ import {
   Paper,
   TablePagination,
   TableFooter,
-  Box,
 } from "@mui/material";
 import { TaskWithUser } from "../models/taskWithUsers";
-import authServices from "../../auth/services/auth.service";
-import { useToken } from "../../../hooks/redux/useToken";
 import { TaskStatus } from "../../task/models/task";
 import { StatusPill } from "../../../shared/components/StatusPill";
 import { formatDate } from "../../../shared/utilities/date.utils";
 import OptionsMenu from "../../../shared/components/OptionsMenu";
-import { TaskFilters } from "../../../shared/components/TaskFilters";
 
 interface Column {
   name: string;
@@ -43,17 +39,8 @@ interface TaskTableProps {
 const TaskTable: React.FC<TaskTableProps> = ({
   tasks,
 }) => {
-  const token = useToken();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [searchID, setSearchID] = useState("");
-  const [filterAssignee, setFilterAssignee] = useState("");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [filterManager, setFilterManager] = useState("");
-  const [filterStatus, setFilterStatus] = useState<TaskStatus>(
-    "" as TaskStatus
-  );
-  const [usernames, setUsernames] = useState<string[]>([]);
   const [selectedOptions, setSelectedOptions] = React.useState<
     Record<string, boolean>
   >({
@@ -66,59 +53,23 @@ const TaskTable: React.FC<TaskTableProps> = ({
     date_assigned: false,
     date_completed: false,
   });
-
   const handleOptionChange = (name: string, checked: boolean) => {
     setSelectedOptions({
       ...selectedOptions,
       [name]: checked,
     });
   };
-
-  const filteredTasks = useMemo(() => {
-    return tasks
-      .filter((task) =>
-        filterAssignee ? task.user.first_name === filterAssignee : true
-      )
-      .filter((task) => (filterManager ? task.manager === filterManager : true))
-      .filter((task) => (filterStatus ? task.status === filterStatus : true))
-      .filter((task) =>
-        searchID
-          ? task.full_id.toLowerCase().includes(searchID.toLowerCase())
-          : true
-      );
-  }, [tasks, filterAssignee, filterManager, filterStatus, searchID]);
-
-  useEffect(() => {
-    if (!token) return;
-    authServices.getUserNames(token).then((res) => {
-      setUsernames(res);
-    });
-  }, [token]);
-
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
-
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
   return (
     <>
-      <Box py={2}>
-        <TaskFilters
-          searchID={searchID}
-          setSearchID={setSearchID}
-          filterAssignee={filterAssignee}
-          setFilterAssignee={setFilterAssignee}
-          filterStatus={filterStatus}
-          setFilterStatus={setFilterStatus}
-          assignees={usernames}
-        />
-      </Box>
       <OptionsMenu
         label="Show Columns"
         options={columns}
@@ -139,7 +90,7 @@ const TaskTable: React.FC<TaskTableProps> = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredTasks
+            {tasks
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((task) => (
                 <TableRow key={task.id}>
@@ -179,7 +130,7 @@ const TaskTable: React.FC<TaskTableProps> = ({
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 colSpan={6}
-                count={filteredTasks.length}
+                count={tasks.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 SelectProps={{
